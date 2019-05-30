@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 30, 2019 9:42:46 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="the.grocery.frugal.Models.Recipe" table="recipe" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="categories" class="the.grocery.frugal.Models.Categories" fetch="select">
+            <column name="category_id" />
+        </many-to-one>
+        <property name="calories" type="java.lang.Integer">
+            <column name="calories" />
+        </property>
+        <property name="caloriesFat" type="java.lang.Integer">
+            <column name="calories_fat" />
+        </property>
+        <property name="cholesterol" type="java.lang.Integer">
+            <column name="cholesterol" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" />
+        </property>
+        <property name="name" type="string">
+            <column name="name" not-null="true" />
+        </property>
+        <property name="saturatedFat" type="java.lang.Integer">
+            <column name="saturated_fat" />
+        </property>
+        <property name="totalFat" type="java.lang.Integer">
+            <column name="total_fat" />
+        </property>
+        <property name="transFat" type="java.lang.Integer">
+            <column name="trans_fat" />
+        </property>
+        <property name="sodium" type="java.lang.Integer">
+            <column name="sodium" />
+        </property>
+        <property name="totalCarb" type="java.lang.Integer">
+            <column name="total_carb" />
+        </property>
+        <property name="dietaryFib" type="java.lang.Integer">
+            <column name="dietary_fib" />
+        </property>
+        <property name="sugars" type="java.lang.Integer">
+            <column name="sugars" />
+        </property>
+        <property name="protein" type="java.lang.Integer">
+            <column name="protein" />
+        </property>
+        <set name="recipeIngredientses" table="recipe_ingredients" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="recipe_id" not-null="true" />
+            </key>
+            <one-to-many class="the.grocery.frugal.Models.RecipeIngredients" />
+        </set>
+    </class>
+</hibernate-mapping>
