@@ -46,4 +46,5 @@ Contributor(s):
   <table-filter match-name="recipe_ingredients"/>
   <table-filter match-name="categories"/>
   <table-filter match-name="recipe"/>
+  <table-filter match-name="nutrition"/>
 </hibernate-reverse-engineering>

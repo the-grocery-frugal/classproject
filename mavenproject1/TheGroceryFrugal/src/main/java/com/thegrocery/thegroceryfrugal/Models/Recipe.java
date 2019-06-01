@@ -1,5 +1,5 @@
 package com.thegrocery.thegroceryfrugal.Models;
-// Generated Jun 1, 2019 4:17:22 PM by Hibernate Tools 4.3.1
+// Generated Jun 1, 2019 9:08:50 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,19 +13,10 @@ public class Recipe  implements java.io.Serializable {
 
      private int id;
      private Categories categories;
-     private Integer calories;
-     private Integer caloriesFat;
-     private Integer cholesterol;
+     private Nutrition nutrition;
      private String description;
      private String name;
-     private Integer saturatedFat;
-     private Integer totalFat;
-     private Integer transFat;
-     private Integer sodium;
-     private Integer totalCarb;
-     private Integer dietaryFib;
-     private Integer sugars;
-     private Integer protein;
+     private String steps;
      private Set recipeIngredientses = new HashSet(0);
 
     public Recipe() {
@@ -36,22 +27,13 @@ public class Recipe  implements java.io.Serializable {
         this.id = id;
         this.name = name;
     }
-    public Recipe(int id, Categories categories, Integer calories, Integer caloriesFat, Integer cholesterol, String description, String name, Integer saturatedFat, Integer totalFat, Integer transFat, Integer sodium, Integer totalCarb, Integer dietaryFib, Integer sugars, Integer protein, Set recipeIngredientses) {
+    public Recipe(int id, Categories categories, Nutrition nutrition, String description, String name, String steps, Set recipeIngredientses) {
        this.id = id;
        this.categories = categories;
-       this.calories = calories;
-       this.caloriesFat = caloriesFat;
-       this.cholesterol = cholesterol;
+       this.nutrition = nutrition;
        this.description = description;
        this.name = name;
-       this.saturatedFat = saturatedFat;
-       this.totalFat = totalFat;
-       this.transFat = transFat;
-       this.sodium = sodium;
-       this.totalCarb = totalCarb;
-       this.dietaryFib = dietaryFib;
-       this.sugars = sugars;
-       this.protein = protein;
+       this.steps = steps;
        this.recipeIngredientses = recipeIngredientses;
     }
    
@@ -69,26 +51,12 @@ public class Recipe  implements java.io.Serializable {
     public void setCategories(Categories categories) {
         this.categories = categories;
     }
-    public Integer getCalories() {
-        return this.calories;
+    public Nutrition getNutrition() {
+        return this.nutrition;
     }
     
-    public void setCalories(Integer calories) {
-        this.calories = calories;
-    }
-    public Integer getCaloriesFat() {
-        return this.caloriesFat;
-    }
-    
-    public void setCaloriesFat(Integer caloriesFat) {
-        this.caloriesFat = caloriesFat;
-    }
-    public Integer getCholesterol() {
-        return this.cholesterol;
-    }
-    
-    public void setCholesterol(Integer cholesterol) {
-        this.cholesterol = cholesterol;
+    public void setNutrition(Nutrition nutrition) {
+        this.nutrition = nutrition;
     }
     public String getDescription() {
         return this.description;
@@ -104,61 +72,12 @@ public class Recipe  implements java.io.Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public Integer getSaturatedFat() {
-        return this.saturatedFat;
+    public String getSteps() {
+        return this.steps;
     }
     
-    public void setSaturatedFat(Integer saturatedFat) {
-        this.saturatedFat = saturatedFat;
-    }
-    public Integer getTotalFat() {
-        return this.totalFat;
-    }
-    
-    public void setTotalFat(Integer totalFat) {
-        this.totalFat = totalFat;
-    }
-    public Integer getTransFat() {
-        return this.transFat;
-    }
-    
-    public void setTransFat(Integer transFat) {
-        this.transFat = transFat;
-    }
-    public Integer getSodium() {
-        return this.sodium;
-    }
-    
-    public void setSodium(Integer sodium) {
-        this.sodium = sodium;
-    }
-    public Integer getTotalCarb() {
-        return this.totalCarb;
-    }
-    
-    public void setTotalCarb(Integer totalCarb) {
-        this.totalCarb = totalCarb;
-    }
-    public Integer getDietaryFib() {
-        return this.dietaryFib;
-    }
-    
-    public void setDietaryFib(Integer dietaryFib) {
-        this.dietaryFib = dietaryFib;
-    }
-    public Integer getSugars() {
-        return this.sugars;
-    }
-    
-    public void setSugars(Integer sugars) {
-        this.sugars = sugars;
-    }
-    public Integer getProtein() {
-        return this.protein;
-    }
-    
-    public void setProtein(Integer protein) {
-        this.protein = protein;
+    public void setSteps(String steps) {
+        this.steps = steps;
     }
     public Set getRecipeIngredientses() {
         return this.recipeIngredientses;
