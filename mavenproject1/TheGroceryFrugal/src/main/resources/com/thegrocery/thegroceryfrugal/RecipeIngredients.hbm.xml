@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2019 4:17:22 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="com.thegrocery.thegroceryfrugal.Models.RecipeIngredients" optimistic-lock="version" schema="public" table="recipe_ingredients">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="com.thegrocery.thegroceryfrugal.Models.Ingredients" fetch="select" name="ingredients">
+      <column name="ingredients_id" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="com.thegrocery.thegroceryfrugal.Models.Measurement" fetch="select" name="measurement">
+      <column name="quantity_id" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="com.thegrocery.thegroceryfrugal.Models.Recipe" fetch="select" name="recipe">
+      <column name="recipe_id" not-null="true"/>
+    </many-to-one>
+    <property name="quantity" type="java.lang.Integer">
+      <column name="quantity"/>
+    </property>
+  </class>
+</hibernate-mapping>
