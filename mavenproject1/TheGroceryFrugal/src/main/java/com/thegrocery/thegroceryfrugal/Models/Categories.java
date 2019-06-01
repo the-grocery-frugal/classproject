@@ -1,5 +1,5 @@
 package com.thegrocery.thegroceryfrugal.Models;
-// Generated Jun 1, 2019 4:17:22 PM by Hibernate Tools 4.3.1
+// Generated Jun 1, 2019 9:08:50 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;

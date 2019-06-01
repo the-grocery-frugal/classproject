@@ -1,5 +1,5 @@
 package com.thegrocery.thegroceryfrugal.Models;
-// Generated Jun 1, 2019 4:17:22 PM by Hibernate Tools 4.3.1
+// Generated Jun 1, 2019 9:08:50 PM by Hibernate Tools 4.3.1
 
 
 
@@ -14,6 +14,7 @@ public class RecipeIngredients  implements java.io.Serializable {
      private Measurement measurement;
      private Recipe recipe;
      private Integer quantity;
+     private String description;
 
     public RecipeIngredients() {
     }
@@ -25,12 +26,13 @@ public class RecipeIngredients  implements java.io.Serializable {
         this.measurement = measurement;
         this.recipe = recipe;
     }
-    public RecipeIngredients(int id, Ingredients ingredients, Measurement measurement, Recipe recipe, Integer quantity) {
+    public RecipeIngredients(int id, Ingredients ingredients, Measurement measurement, Recipe recipe, Integer quantity, String description) {
        this.id = id;
        this.ingredients = ingredients;
        this.measurement = measurement;
        this.recipe = recipe;
        this.quantity = quantity;
+       this.description = description;
     }
    
     public int getId() {
@@ -67,6 +69,13 @@ public class RecipeIngredients  implements java.io.Serializable {
     
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 
