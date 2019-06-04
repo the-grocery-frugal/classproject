@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 1, 2019 9:08:51 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jun 4, 2019 6:31:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.thegrocery.thegroceryfrugal.Models.RecipeIngredients" table="recipe_ingredients" schema="public" optimistic-lock="version">
         <id name="id" type="int">
@@ -17,8 +17,8 @@
         <many-to-one name="recipe" class="com.thegrocery.thegroceryfrugal.Models.Recipe" fetch="select">
             <column name="recipe_id" not-null="true" />
         </many-to-one>
-        <property name="quantity" type="java.lang.Integer">
-            <column name="quantity" />
+        <property name="quantity" type="java.lang.Float">
+            <column name="quantity" precision="8" scale="8" />
         </property>
         <property name="description" type="string">
             <column name="description" />
