@@ -1,5 +1,5 @@
 package com.thegrocery.thegroceryfrugal.Models;
-// Generated Jun 1, 2019 9:08:50 PM by Hibernate Tools 4.3.1
+// Generated Jun 4, 2019 6:31:11 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -60,7 +60,15 @@ public class Ingredients  implements java.io.Serializable {
         this.recipeIngredientses = recipeIngredientses;
     }
 
-
+     @Override
+    public String toString() {
+        if (!"null".equals(this.getDescription())){
+            return String.valueOf(this.getId()) + this.getName() + this.getDescription();
+        } else {
+            return String.valueOf(this.getId()) + this.getName();
+        }
+         
+    }
 
 
 }
