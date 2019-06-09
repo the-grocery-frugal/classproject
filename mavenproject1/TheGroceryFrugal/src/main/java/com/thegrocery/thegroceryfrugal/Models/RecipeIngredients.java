@@ -30,6 +30,9 @@ public class RecipeIngredients  implements java.io.Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ingredients_id")
     private Ingredients ingredients;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quantity_id")
     private Measurement measurement;
     
     @ManyToOne(cascade = CascadeType.ALL)
