@@ -4,11 +4,14 @@ package com.thegrocery.thegroceryfrugal.Models;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,7 +27,13 @@ public class Recipe  implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable=false, unique=true)
     private int id;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
     private Categories categories;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quantity_id")
     private Nutrition nutrition;
     
     @Column(name = "description")
