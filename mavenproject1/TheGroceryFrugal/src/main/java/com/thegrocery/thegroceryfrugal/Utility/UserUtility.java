@@ -49,25 +49,30 @@ public class UserUtility {
     public boolean checkPassword(String username, String password){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
+        boolean authenticated = false;
         try {
             tx = session.beginTransaction();
             String query = "FROM Users U WHERE U.username = '" + username + "'";
             Users user = (Users)session.createQuery(query).uniqueResult();
-            // compare password hashse
-            if (BCrypt.checkpw(password, user.getPassword())){
-                tx.commit();
-                return true;
+            
+            if (user != null) {
+                // compare password hashse
+                if (BCrypt.checkpw(password, user.getPassword())){
+                    authenticated = true;
+                } else {
+                    authenticated = false;
+                }
             } else {
-                tx.commit();
-                return false;
+                authenticated = false;
             }
+            
         } catch (HibernateException e){
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
             session.close();
         }
-        return false;
+        return authenticated;
     }
     
 }
