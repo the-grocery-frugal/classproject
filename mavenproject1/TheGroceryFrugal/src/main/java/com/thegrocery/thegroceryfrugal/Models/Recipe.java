@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,8 +33,8 @@ public class Recipe  implements java.io.Serializable {
     @JoinColumn(name = "category_id")
     private Categories categories;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "quantity_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "nutrition_id", referencedColumnName = "id")
     private Nutrition nutrition;
     
     @Column(name = "description")

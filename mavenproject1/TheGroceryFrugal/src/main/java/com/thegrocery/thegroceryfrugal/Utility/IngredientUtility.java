@@ -18,7 +18,7 @@ import org.hibernate.Transaction;
  */
 public class IngredientUtility {
     // Add an ingredient to the database
-    public Integer addIngredient(String name){
+    public static Integer addIngredient(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Integer ingredientID = null;
@@ -38,7 +38,7 @@ public class IngredientUtility {
     }
     
     // Add a description to an ingredient by its name
-    public boolean addDescription(String name, String description){
+    public static boolean addDescription(String name, String description){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Ingredients ingredient = null;
@@ -60,7 +60,7 @@ public class IngredientUtility {
     }
     
     // Add a description to an ingredient by its ID
-    public boolean addDescription(Integer ingredientID, String description){
+    public static boolean addDescription(Integer ingredientID, String description){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Ingredients ingredient = null;
@@ -81,7 +81,7 @@ public class IngredientUtility {
     }
     
     // Find all ingredients by their name
-    public List<Ingredients> findIngredientsByName(String name){
+    public static List<Ingredients> findIngredientsByName(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Ingredients> ingredients = null;
@@ -101,7 +101,7 @@ public class IngredientUtility {
     
     // Find all ingredients for all recipes with this name.  This will bring back
     // a lot depending on how accruate the search is
-    public List<Ingredients> findIngredientsByRecipeName(String name){
+    public static List<Ingredients> findIngredientsByRecipeName(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Ingredients> ingredients = null;
@@ -125,7 +125,7 @@ public class IngredientUtility {
     
     // This will bring back all ingredients for the specific recipe name.  The
     // name value has to be specific and accurate
-    public List<Ingredients> findIngredientsBySpecificRecipeName(String name){
+    public static List<Ingredients> findIngredientsBySpecificRecipeName(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Ingredients> ingredients = null;
@@ -148,7 +148,7 @@ public class IngredientUtility {
     }
     
     // List all ingredients
-    public List<Ingredients> listAllIngredients(){
+    public static List<Ingredients> listAllIngredients(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Ingredients> ingredients = null;
