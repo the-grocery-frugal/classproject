@@ -32,7 +32,10 @@ public class Measurement  implements java.io.Serializable {
 
     public Measurement() {
     }
-
+    
+    public Measurement(String name){
+        this.name = name;
+    }
 	
     public Measurement(int id, String name) {
         this.id = id;

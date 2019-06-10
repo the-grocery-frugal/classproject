@@ -18,12 +18,12 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UserUtility {
     
-    private String generatePassword(String password){
+    private static String generatePassword(String password){
         return BCrypt.hashpw(password, BCrypt.gensalt(12));
     }
     
     // Create a user account, must have a username and password
-    public boolean createUser(String username, String password){
+    public static boolean createUser(String username, String password){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         try {
@@ -46,7 +46,7 @@ public class UserUtility {
     // Check if the provided username and password is correct
     // TODO: Add username checking capability.  If the username doesn't exist at all,
     // no point in checking if the passwords    
-    public boolean checkPassword(String username, String password){
+    public static boolean checkPassword(String username, String password){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         boolean authenticated = false;

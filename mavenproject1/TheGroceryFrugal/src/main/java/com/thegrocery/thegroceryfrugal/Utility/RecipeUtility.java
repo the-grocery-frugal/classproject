@@ -6,6 +6,7 @@
 package com.thegrocery.thegroceryfrugal.Utility;
 
 import com.thegrocery.thegroceryfrugal.HibernateUtil;
+import com.thegrocery.thegroceryfrugal.Models.Categories;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -19,7 +20,7 @@ import org.hibernate.Transaction;
 public class RecipeUtility {
     
     // Add a recipe to the database
-    public Integer addRecipe(String recipeName) {
+    public static Integer addRecipe(String recipeName) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Integer recipeID = null;
@@ -38,7 +39,7 @@ public class RecipeUtility {
     }
     
     // Add steps to a recipe by its name
-    public boolean addSteps(String name, String steps) {
+    public static boolean addSteps(String name, String steps) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
@@ -61,7 +62,7 @@ public class RecipeUtility {
     }
     
     // Add steps to a recipe by its ID
-    public boolean addSteps(Integer recipeID, String steps) {
+    public static boolean addSteps(Integer recipeID, String steps) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
@@ -83,7 +84,7 @@ public class RecipeUtility {
     }
     
     // Add a description to a recipe by its name
-    public boolean addDescription(String name, String description) {
+    public static boolean addDescription(String name, String description) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
@@ -106,7 +107,7 @@ public class RecipeUtility {
     }
     
     // Add a description to a recipe by its ID
-    public boolean addDescription(Integer RecipeID, String description) {
+    public static boolean addDescription(Integer RecipeID, String description) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
@@ -128,10 +129,33 @@ public class RecipeUtility {
         return success;
     }
     
+    public static boolean addCategory(String name, Categories category){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Recipe recipe = null;
+        boolean success = false;
+        try{
+            tx = session.beginTransaction();
+            String query = "FROM Recipe WHERE lower(name) = '" + name + "'";
+            recipe = (Recipe)session.createQuery(query).uniqueResult();
+            recipe.setCategories(category);
+            session.update(recipe);
+            success = true;
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return success;
+    }
+    
     // Find a recipe by its name.  This uses the LIKE operator with the WHERE
     // clause in order to allow searching for specifc terms in case the user
     // doesn't know what is available.
-    public List<Recipe> findRecipeByName(String name){
+    public static List<Recipe> findRecipeByName(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Recipe> recipes = null;
@@ -150,7 +174,7 @@ public class RecipeUtility {
     }
     
     // THIS IS A WIP
-    public List<Recipe> findRecipeByCategory(){
+    public static List<Recipe> findRecipeByCategory(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Recipe> recipes = null;
@@ -170,7 +194,7 @@ public class RecipeUtility {
     // Find a recipe by an ingredients name.  This uses the LIKE operator with the WHERE
     // clause in order to allow searching for specifc terms in case the user
     // doesn't know what is available.
-    public List<Recipe> findRecipeByIngredientName(String ingredient){
+    public static List<Recipe> findRecipeByIngredientName(String ingredient){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Recipe> recipes = null;
@@ -193,7 +217,7 @@ public class RecipeUtility {
     }
     
     // Simply list all recipes
-    public List<Recipe> listAllRecipes(){
+    public static List<Recipe> listAllRecipes(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Recipe> recipes = null;

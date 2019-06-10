@@ -43,6 +43,27 @@ public class RecipeIngredients  implements java.io.Serializable {
 
     public RecipeIngredients() {
     }
+    
+    public RecipeIngredients(Ingredients ingredients, Measurement measurement, Recipe recipe){
+        this.ingredients = ingredients;
+        this.measurement = measurement;
+        this.recipe = recipe;
+    }
+    
+    public RecipeIngredients(Ingredients ingredients, Measurement measurement, Recipe recipe, Float quantity){
+        this.ingredients = ingredients;
+        this.measurement = measurement;
+        this.recipe = recipe;
+        this.quantity = quantity;
+    }
+    
+    public RecipeIngredients(Ingredients ingredients, Measurement measurement, Recipe recipe, Float quantity, String description){
+        this.ingredients = ingredients;
+        this.measurement = measurement;
+        this.recipe = recipe;
+        this.quantity = quantity;
+        this.description = description;
+    }
 
 	
     public RecipeIngredients(int id, Ingredients ingredients, Measurement measurement, Recipe recipe) {

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -58,8 +59,8 @@ public class Nutrition  implements java.io.Serializable {
     @Column(name = "protein")
     private String protein;
     
-    @OneToMany(mappedBy = "nutrition")
-    private Set<Recipe> recipes = new HashSet(0);
+    @OneToOne(mappedBy = "nutrition")
+    private Recipe recipe;
 
     public Nutrition() {
     }
@@ -68,7 +69,7 @@ public class Nutrition  implements java.io.Serializable {
     public Nutrition(long id) {
         this.id = id;
     }
-    public Nutrition(long id, String calories, String caloriesFat, String cholesterol, String saturatedFat, String totalFat, String transFat, String sodium, String totalCarb, String dietaryFib, String sugars, String protein, Set recipes) {
+    public Nutrition(long id, String calories, String caloriesFat, String cholesterol, String saturatedFat, String totalFat, String transFat, String sodium, String totalCarb, String dietaryFib, String sugars, String protein, Recipe recipe) {
        this.id = id;
        this.calories = calories;
        this.caloriesFat = caloriesFat;
@@ -81,7 +82,7 @@ public class Nutrition  implements java.io.Serializable {
        this.dietaryFib = dietaryFib;
        this.sugars = sugars;
        this.protein = protein;
-       this.recipes = recipes;
+       this.recipe = recipe;
     }
    
     public long getId() {
@@ -168,24 +169,13 @@ public class Nutrition  implements java.io.Serializable {
     public void setProtein(String protein) {
         this.protein = protein;
     }
-    public Set getRecipes() {
-        return this.recipes;
+    public Recipe getRecipes() {
+        return this.recipe;
     }
     
-    public void setRecipes(Set recipes) {
-        this.recipes = recipes;
+    public void setRecipes(Recipe recipe) {
+        this.recipe = recipe;
     }
-
-    public void addNutrition(Recipe recipe){
-        recipes.add(recipe);
-        recipe.setNutrition(this);
-    }
-    
-    public void removeNutrition(Recipe recipe){
-        recipes.remove(recipe);
-        recipe.setNutrition(null);
-    }
-
 
 }
 
