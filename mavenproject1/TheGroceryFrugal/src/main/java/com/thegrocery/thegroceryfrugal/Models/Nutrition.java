@@ -176,7 +176,15 @@ public class Nutrition  implements java.io.Serializable {
         this.recipes = recipes;
     }
 
-
+    public void addNutrition(Recipe recipe){
+        recipes.add(recipe);
+        recipe.setNutrition(this);
+    }
+    
+    public void removeNutrition(Recipe recipe){
+        recipes.remove(recipe);
+        recipe.setNutrition(null);
+    }
 
 
 }

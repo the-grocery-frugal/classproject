@@ -25,7 +25,7 @@ public class Recipe  implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable=false, unique=true)
+    @Column(name = "id", nullable=false)
     private int id;
     
     @ManyToOne(cascade = CascadeType.ALL)
@@ -49,15 +49,22 @@ public class Recipe  implements java.io.Serializable {
     private Set<RecipeIngredients> recipeIngredientses = new HashSet(0);
 
     public Recipe() {
+        
     }
-
-	
-    public Recipe(int id, String name) {
-        this.id = id;
+    
+    public Recipe(String name) {
         this.name = name;
     }
-    public Recipe(int id, Categories categories, Nutrition nutrition, String description, String name, String steps, Set recipeIngredientses) {
-       this.id = id;
+    
+    public Recipe(String name, Categories category, String description, String steps) {
+        this.name = name;
+        this.categories = category;
+        this.description = description;
+        this.steps = steps;
+    }
+    
+    
+    public Recipe(Categories categories, Nutrition nutrition, String description, String name, String steps, Set recipeIngredientses) {
        this.categories = categories;
        this.nutrition = nutrition;
        this.description = description;
@@ -115,10 +122,18 @@ public class Recipe  implements java.io.Serializable {
     public void setRecipeIngredientses(Set recipeIngredientses) {
         this.recipeIngredientses = recipeIngredientses;
     }
-
-
+    
+    public void addRecipeIngredients(RecipeIngredients recipeIngredients) {
+        recipeIngredientses.add(recipeIngredients);
+        recipeIngredients.setRecipe(this);
+    }
+    
+    public void removeRecipeIngredients(RecipeIngredients recipeIngredients) {
+        recipeIngredientses.remove(recipeIngredients);
+        recipeIngredients.setRecipe(null);
+    }
+    
 
 
 }
-
 
