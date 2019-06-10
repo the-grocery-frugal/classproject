@@ -24,7 +24,7 @@ import javax.persistence.Table;
 public class Recipe  implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable=false)
     private int id;
     
