@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class Categories  implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable=false, unique=true)
     private int id;
     

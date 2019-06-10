@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class Ingredients  implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable=false, unique=true)
     private int id;
     
@@ -33,6 +33,9 @@ public class Ingredients  implements java.io.Serializable {
     
     @OneToMany(mappedBy = "ingredients")
     private Set<RecipeIngredients> recipeIngredientses = new HashSet(0);
+    
+    public Ingredients(){
+    }
 	
     public Ingredients(String name) {
         this.name = name;
