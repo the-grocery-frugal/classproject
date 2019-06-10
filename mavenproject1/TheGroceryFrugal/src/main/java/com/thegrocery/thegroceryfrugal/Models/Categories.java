@@ -65,7 +65,16 @@ public class Categories  implements java.io.Serializable {
     public void setRecipes(Set recipes) {
         this.recipes = recipes;
     }
-
+    
+    public void addRecipe(Recipe recipe) {
+        recipes.add(recipe);
+        recipe.setCategories(this);
+    }
+    
+    public void removeRecipe(Recipe recipe) {
+        recipes.remove(recipe);
+        recipe.setCategories(null);
+    }
 
 
 

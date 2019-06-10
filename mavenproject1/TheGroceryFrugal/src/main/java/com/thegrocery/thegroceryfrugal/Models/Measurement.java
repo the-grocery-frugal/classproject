@@ -66,7 +66,15 @@ public class Measurement  implements java.io.Serializable {
         this.recipeIngredientses = recipeIngredientses;
     }
 
-
+    public void addRecipeIngredients(RecipeIngredients recipeIngredients){
+        recipeIngredientses.add(recipeIngredients);
+        recipeIngredients.setMeasurement(this);
+    }
+    
+    public void removeRecipeIngredients(RecipeIngredients recipeIngredients){
+        recipeIngredientses.remove(recipeIngredients);
+        recipeIngredients.setMeasurement(null);
+    }
 
 
 }
