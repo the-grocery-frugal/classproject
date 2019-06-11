@@ -38,6 +38,7 @@ public class IngredientUtility {
     }
     
     // Add a description to an ingredient by its name
+    // THIS IS TO TEST PUSHING TO GIT
     public static boolean addDescription(String name, String description){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
