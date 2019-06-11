@@ -1,4 +1,4 @@
-package cmsc495;
+package com.thegrocery.thegroceryfrugal.GUI;
 
 public class NewGroceryList extends javax.swing.JFrame {
 

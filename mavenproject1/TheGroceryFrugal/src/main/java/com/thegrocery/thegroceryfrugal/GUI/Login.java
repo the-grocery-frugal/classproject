@@ -1,4 +1,4 @@
-package cmsc495;
+package com.thegrocery.thegroceryfrugal.GUI;
 
 import javax.swing.JOptionPane;
 
