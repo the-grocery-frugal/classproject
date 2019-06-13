@@ -89,6 +89,11 @@ public class Ingredients  implements java.io.Serializable {
         recipeIngredientses.remove(recipeIngredients);
         recipeIngredients.setIngredients(null);
     }
+    
+    @Override
+    public String toString(){
+        return this.getName() + "\n";
+    }
 
 
 }

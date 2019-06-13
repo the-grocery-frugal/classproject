@@ -1,5 +1,10 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Models.Ingredients;
+import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
+import java.util.Iterator;
+import java.util.List;
+
 public class GUI extends javax.swing.JFrame {
 
     public GUI() {
@@ -254,6 +259,14 @@ public class GUI extends javax.swing.JFrame {
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         //run the search
+        if(dropdownList.getSelectedItem() == "Ingredient"){
+            List<Ingredients> ingredients = IngredientUtility.findIngredientsByName(searchTextArea.getText());
+            for (Iterator iter = ingredients.iterator(); iter.hasNext(); ) {
+                Ingredients ingredient = (Ingredients) iter.next();
+                displayPane.append(ingredient.toString());
+            }
+        }
+        System.out.println(dropdownList.getSelectedItem());
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void RecipeRadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecipeRadBtnActionPerformed
