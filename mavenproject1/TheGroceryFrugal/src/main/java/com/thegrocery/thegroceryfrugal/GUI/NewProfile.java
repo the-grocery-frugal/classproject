@@ -103,6 +103,8 @@ public class NewProfile extends javax.swing.JFrame {
         //needs to add username and password to database for recall
         if(UserUtility.createUser(usernameTextField.getText(), passwordField.getText())){
             this.setVisible(false);
+        } else {
+            // Put code here about a user with this username already exists
         }
         
     }//GEN-LAST:event_saveBtnActionPerformed
