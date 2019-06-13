@@ -16,9 +16,6 @@ import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import java.util.Iterator;
 import java.util.List;
-import org.hibernate.HibernateException;    
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
@@ -29,6 +26,9 @@ public class test {
         UserUtility userutility = new UserUtility();
         IngredientUtility ingredientutility = new IngredientUtility();
         RecipeUtility recipeutility = new RecipeUtility();
+        UserUtility.createUser("system-user", "really-hard-password");
+        
+        System.out.println(UserUtility.checkPassword("system-user", "really-hard-password"));
         //recipeutility.findRecipeByIngredientName("test");
         
         
@@ -87,7 +87,7 @@ public class test {
         System.out.println(testID);
         */
         
-        
+        /*
         List<Recipe> recipes2 = recipeutility.findRecipeByIngredientName("berry");
         for (Iterator iter = recipes2.iterator(); iter.hasNext();) {
             Recipe recipe = (Recipe)iter.next();
@@ -113,7 +113,7 @@ public class test {
         Integer recipeIngredientsID = RecipeIngredientUtility.associateIngredientToRecipe(testRecipe, testIngredient, testMeasurement, 100.0f);
         //Integer recipeIngredientsID = RecipeIngredientUtility.associateIngredientToRecipe(testRecipe, testIngredient, testMeasurement, 100.0f);
         System.out.println(recipeIngredientsID);
-        
+        */
         
     }
     
