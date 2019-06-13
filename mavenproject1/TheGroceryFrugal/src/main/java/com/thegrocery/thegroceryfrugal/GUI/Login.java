@@ -1,11 +1,14 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
+        //passwordField.setSize(50, 10);
+        //passwordField.setText("");
     }
 
     /**
@@ -126,12 +129,18 @@ public class Login extends javax.swing.JFrame {
        //this pulls up the window to allow user to create new profile
        NewProfile np = new NewProfile();
        np.setVisible(true);
+       np.setAlwaysOnTop(true);
     }//GEN-LAST:event_newProfileBtnActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
     //needs to verify correct username and password are used. If TRUE, then use below code to initiate GUI. If FALSE, error needs to be made for invalid/blank input
-       GUI gui = new GUI();
-       gui.setVisible(true);   
+        if(UserUtility.checkPassword(usernameTextField.getText(), passwordField.getText())){
+            GUI gui = new GUI();
+            gui.setVisible(true);
+            this.setVisible(false);
+        } else {
+            
+        }
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed

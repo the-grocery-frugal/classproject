@@ -1,5 +1,7 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+
 public class NewProfile extends javax.swing.JFrame {
 
     public NewProfile() {
@@ -99,6 +101,10 @@ public class NewProfile extends javax.swing.JFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         //needs to add username and password to database for recall
+        if(UserUtility.createUser(usernameTextField.getText(), passwordField.getText())){
+            this.setVisible(false);
+        }
+        
     }//GEN-LAST:event_saveBtnActionPerformed
 
     public static void main(String args[]) {
