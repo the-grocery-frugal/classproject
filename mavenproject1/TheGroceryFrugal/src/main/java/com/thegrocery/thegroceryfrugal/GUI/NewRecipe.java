@@ -182,6 +182,7 @@ public class NewRecipe extends javax.swing.JFrame {
 
     private void addItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemBtnActionPerformed
         //allows user to add item and quantity to recipe and database
+        
     }//GEN-LAST:event_addItemBtnActionPerformed
 
     private void ItemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemFieldActionPerformed

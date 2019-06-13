@@ -222,6 +222,14 @@ public class GUI extends javax.swing.JFrame {
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
         //creates a new list or recipe, will go to correct form (NewGroceryList or NewRecipe) based on which radio button is selected
+        if(RecipeRadBtn.isSelected()){
+            NewRecipe nr = new NewRecipe();
+            nr.setVisible(true);
+            nr.setAlwaysOnTop(true);
+            nr.setLocationRelativeTo(null);
+        } else if(GroceryListRadBtn.isSelected()){
+            
+        }
     }//GEN-LAST:event_newBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed

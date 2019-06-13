@@ -15,8 +15,12 @@ import org.hibernate.Session;
 public class Main {
     public static void main(String[] args){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Login login = new Login();
-        login.setVisible(true);
-        session.close();
+        try {
+            Login login = new Login();
+            login.setVisible(true);
+            login.setLocationRelativeTo(null);
+        } finally {
+            session.close();
+        }
     }
 }

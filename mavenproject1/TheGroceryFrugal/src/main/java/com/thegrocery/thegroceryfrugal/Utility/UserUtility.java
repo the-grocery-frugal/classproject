@@ -10,6 +10,7 @@ import com.thegrocery.thegroceryfrugal.Models.Users;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -30,15 +31,17 @@ public class UserUtility {
             tx = session.beginTransaction();
             Users user = new Users(username, generatePassword(password));
             session.save(user);
-            tx.commit();
+            tx.commit(); 
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
             return false;
         } finally {
             session.close();
-            return true;
+            
         }
+        
+        return true;
         
     }
     

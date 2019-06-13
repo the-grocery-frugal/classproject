@@ -49,6 +49,7 @@ Contributor(s):
     <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.connection.autocommit">true</property>
+    <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
     <mapping class="com.thegrocery.thegroceryfrugal.Models.Users" />
     <mapping class="com.thegrocery.thegroceryfrugal.Models.Categories" />
     <mapping class="com.thegrocery.thegroceryfrugal.Models.Ingredients" />

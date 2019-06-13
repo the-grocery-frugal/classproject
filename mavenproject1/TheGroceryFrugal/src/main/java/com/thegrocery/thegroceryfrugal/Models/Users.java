@@ -24,7 +24,7 @@ public class Users  implements java.io.Serializable {
     @Column(name = "id", nullable=false, unique=true)
     private long id;
     
-    @Column(name="username", length=20, nullable=false)
+    @Column(name="username", length=20, nullable=false, unique=true)
     private String username;
     
     @Column(name="password", length=80, nullable=false)

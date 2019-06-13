@@ -130,6 +130,7 @@ public class Login extends javax.swing.JFrame {
        NewProfile np = new NewProfile();
        np.setVisible(true);
        np.setAlwaysOnTop(true);
+       np.setLocationRelativeTo(null);
     }//GEN-LAST:event_newProfileBtnActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
@@ -137,6 +138,7 @@ public class Login extends javax.swing.JFrame {
         if(UserUtility.checkPassword(usernameTextField.getText(), passwordField.getText())){
             GUI gui = new GUI();
             gui.setVisible(true);
+            gui.setLocationRelativeTo(null);
             this.setVisible(false);
         } else {
             
