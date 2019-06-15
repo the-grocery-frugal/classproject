@@ -22,13 +22,17 @@ import java.util.List;
  * @author jacob
  */
 public class test {
+    
     public static void main (String[] args) {
         UserUtility userutility = new UserUtility();
         IngredientUtility ingredientutility = new IngredientUtility();
         RecipeUtility recipeutility = new RecipeUtility();
+        /*
         UserUtility.createUser("system-user", "really-hard-password");
         
         System.out.println(UserUtility.checkPassword("system-user", "really-hard-password"));
+        */
+        
         //recipeutility.findRecipeByIngredientName("test");
         
         

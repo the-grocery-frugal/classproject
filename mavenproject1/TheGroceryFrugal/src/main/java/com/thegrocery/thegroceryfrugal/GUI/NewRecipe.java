@@ -1,5 +1,8 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import javax.swing.JOptionPane;
+
 public class NewRecipe extends javax.swing.JFrame {
 
     public NewRecipe() {
@@ -127,8 +130,31 @@ public class NewRecipe extends javax.swing.JFrame {
 
     private void doneBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
         // allows user to finish with steps and description, moves forward to ingredient search and add
-       NewIngredient ni = new NewIngredient();
-       ni.setVisible(true); 
+        NewIngredient ni = new NewIngredient();
+
+        // Create the new recipe
+        // Need to add checks to see if an ingredient by that name exists
+        if (RecipeUtility.findRecipeByName(recipeTitle.getText()).isEmpty()) {
+            RecipeUtility.addRecipe(recipeTitle.getText(), descriptionPne.getText(), stepsPne.getText());
+            if (descriptionPne.getText() != null){
+                RecipeUtility.addDescription(recipeTitle.getText(), descriptionPne.getText());
+            }
+
+            if (stepsPne.getText() != null){
+                RecipeUtility.addSteps(recipeTitle.getText(), stepsPne.getText());
+            }
+            ni.setVisible(true); 
+            ni.setLocationRelativeTo(null);
+            
+            ni.setAlwaysOnTop(true);
+            
+        } else {
+            // Add error message about creating a recipe that already exists
+            JOptionPane.showMessageDialog(null, "ERROR - Recipe Already Exists", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+       
+       
+       
     }                                       
 
     /**
