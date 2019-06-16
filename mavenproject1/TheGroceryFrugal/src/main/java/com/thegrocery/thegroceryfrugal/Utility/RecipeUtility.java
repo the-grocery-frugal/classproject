@@ -38,6 +38,42 @@ public class RecipeUtility {
         return recipeID;    
     }
     
+    public static Integer addRecipe(String recipeName, String description) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Integer recipeID = null;
+        try {
+            tx = session.beginTransaction();
+            Recipe recipe = new Recipe(recipeName,description );
+            recipeID = (Integer) session.save(recipe);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return recipeID;    
+    }
+    
+    public static Integer addRecipe(String recipeName, String description, String steps) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Integer recipeID = null;
+        try {
+            tx = session.beginTransaction();
+            Recipe recipe = new Recipe(recipeName, description, steps);
+            recipeID = (Integer) session.save(recipe);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return recipeID;    
+    }
+    
     // Add steps to a recipe by its name
     public static boolean addSteps(String name, String steps) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -45,6 +81,7 @@ public class RecipeUtility {
         Recipe recipe = null;
         boolean success = false;
         try {
+            tx = session.beginTransaction();
             String query = "FROM Recipe where name='" + name + "'";
             recipe = (Recipe) session.createQuery(query).uniqueResult();
             recipe.setSteps(steps);
@@ -68,6 +105,7 @@ public class RecipeUtility {
         Recipe recipe = null;
         boolean success = false;
         try {
+            tx = session.beginTransaction();
             recipe = (Recipe)session.get(Recipe.class, recipeID);
             recipe.setSteps(steps);
             session.update(recipe);

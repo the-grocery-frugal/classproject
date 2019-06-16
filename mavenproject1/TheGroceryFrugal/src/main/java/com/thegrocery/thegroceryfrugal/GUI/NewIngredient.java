@@ -174,7 +174,8 @@ public class NewIngredient extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {   
+        
         //allows user to search for ingredient
     }                                         
 

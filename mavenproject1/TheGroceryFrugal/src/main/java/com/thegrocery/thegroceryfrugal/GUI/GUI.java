@@ -230,7 +230,7 @@ public class GUI extends javax.swing.JFrame {
         if(RecipeRadBtn.isSelected()){
             NewRecipe nr = new NewRecipe();
             nr.setVisible(true);
-            nr.setAlwaysOnTop(true);
+            nr.setAutoRequestFocus(true);
             nr.setLocationRelativeTo(null);
         } else if(GroceryListRadBtn.isSelected()){
             
