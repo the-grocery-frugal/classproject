@@ -15,11 +15,10 @@ public class NewIngredient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
+        buttonGroup = new javax.swing.ButtonGroup();
         searchTtle = new javax.swing.JLabel();
         searchFld = new javax.swing.JTextField();
         searchBtn = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        searchResultsList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         quantityLbl = new javax.swing.JLabel();
         quantityField = new javax.swing.JTextField();
@@ -28,6 +27,19 @@ public class NewIngredient extends javax.swing.JFrame {
         notesLbl = new javax.swing.JLabel();
         notesField = new javax.swing.JTextField();
         addToRecipeBtn = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        jRadBtn1 = new javax.swing.JRadioButton();
+        jRadBtn2 = new javax.swing.JRadioButton();
+        jRadBtn3 = new javax.swing.JRadioButton();
+        jRadBtn4 = new javax.swing.JRadioButton();
+        jRadBtn5 = new javax.swing.JRadioButton();
+        jRadBtn6 = new javax.swing.JRadioButton();
+        jRadBtn7 = new javax.swing.JRadioButton();
+        jRadBtn8 = new javax.swing.JRadioButton();
+        jRadBtn9 = new javax.swing.JRadioButton();
+        jRadBtn10 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ingredients");
@@ -50,13 +62,6 @@ public class NewIngredient extends javax.swing.JFrame {
                 searchBtnActionPerformed(evt);
             }
         });
-
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        searchResultsList.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        searchResultsList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(searchResultsList);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel1.setText("Choose ingredient from results:");
@@ -102,44 +107,150 @@ public class NewIngredient extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jPanel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jPanel2.setNextFocusableComponent(jScrollPane1);
+
+        buttonGroup.add(jRadBtn1);
+        jRadBtn1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn1.setText("1");
+
+        buttonGroup.add(jRadBtn2);
+        jRadBtn2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn2.setText("4");
+
+        buttonGroup.add(jRadBtn3);
+        jRadBtn3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn3.setText("2");
+
+        buttonGroup.add(jRadBtn4);
+        jRadBtn4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn4.setText("5");
+
+        buttonGroup.add(jRadBtn5);
+        jRadBtn5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn5.setText("6");
+        jRadBtn5.setToolTipText("");
+
+        buttonGroup.add(jRadBtn6);
+        jRadBtn6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn6.setText("7");
+
+        buttonGroup.add(jRadBtn7);
+        jRadBtn7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn7.setText("8");
+
+        buttonGroup.add(jRadBtn8);
+        jRadBtn8.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn8.setText("3");
+
+        buttonGroup.add(jRadBtn9);
+        jRadBtn9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn9.setText("9");
+
+        buttonGroup.add(jRadBtn10);
+        jRadBtn10.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jRadBtn10.setText("10");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jRadBtn6)
+                        .addComponent(jRadBtn7)
+                        .addComponent(jRadBtn2, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                        .addComponent(jRadBtn8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRadBtn3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRadBtn4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRadBtn5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jRadBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRadBtn9)
+                    .addComponent(jRadBtn10))
+                .addGap(0, 130, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jRadBtn1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadBtn10)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+
+        jScrollPane1.setViewportView(jPanel2);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(searchTtle)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchFld, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchBtn))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(quantityLbl)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(quantityField, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(typeLbl)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(typeDropDown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(notesLbl)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(notesField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(36, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(108, 108, 108)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(quantityLbl)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(quantityField))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(searchTtle)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(searchFld, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(searchBtn))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(typeLbl)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(typeDropDown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(notesLbl)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(notesField)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(37, 37, 37))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addComponent(addToRecipeBtn)
+                        .addGap(121, 121, 121)
+                        .addComponent(addToRecipeBtn)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -153,29 +264,28 @@ public class NewIngredient extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(quantityLbl)
                     .addComponent(quantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(typeLbl)
-                    .addComponent(typeDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(typeDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(typeLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(notesLbl)
                     .addComponent(notesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addToRecipeBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
 
-    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {   
-        
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
         //allows user to search for ingredient
     }                                         
 
@@ -236,7 +346,20 @@ public class NewIngredient extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton addToRecipeBtn;
+    private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton jRadBtn1;
+    private javax.swing.JRadioButton jRadBtn10;
+    private javax.swing.JRadioButton jRadBtn2;
+    private javax.swing.JRadioButton jRadBtn3;
+    private javax.swing.JRadioButton jRadBtn4;
+    private javax.swing.JRadioButton jRadBtn5;
+    private javax.swing.JRadioButton jRadBtn6;
+    private javax.swing.JRadioButton jRadBtn7;
+    private javax.swing.JRadioButton jRadBtn8;
+    private javax.swing.JRadioButton jRadBtn9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField notesField;
     private javax.swing.JLabel notesLbl;
@@ -244,7 +367,6 @@ public class NewIngredient extends javax.swing.JFrame {
     private javax.swing.JLabel quantityLbl;
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextField searchFld;
-    private javax.swing.JList<String> searchResultsList;
     private javax.swing.JLabel searchTtle;
     private javax.swing.JComboBox<String> typeDropDown;
     private javax.swing.JLabel typeLbl;
