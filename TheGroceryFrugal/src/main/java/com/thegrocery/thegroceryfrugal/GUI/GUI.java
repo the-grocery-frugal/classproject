@@ -4,6 +4,7 @@ import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class GUI extends javax.swing.JFrame {
 
@@ -232,13 +233,23 @@ public class GUI extends javax.swing.JFrame {
             nr.setVisible(true);
             nr.setAutoRequestFocus(true);
             nr.setLocationRelativeTo(null);
+            nr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         } else if(GroceryListRadBtn.isSelected()){
-            
+            NewGroceryList ngl = new NewGroceryList();
+            ngl.setVisible(true);
+            ngl.setAutoRequestFocus(true);
+            ngl.setLocationRelativeTo(null);
+            ngl.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
     }//GEN-LAST:event_newBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         //needs to logout of thing, will throw window that confirms successful log out
+        this.setVisible(false);
+        JOptionPane.showMessageDialog(null, "Successfully logged out of account.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        Login login = new Login();
+        login.setVisible(true);
+        login.setLocationRelativeTo(null);
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
