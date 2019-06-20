@@ -143,7 +143,9 @@ public class Login extends javax.swing.JFrame {
             gui.setLocationRelativeTo(null);
             this.dispose();
         } else {
-            
+            this.setVisible(false);
+            JOptionPane.showMessageDialog(null, "Username and Password do not match.  Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            this.setVisible(true);
         }
     }//GEN-LAST:event_loginBtnActionPerformed
 
