@@ -311,8 +311,9 @@ public class NewIngredient extends javax.swing.JFrame {
             javax.swing.JRadioButton ingredient_button = new javax.swing.JRadioButton();
             ingredient_button.setText(ingredient.getName());
             this.buttonGroup.add(ingredient_button);
+            this.jScrollPane1.add(ingredient_button);
+            this.jScrollPane1.revalidate();
         }
-        this.jScrollPane1.updateUI();
     }                                         
 
     private void searchFldActionPerformed(java.awt.event.ActionEvent evt) {                                          
