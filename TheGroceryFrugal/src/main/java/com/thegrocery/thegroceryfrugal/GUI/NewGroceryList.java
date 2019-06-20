@@ -1,5 +1,16 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Models.Ingredients;
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
+import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 public class NewGroceryList extends javax.swing.JFrame {
 
     public NewGroceryList() {
@@ -66,6 +77,11 @@ public class NewGroceryList extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jButton1.setText("Search");
         jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,7 +155,24 @@ public class NewGroceryList extends javax.swing.JFrame {
 
     private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // creates new list or updates existing list
-    }                                          
+        
+        
+    }
+    
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt){
+        final JPanel panel = new JPanel();
+        ButtonGroup radioGroup = new ButtonGroup();
+        List<Recipe> recipes = RecipeUtility.findRecipeByName(this.jTextField1.getText());
+        for (Iterator iter = recipes.iterator(); iter.hasNext();) {
+            Recipe recipe = (Recipe)iter.next();
+            JRadioButton radio_button = new JRadioButton(recipe.getName());
+            radio_button.setActionCommand(recipe.getName());
+            radioGroup.add(radio_button);
+            panel.add(radio_button);
+        }
+        JOptionPane.showMessageDialog(null, panel);
+        selected_recipe = radioGroup.getSelection().getActionCommand();
+    }
 
     /**
      * @param args the command line arguments
@@ -189,5 +222,6 @@ public class NewGroceryList extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField listTitle;
     private javax.swing.JButton newListBtn;
+    private String selected_recipe;
     // End of variables declaration                   
 }
