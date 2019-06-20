@@ -43,7 +43,7 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://ec2-23-21-91-183.compute-1.amazonaws.com:5432/d4mkst0c6hrvdq?user=insxviwaerxmpb&password=54136a688a708e3d3032bf75de078e426e422bdfcb38ebcb1cd35f1f4d989376&sslmode=require</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://ec2-23-21-91-183.compute-1.amazonaws.com:5432/d4mkst0c6hrvdq?user=insxviwaerxmpb&amp;password=54136a688a708e3d3032bf75de078e426e422bdfcb38ebcb1cd35f1f4d989376&amp;sslmode=require</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
@@ -57,15 +57,6 @@ Contributor(s):
     <mapping class="com.thegrocery.thegroceryfrugal.Models.Nutrition" />
     <mapping class="com.thegrocery.thegroceryfrugal.Models.Recipe" />
     <mapping class="com.thegrocery.thegroceryfrugal.Models.RecipeIngredients" />
-    
-    <!--
-    <mapping resource="com/thegrocery/thegroceryfrugal/Models/RecipeIngredients.hbm.xml"/>
-    <mapping resource="com/thegrocery/thegroceryfrugal/Models/Users.hbm.xml"/>
-    <mapping resource="com/thegrocery/thegroceryfrugal/Models/Recipe.hbm.xml"/>
-    <mapping resource="com/thegrocery/thegroceryfrugal/Models/Ingredients.hbm.xml"/>
-    <mapping resource="com/thegrocery/thegroceryfrugal/Models/Measurement.hbm.xml"/>
-    <mapping resource="com/thegrocery/thegroceryfrugal/Models/Categories.hbm.xml"/>
-    <mapping resource="com/thegrocery/thegroceryfrugal/Models/Nutrition.hbm.xml"/>
-    -->
-    </session-factory>
+    <mapping class="com.thegrocery.thegroceryfrugal.Models.GroceryList" />
+  </session-factory>
 </hibernate-configuration>

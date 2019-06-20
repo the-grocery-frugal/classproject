@@ -1,6 +1,7 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -137,9 +138,10 @@ public class Login extends javax.swing.JFrame {
     //needs to verify correct username and password are used. If TRUE, then use below code to initiate GUI. If FALSE, error needs to be made for invalid/blank input
         if(UserUtility.checkPassword(usernameTextField.getText(), passwordField.getText())){
             GUI gui = new GUI();
+            gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             gui.setVisible(true);
             gui.setLocationRelativeTo(null);
-            this.setVisible(false);
+            this.dispose();
         } else {
             
         }

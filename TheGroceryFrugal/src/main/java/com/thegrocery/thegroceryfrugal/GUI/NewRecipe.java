@@ -145,8 +145,7 @@ public class NewRecipe extends javax.swing.JFrame {
             }
             ni.setVisible(true); 
             ni.setLocationRelativeTo(null);
-            
-            ni.setAlwaysOnTop(true);
+            ni.setAutoRequestFocus(true);
             
         } else {
             // Add error message about creating a recipe that already exists
