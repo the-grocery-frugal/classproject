@@ -32,7 +32,7 @@ public class NewGroceryList extends javax.swing.JFrame {
         newListBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        DisplayPanel = new javax.swing.JTextPane();
+        DisplayPanel = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -157,6 +157,7 @@ public class NewGroceryList extends javax.swing.JFrame {
         // creates new list or updates existing list
         
         
+        
     }
     
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt){
@@ -172,6 +173,11 @@ public class NewGroceryList extends javax.swing.JFrame {
         }
         JOptionPane.showMessageDialog(null, panel);
         selected_recipe = radioGroup.getSelection().getActionCommand();
+        List<Ingredients> ingredients = IngredientUtility.findIngredientsByRecipeName(selected_recipe);
+        for (Iterator iter = ingredients.iterator(); iter.hasNext();){
+            Ingredients ingredient = (Ingredients)iter.next();
+            DisplayPanel.append(ingredient.toString());
+        }
     }
 
     /**
@@ -211,7 +217,7 @@ public class NewGroceryList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JTextPane DisplayPanel;
+    private javax.swing.JTextArea DisplayPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
