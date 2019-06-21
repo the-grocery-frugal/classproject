@@ -1,14 +1,5 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
-import com.thegrocery.thegroceryfrugal.Models.Categories;
-import com.thegrocery.thegroceryfrugal.Models.Ingredients;
-import com.thegrocery.thegroceryfrugal.Models.Measurement;
-import com.thegrocery.thegroceryfrugal.Utility.CategoryUtility;
-import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
-import com.thegrocery.thegroceryfrugal.Utility.MeasurementUtility;
-import java.util.Iterator;
-import java.util.List;
-
 public class NewIngredient extends javax.swing.JFrame {
 
     public NewIngredient() {
@@ -87,18 +78,9 @@ public class NewIngredient extends javax.swing.JFrame {
 
         typeLbl.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         typeLbl.setText("Quantity Type:");
-        
-        // Code added by Jacob
-        List<Measurement> measurements = MeasurementUtility.listAllMeasurements();
-        String[] types = new String[measurements.size()];
-        for (int i = 0; i < measurements.size(); i++) {
-            types[i] = measurements.get(i).getName();
-            
-        }
-        
-        
+
         typeDropDown.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        typeDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(types));
+        typeDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cups", "Fluid Ounces", "Grams", "Ounces", "Pounds", "Tablespoon", "Teaspoon" }));
         typeDropDown.setToolTipText("");
         typeDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -305,15 +287,6 @@ public class NewIngredient extends javax.swing.JFrame {
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
         //allows user to search for ingredient
-        List<Ingredients> ingredients = IngredientUtility.findIngredientsByName(this.searchFld.getText());
-        for (Iterator iter = ingredients.iterator(); iter.hasNext(); ) {
-            Ingredients ingredient = (Ingredients) iter.next();
-            javax.swing.JRadioButton ingredient_button = new javax.swing.JRadioButton();
-            ingredient_button.setText(ingredient.getName());
-            this.buttonGroup.add(ingredient_button);
-            this.jScrollPane1.add(ingredient_button);
-            this.jScrollPane1.revalidate();
-        }
     }                                         
 
     private void searchFldActionPerformed(java.awt.event.ActionEvent evt) {                                          
@@ -365,7 +338,6 @@ public class NewIngredient extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 new NewIngredient().setVisible(true);
             }
