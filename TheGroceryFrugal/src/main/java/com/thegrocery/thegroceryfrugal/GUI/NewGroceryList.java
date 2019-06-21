@@ -1,4 +1,22 @@
+/**
+ * File: NewGroceryList.java
+ * Author: Milagros Sasieta
+ * Date: 6/16/2019
+ * Purpose: Creates UI for new grocery list window and handles associated functionality.
+ */
+
 package com.thegrocery.thegroceryfrugal.GUI;
+
+import com.thegrocery.thegroceryfrugal.Models.Ingredients;
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
+import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class NewGroceryList extends javax.swing.JFrame {
 
@@ -66,6 +84,11 @@ public class NewGroceryList extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jButton1.setText("Search");
         jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,13 +156,44 @@ public class NewGroceryList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
+    /**
+     * Controls actions related to list title text area.
+     * @param evt Action event initiated by user
+     */
     private void listTitleActionPerformed(java.awt.event.ActionEvent evt) {                                          
         //allows user to add list title
     }                                         
 
+    /**
+     * Either creates a new list in the database or updates an existing list 
+     * in the database.
+     * @param evt Action event initiated by user
+     */
     private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // creates new list or updates existing list
-    }                                          
+        
+    }
+    
+    /**
+     * Author: Jacob Shimer
+     * User input is used to search for recipes that have matching names.  
+     * Search results are then displayed in a new window.  
+     * @param evt Action event initiated by user
+     */
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt){
+        final JPanel panel = new JPanel();
+        ButtonGroup radioGroup = new ButtonGroup();
+        List<Recipe> recipes = RecipeUtility.findRecipeByName(this.jTextField1.getText());
+        for (Iterator iter = recipes.iterator(); iter.hasNext();) {
+            Recipe recipe = (Recipe)iter.next();
+            JRadioButton radio_button = new JRadioButton(recipe.getName());
+            radio_button.setActionCommand(recipe.getName());
+            radioGroup.add(radio_button);
+            panel.add(radio_button);
+        }
+        JOptionPane.showMessageDialog(null, panel);
+        selected_recipe = radioGroup.getSelection().getActionCommand();
+    }
 
     /**
      * @param args the command line arguments
@@ -189,5 +243,7 @@ public class NewGroceryList extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField listTitle;
     private javax.swing.JButton newListBtn;
-    // End of variables declaration                   
-}
+    private String selected_recipe;
+    // End of variables declaration 
+    
+}//End NewGroceryList class

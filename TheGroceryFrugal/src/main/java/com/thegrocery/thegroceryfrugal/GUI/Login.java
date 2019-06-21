@@ -1,6 +1,15 @@
+/**
+ * File: Login.java
+ * Author: Milagros Sasieta
+ * Date: 6/16/2019
+ * Purpose: Creates the main log in window for the application and handles
+ * related functionality.
+ */
+
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -125,6 +134,10 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Launches UI window that allows user to create a new profile.
+     * @param evt Action event initiated by user
+     */
     private void newProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProfileBtnActionPerformed
        //this pulls up the window to allow user to create new profile
        NewProfile np = new NewProfile();
@@ -133,22 +146,38 @@ public class Login extends javax.swing.JFrame {
        np.setLocationRelativeTo(null);
     }//GEN-LAST:event_newProfileBtnActionPerformed
 
+    /**
+     * Verifies if username and password are correct.  If they are correct, launches
+     * the main profile overview UI.  Otherwise, displays and error message.
+     * @param evt 
+     */
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
     //needs to verify correct username and password are used. If TRUE, then use below code to initiate GUI. If FALSE, error needs to be made for invalid/blank input
         if(UserUtility.checkPassword(usernameTextField.getText(), passwordField.getText())){
             GUI gui = new GUI();
+            gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             gui.setVisible(true);
             gui.setLocationRelativeTo(null);
-            this.setVisible(false);
+            this.dispose();
         } else {
-            
+            this.setVisible(false);
+            JOptionPane.showMessageDialog(null, "Username and Password do not match.  Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            this.setVisible(true);
         }
     }//GEN-LAST:event_loginBtnActionPerformed
 
+    /**
+     * Controls actions related to the text field for username.
+     * @param evt Action event initiated by user
+     */
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
         //input username
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
+    /**
+     * Controls actions related to the text field for password.
+     * @param evt Action event initiated by user
+     */
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         //input password
     }//GEN-LAST:event_passwordFieldActionPerformed
@@ -197,4 +226,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
-}
+    
+}//end Login class

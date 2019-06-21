@@ -1,3 +1,10 @@
+/**
+ * File: NewRecipe.java
+ * Author: Milagros Sasieta
+ * Date: 6/16/2019
+ * Purpose: Creates UI for new recipe window and handles associated functionality.
+ */
+
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
@@ -124,10 +131,20 @@ public class NewRecipe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
+    /**
+     * Controls functionality related to recipeTitle text area
+     * @param evt Action event initiated by user
+     */
     private void recipeTitleActionPerformed(java.awt.event.ActionEvent evt) {                                            
         //allows user to add recipe title
     }                                           
 
+    /**
+     * Checks if recipe with same name already exists. If it does, it displays 
+     * and error.  Otherwise, it launches a new ingredient window and adds 
+     * recipe to the database.
+     * @param evt Action event initiated by user
+     */
     private void doneBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
         // allows user to finish with steps and description, moves forward to ingredient search and add
         NewIngredient ni = new NewIngredient();
@@ -145,17 +162,13 @@ public class NewRecipe extends javax.swing.JFrame {
             }
             ni.setVisible(true); 
             ni.setLocationRelativeTo(null);
-            
-            ni.setAlwaysOnTop(true);
+            ni.setAutoRequestFocus(true);
             
         } else {
             // Add error message about creating a recipe that already exists
             JOptionPane.showMessageDialog(null, "ERROR - Recipe Already Exists", "Error", JOptionPane.ERROR_MESSAGE);
         }
-       
-       
-       
-    }                                       
+    }//end doneBtnActionPerformed                                      
 
     /**
      * @param args the command line arguments
@@ -206,5 +219,6 @@ public class NewRecipe extends javax.swing.JFrame {
     private javax.swing.JTextField recipeTitle;
     private javax.swing.JLabel stepsLbl;
     private javax.swing.JTextPane stepsPne;
-    // End of variables declaration                   
-}
+    // End of variables declaration  
+    
+}//End NewRecipe class

@@ -6,6 +6,7 @@
 package com.thegrocery.thegroceryfrugal;
 
 import com.thegrocery.thegroceryfrugal.GUI.Login;
+import javax.swing.JFrame;
 import org.hibernate.Session;
 
 /**
@@ -17,6 +18,7 @@ public class Main {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             Login login = new Login();
+            login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             login.setVisible(true);
             login.setLocationRelativeTo(null);
         } finally {

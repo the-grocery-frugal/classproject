@@ -1,3 +1,10 @@
+/**
+ * File: NewProfile.java
+ * Author: Milagros Sasieta
+ * Date: 6/16/2019
+ * Purpose: Creates UI for new profile window and handles associated functionality.
+ */
+
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
@@ -91,14 +98,27 @@ public class NewProfile extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Controls functionality related to the usernameTextField text area
+     * @param evt Action event initiated by user
+     */
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
         //input new username
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
+    /**
+     * Controls functionality related to the passwordField text area.
+     * @param evt Action event initiated by user
+     */
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         //input new password
     }//GEN-LAST:event_passwordFieldActionPerformed
 
+    /**
+     * Checks if user with same username already exists. If not, adds user to 
+     * database.  Otherwise, displays an error saying user already exists.
+     * @param evt Action event initiated by user 
+     */
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         //needs to add username and password to database for recall
         if(UserUtility.createUser(usernameTextField.getText(), passwordField.getText())){
@@ -148,4 +168,5 @@ public class NewProfile extends javax.swing.JFrame {
     private javax.swing.JButton saveBtn;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
-}
+    
+}//End NewProfile class

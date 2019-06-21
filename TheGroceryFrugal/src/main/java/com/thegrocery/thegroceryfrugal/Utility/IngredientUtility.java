@@ -136,7 +136,7 @@ public class IngredientUtility {
             String query = "SELECT I From Ingredients I " +
                            "LEFT JOIN I.recipeIngredientses RI " +
                            "LEFT JOIN RI.recipe R " + 
-                           "WHERE lower(R.name) = lower('%" + name + "%')";
+                           "WHERE lower(R.name) = lower('" + name + "')";
             ingredients = session.createQuery(query).list();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
