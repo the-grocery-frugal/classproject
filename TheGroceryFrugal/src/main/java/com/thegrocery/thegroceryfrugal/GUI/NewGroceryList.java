@@ -1,3 +1,10 @@
+/**
+ * File: NewGroceryList.java
+ * Author: Milagros Sasieta
+ * Date: 6/16/2019
+ * Purpose: Creates UI for new grocery list window and handles associated functionality.
+ */
+
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
@@ -149,16 +156,30 @@ public class NewGroceryList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
+    /**
+     * Controls actions related to list title text area.
+     * @param evt Action event initiated by user
+     */
     private void listTitleActionPerformed(java.awt.event.ActionEvent evt) {                                          
         //allows user to add list title
     }                                         
 
+    /**
+     * Either creates a new list in the database or updates an existing list 
+     * in the database.
+     * @param evt Action event initiated by user
+     */
     private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // creates new list or updates existing list
         
-        
     }
     
+    /**
+     * Author: Jacob Shimer
+     * User input is used to search for recipes that have matching names.  
+     * Search results are then displayed in a new window.  
+     * @param evt Action event initiated by user
+     */
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt){
         final JPanel panel = new JPanel();
         ButtonGroup radioGroup = new ButtonGroup();
@@ -223,5 +244,6 @@ public class NewGroceryList extends javax.swing.JFrame {
     private javax.swing.JTextField listTitle;
     private javax.swing.JButton newListBtn;
     private String selected_recipe;
-    // End of variables declaration                   
-}
+    // End of variables declaration 
+    
+}//End NewGroceryList class
