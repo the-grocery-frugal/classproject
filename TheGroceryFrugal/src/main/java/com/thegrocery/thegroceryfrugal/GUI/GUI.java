@@ -1,3 +1,10 @@
+/**
+ * File: GUI.java
+ * Author: Milagros Sasieta
+ * Date: 6/16/2019
+ * Purpose: Create the UI for the main profile overview and methods that control
+ * functionality of this window.
+ */
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
@@ -226,8 +233,12 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Launches window for creating a new recipe or grocery list, depending on 
+     * radio button selection.
+     * @param evt Action event initiated by user
+     */
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
-        //creates a new list or recipe, will go to correct form (NewGroceryList or NewRecipe) based on which radio button is selected
         if(RecipeRadBtn.isSelected()){
             NewRecipe nr = new NewRecipe();
             nr.setVisible(true);
@@ -243,8 +254,12 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_newBtnActionPerformed
 
+    /**
+     * Logs user out of their account and displays a confirmation window before
+     * moving user back to main log in window.
+     * @param evt Action event initiated by user
+     */
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        //needs to logout of thing, will throw window that confirms successful log out
         this.setVisible(false);
         JOptionPane.showMessageDialog(null, "Successfully logged out of account.", "Success", JOptionPane.INFORMATION_MESSAGE);
         Login login = new Login();
@@ -252,22 +267,43 @@ public class GUI extends javax.swing.JFrame {
         login.setLocationRelativeTo(null);
     }//GEN-LAST:event_logoutBtnActionPerformed
 
+    /**
+     * Displays recipe or grocery list selected from jtree in displayPane.
+     * @param evt Action event initiated by user
+     */
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area     
     }//GEN-LAST:event_openBtnActionPerformed
 
+    /**
+     * Opens a grocery list or recipe for user to modify.  Saves changes to database.
+     * @param evt Action event initiated by user
+     */
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
-        //allow user to add or remove items from list or recipe
+        
     }//GEN-LAST:event_modifyBtnActionPerformed
 
+    /**
+     * Deletes selected grocery list or recipe from database.
+     * @param evt Action event initiated by user
+     */
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        //allow user to delete entire recipe or list
+        
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    /**
+     * Controls whether user is searching by name or ingredient
+     * @param evt Action event initiated by user
+     */
     private void dropdownListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropdownListActionPerformed
-        //allow user to search by name OR ingredient
+        
     }//GEN-LAST:event_dropdownListActionPerformed
 
+    /**
+     * Searches recipes using text in searchTextArea.  Will search recipes either 
+     * by name or ingredient, depending on drop down selection.
+     * @param evt Action event initiated by user
+     */
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         //run the search
         if(dropdownList.getSelectedItem() == "Ingredient"){
@@ -280,14 +316,26 @@ public class GUI extends javax.swing.JFrame {
         System.out.println(dropdownList.getSelectedItem());
     }//GEN-LAST:event_searchBtnActionPerformed
 
+    /**
+     * Controls whether actions are taken on recipes.
+     * @param evt Action event initiated by user
+     */
     private void RecipeRadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecipeRadBtnActionPerformed
         //specifies to draw from recipe database
     }//GEN-LAST:event_RecipeRadBtnActionPerformed
 
+    /**
+     * Controls whether actions are taken on grocery lists.
+     * @param evt Action event initiated by user
+     */
     private void GroceryListRadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroceryListRadBtnActionPerformed
         //specifies to draw from grocery database
     }//GEN-LAST:event_GroceryListRadBtnActionPerformed
 
+    /**
+     * Initiates and changes nodes in the jtree display
+     * @param evt Action event initiated by user
+     */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
     }//GEN-LAST:event_treeDisplayValueChanged
@@ -348,4 +396,5 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextArea searchTextArea;
     private javax.swing.JTree treeDisplay;
     // End of variables declaration//GEN-END:variables
-}
+    
+}//end GUI class
