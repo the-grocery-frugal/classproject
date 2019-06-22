@@ -112,31 +112,7 @@ public class IngredientUtility {
             String query = "SELECT I From Ingredients I " +
                            "LEFT JOIN I.recipeIngredientses RI " +
                            "LEFT JOIN RI.recipe R " + 
-                           "WHERE lower(R.name) like lower('%" + name + "%')";
-            ingredients = session.createQuery(query).list();
-        } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        
-        return ingredients;
-    }
-    
-    // This will bring back all ingredients for the specific recipe name.  The
-    // name value has to be specific and accurate
-    public static List<Ingredients> findIngredientsBySpecificRecipeName(String name){
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = null;
-        List<Ingredients> ingredients = null;
-        
-        try {
-            tx = session.beginTransaction();
-            String query = "SELECT I From Ingredients I " +
-                           "LEFT JOIN I.recipeIngredientses RI " +
-                           "LEFT JOIN RI.recipe R " + 
-                           "WHERE lower(R.name) = lower('" + name + "')";
+                           "WHERE lower(R.name) like lower('" + name + "')";
             ingredients = session.createQuery(query).list();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
