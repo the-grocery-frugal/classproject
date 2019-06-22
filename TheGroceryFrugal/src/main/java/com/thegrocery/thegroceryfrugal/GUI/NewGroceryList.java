@@ -168,15 +168,34 @@ public class NewGroceryList extends javax.swing.JFrame {
         //allows user to add list title
     }                                         
 
+    /**
+     * Author: Jacob Shimer
+     * Checks if user has entered a recipe name. If blank, displays and error. 
+     * Otherwise, creates a list and displays a confirmation message before 
+     * closing window.
+     * @param evt Action event initiated by user
+     */
     private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {  
         Recipe recipe = RecipeUtility.getRecipe(selected_recipe);
-        if (listTitle.getText().isEmpty()){
-            Integer groceryListID = GroceryListUtility.addGroceryList(user, recipe);
+        
+        //If user has not entered a recipe name, displays error.  Otherwise, saves new list.
+        if (this.jTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a recipe name", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            Integer groceryListID = GroceryListUtility.addGroceryList(user, recipe, listTitle.getText());
+           Integer groceryListID;
+           if (listTitle.getText().isEmpty()){
+               groceryListID = GroceryListUtility.addGroceryList(user, recipe);
+           } else {
+               groceryListID = GroceryListUtility.addGroceryList(user, recipe, listTitle.getText());
+           } 
+           
+           if (groceryListID != null) {
+               JOptionPane.showMessageDialog(null, "List successfully created", "Success", JOptionPane.INFORMATION_MESSAGE);
+               this.dispose();
+           } else {
+               JOptionPane.showMessageDialog(null, "Error - List was not created!", "Error", JOptionPane.ERROR_MESSAGE);
+           }
         }
-        // creates new list or updates existing list
-
     }
     
     /**
