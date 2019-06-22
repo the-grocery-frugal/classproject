@@ -13,6 +13,7 @@ import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
 public class GUI extends javax.swing.JFrame {
@@ -147,6 +148,10 @@ public class GUI extends javax.swing.JFrame {
                 GroceryListRadBtnActionPerformed(evt);
             }
         });
+        
+        ButtonGroup radioGroup = new ButtonGroup();
+        radioGroup.add(RecipeRadBtn);
+        radioGroup.add(GroceryListRadBtn);
 
         treeDisplay.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
