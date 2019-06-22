@@ -78,4 +78,22 @@ public class UserUtility {
         return authenticated;
     }
     
+    public static Users getUser(String username){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Users user = null;
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM Users U WHERE U.username = '" + username + "'";
+            user = (Users)session.createQuery(query).uniqueResult();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return user;
+    }
+    
 }

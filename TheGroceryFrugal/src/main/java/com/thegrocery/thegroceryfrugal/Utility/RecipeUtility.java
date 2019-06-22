@@ -254,6 +254,24 @@ public class RecipeUtility {
         return recipes;
     }
     
+    public static Recipe getRecipe(String recipe_name){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Recipe recipe = null;
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM Recipe R WHERE R.name = '" + recipe_name + "'";
+            recipe = (Recipe)session.createQuery(query).uniqueResult();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return recipe;
+    }
+    
     // Simply list all recipes
     public static List<Recipe> listAllRecipes(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();

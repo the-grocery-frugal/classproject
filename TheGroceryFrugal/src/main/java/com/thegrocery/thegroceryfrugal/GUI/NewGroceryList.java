@@ -2,8 +2,11 @@ package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
+import com.thegrocery.thegroceryfrugal.Models.Users;
+import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -13,7 +16,8 @@ import javax.swing.JRadioButton;
 
 public class NewGroceryList extends javax.swing.JFrame {
 
-    public NewGroceryList() {
+    public NewGroceryList(Users user) {
+        this.user = user;
         initComponents();
     }
 
@@ -153,7 +157,13 @@ public class NewGroceryList extends javax.swing.JFrame {
         //allows user to add list title
     }                                         
 
-    private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {  
+        Recipe recipe = RecipeUtility.getRecipe(selected_recipe);
+        if (listTitle.getText().isEmpty()){
+            Integer groceryListID = GroceryListUtility.addGroceryList(user, recipe);
+        } else {
+            Integer groceryListID = GroceryListUtility.addGroceryList(user, recipe, listTitle.getText());
+        }
         // creates new list or updates existing list
         
         
@@ -211,7 +221,7 @@ public class NewGroceryList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewGroceryList().setVisible(true);
+                new NewGroceryList(UserUtility.getUser("default")).setVisible(true);
             }
         });
     }
@@ -229,5 +239,6 @@ public class NewGroceryList extends javax.swing.JFrame {
     private javax.swing.JTextField listTitle;
     private javax.swing.JButton newListBtn;
     private String selected_recipe;
+    private Users user;
     // End of variables declaration                   
 }

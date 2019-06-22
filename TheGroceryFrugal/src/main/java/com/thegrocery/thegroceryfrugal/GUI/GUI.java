@@ -1,14 +1,17 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
+import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 public class GUI extends javax.swing.JFrame {
 
-    public GUI() {
+    public GUI(Users user) {
+        this.user = user;
         initComponents();
         
     }
@@ -229,13 +232,13 @@ public class GUI extends javax.swing.JFrame {
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
         //creates a new list or recipe, will go to correct form (NewGroceryList or NewRecipe) based on which radio button is selected
         if(RecipeRadBtn.isSelected()){
-            NewRecipe nr = new NewRecipe();
+            NewRecipe nr = new NewRecipe(user);
             nr.setVisible(true);
             nr.setAutoRequestFocus(true);
             nr.setLocationRelativeTo(null);
             nr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         } else if(GroceryListRadBtn.isSelected()){
-            NewGroceryList ngl = new NewGroceryList();
+            NewGroceryList ngl = new NewGroceryList(user);
             ngl.setVisible(true);
             ngl.setAutoRequestFocus(true);
             ngl.setLocationRelativeTo(null);
@@ -323,7 +326,7 @@ public class GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI().setVisible(true);
+                new GUI(UserUtility.getUser("default")).setVisible(true);
             }
         });
     }
@@ -347,5 +350,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextArea searchTextArea;
     private javax.swing.JTree treeDisplay;
+    private Users user;
     // End of variables declaration//GEN-END:variables
 }
