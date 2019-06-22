@@ -7,12 +7,15 @@
 
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import javax.swing.JOptionPane;
 
 public class NewRecipe extends javax.swing.JFrame {
 
-    public NewRecipe() {
+    public NewRecipe(Users user) {
+        this.user = user;
         initComponents();
     }
 
@@ -203,7 +206,7 @@ public class NewRecipe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewRecipe().setVisible(true);
+                new NewRecipe(UserUtility.getUser("default")).setVisible(true);
             }
         });
     }
@@ -219,6 +222,7 @@ public class NewRecipe extends javax.swing.JFrame {
     private javax.swing.JTextField recipeTitle;
     private javax.swing.JLabel stepsLbl;
     private javax.swing.JTextPane stepsPne;
-    // End of variables declaration  
-    
-}//End NewRecipe class
+    private Users user;
+    // End of variables declaration                   
+}
+

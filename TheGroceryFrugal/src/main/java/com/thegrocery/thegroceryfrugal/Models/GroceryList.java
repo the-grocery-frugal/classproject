@@ -38,4 +38,50 @@ public class GroceryList {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe_id;
     
+    @Column(name = "title")
+    private String title;
+
+    public GroceryList() {
+    }
+
+    public GroceryList(Users user_id, Recipe recipe_id) {
+        this.user_id = user_id;
+        this.recipe_id = recipe_id;
+        this.title = String.valueOf(this.id) + "_grocery_list";
+    }
+
+    public GroceryList(Users user_id, Recipe recipe_id, String title) {
+        this.user_id = user_id;
+        this.recipe_id = recipe_id;
+        this.title = title;
+    }
+
+    public Users getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Users user_id) {
+        this.user_id = user_id;
+    }
+
+    public Recipe getRecipe_id() {
+        return recipe_id;
+    }
+
+    public void setRecipe_id(Recipe recipe_id) {
+        this.recipe_id = recipe_id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    
+    
+    
+    
 }

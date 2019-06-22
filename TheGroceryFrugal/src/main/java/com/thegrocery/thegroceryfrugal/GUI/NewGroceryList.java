@@ -9,8 +9,11 @@ package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
+import com.thegrocery.thegroceryfrugal.Models.Users;
+import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -20,7 +23,8 @@ import javax.swing.JRadioButton;
 
 public class NewGroceryList extends javax.swing.JFrame {
 
-    public NewGroceryList() {
+    public NewGroceryList(Users user) {
+        this.user = user;
         initComponents();
     }
 
@@ -39,7 +43,7 @@ public class NewGroceryList extends javax.swing.JFrame {
         newListBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        DisplayPanel = new javax.swing.JTextPane();
+        DisplayPanel = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -164,14 +168,15 @@ public class NewGroceryList extends javax.swing.JFrame {
         //allows user to add list title
     }                                         
 
-    /**
-     * Either creates a new list in the database or updates an existing list 
-     * in the database.
-     * @param evt Action event initiated by user
-     */
-    private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {  
+        Recipe recipe = RecipeUtility.getRecipe(selected_recipe);
+        if (listTitle.getText().isEmpty()){
+            Integer groceryListID = GroceryListUtility.addGroceryList(user, recipe);
+        } else {
+            Integer groceryListID = GroceryListUtility.addGroceryList(user, recipe, listTitle.getText());
+        }
         // creates new list or updates existing list
-        
+
     }
     
     /**
@@ -193,6 +198,11 @@ public class NewGroceryList extends javax.swing.JFrame {
         }
         JOptionPane.showMessageDialog(null, panel);
         selected_recipe = radioGroup.getSelection().getActionCommand();
+        List<Ingredients> ingredients = IngredientUtility.findIngredientsByRecipeName(selected_recipe);
+        for (Iterator iter = ingredients.iterator(); iter.hasNext();){
+            Ingredients ingredient = (Ingredients)iter.next();
+            DisplayPanel.append(ingredient.toString());
+        }
     }
 
     /**
@@ -226,13 +236,13 @@ public class NewGroceryList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewGroceryList().setVisible(true);
+                new NewGroceryList(UserUtility.getUser("default")).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JTextPane DisplayPanel;
+    private javax.swing.JTextArea DisplayPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -244,6 +254,7 @@ public class NewGroceryList extends javax.swing.JFrame {
     private javax.swing.JTextField listTitle;
     private javax.swing.JButton newListBtn;
     private String selected_recipe;
-    // End of variables declaration 
-    
-}//End NewGroceryList class
+    private Users user;
+    // End of variables declaration                   
+}
+
