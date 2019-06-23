@@ -37,15 +37,15 @@ public class MeasurementUtility {
         return measurementID;
     }
     
-    public static List<Measurement> findMeasurement(String name){
+    public static Measurement findMeasurement(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-        List<Measurement> measurements = null;
+        Measurement measurement = null;
         
         try{
             tx = session.beginTransaction();
-            String query = "FROM Measurement WHERE lower(name) like lower('%" + name + "%')";
-            measurements = session.createQuery(query).list();
+            String query = "FROM Measurement WHERE lower(name) = lower('" + name + "')";
+            measurement = (Measurement)session.createQuery(query).uniqueResult();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class MeasurementUtility {
             session.close();
         }
         
-        return measurements;
+        return measurement;
     }
     
     public static List<Measurement> listAllMeasurements(){
