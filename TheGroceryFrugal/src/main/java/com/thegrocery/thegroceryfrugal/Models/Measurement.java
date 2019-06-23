@@ -55,7 +55,7 @@ public class Measurement  implements java.io.Serializable {
         this.id = id;
     }
     public String getName() {
-        return this.name;
+        return this.name.substring(0, 1).toUpperCase() + this.name.substring(1);
     }
     
     public void setName(String name) {

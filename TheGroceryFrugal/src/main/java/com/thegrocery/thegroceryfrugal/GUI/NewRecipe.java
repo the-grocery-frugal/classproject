@@ -154,7 +154,9 @@ public class NewRecipe extends javax.swing.JFrame {
 
         // Create the new recipe
         // Need to add checks to see if an ingredient by that name exists
-        if (RecipeUtility.findRecipeByName(recipeTitle.getText()).isEmpty()) {
+        if (recipeTitle.getText().isEmpty()){
+            // ERROR CHECKING FOR BLANK RECIPE
+        } else if (RecipeUtility.findRecipeByName(recipeTitle.getText()).isEmpty()) {
             RecipeUtility.addRecipe(recipeTitle.getText(), descriptionPne.getText(), stepsPne.getText());
             if (descriptionPne.getText() != null){
                 RecipeUtility.addDescription(recipeTitle.getText(), descriptionPne.getText());
