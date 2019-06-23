@@ -124,6 +124,25 @@ public class IngredientUtility {
         return ingredients;
     }
     
+    public static Ingredients getIngredient(String name){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Ingredients ingredient = null;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "From Ingredients I where I.name = '" + name + "'";
+            ingredient = (Ingredients)session.createQuery(query).uniqueResult();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return ingredient;
+    }
+    
     // List all ingredients
     public static List<Ingredients> listAllIngredients(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();

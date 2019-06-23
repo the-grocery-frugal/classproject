@@ -7,9 +7,11 @@ package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Measurement;
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.MeasurementUtility;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeIngredientUtility;
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,7 +22,8 @@ import javax.swing.JOptionPane;
  */
 public class FindIngredient extends javax.swing.JFrame {
 
-    public FindIngredient() {
+    public FindIngredient(Recipe recipe) {
+        this.recipe = recipe;
         initComponents();
     }
 
@@ -208,6 +211,7 @@ public class FindIngredient extends javax.swing.JFrame {
         //allows user to search for ingredient
         if (searchFld.getText().isEmpty()){
             // error checking for empty searches
+            JOptionPane.showMessageDialog(null, "ERROR - Empty Search", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             final javax.swing.JPanel panel = new javax.swing.JPanel();
             javax.swing.ButtonGroup radioGroup = new javax.swing.ButtonGroup();
@@ -221,11 +225,7 @@ public class FindIngredient extends javax.swing.JFrame {
             }
             JOptionPane.showMessageDialog(null, panel);
             selected_ingredient = radioGroup.getSelection().getActionCommand();
-            if (selected_ingredient.isEmpty()){
-                // ERROR CHECKING FOR EMPTY INGREDIENT
-            } else {
-                
-            }
+            
         }
         
     }//GEN-LAST:event_searchBtnActionPerformed
@@ -236,6 +236,23 @@ public class FindIngredient extends javax.swing.JFrame {
 
     private void addToRecipeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToRecipeBtnActionPerformed
         //adds results to recipe
+        if (selected_ingredient.isEmpty()){
+                // ERROR CHECKING FOR EMPTY INGREDIENT
+        } else {
+            if (notesField.getText().isEmpty()){
+                Integer recipeIngredientID = RecipeIngredientUtility.associateIngredientToRecipe(recipe, 
+                        IngredientUtility.getIngredient(selected_ingredient), 
+                        MeasurementUtility.findMeasurement(typeDropDown.getSelectedItem().toString()), 
+                        Float.valueOf(quantityField.getText()));
+            } else {
+                Integer recipeIngredientID = RecipeIngredientUtility.associateIngredientToRecipe(recipe, 
+                        IngredientUtility.getIngredient(selected_ingredient), 
+                        MeasurementUtility.findMeasurement(typeDropDown.getSelectedItem().toString()), 
+                        Float.valueOf(quantityField.getText()),
+                        notesField.getText());
+            }
+
+        }
     }//GEN-LAST:event_addToRecipeBtnActionPerformed
 
     private void typeDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeDropDownActionPerformed
@@ -281,7 +298,7 @@ public class FindIngredient extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FindIngredient().setVisible(true);
+                new FindIngredient(RecipeUtility.getRecipe("default")).setVisible(true);
             }
         });
     }
@@ -300,6 +317,7 @@ public class FindIngredient extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> typeDropDown;
     private javax.swing.JLabel typeLbl;
     private String selected_ingredient;
+    private Recipe recipe;
     // End of variables declaration//GEN-END:variables
 }
  
