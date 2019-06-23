@@ -7,6 +7,7 @@
  */
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;

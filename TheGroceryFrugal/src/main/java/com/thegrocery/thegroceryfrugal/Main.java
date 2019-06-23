@@ -6,7 +6,6 @@
 package com.thegrocery.thegroceryfrugal;
 
 import com.thegrocery.thegroceryfrugal.GUI.Login;
-import javax.swing.JFrame;
 import org.hibernate.Session;
 
 /**
@@ -14,15 +13,16 @@ import org.hibernate.Session;
  * @author jacob
  */
 public class Main {
-    public static void main(String[] args){
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        try {
-            Login login = new Login();
-            login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            login.setVisible(true);
-            login.setLocationRelativeTo(null);
-        } finally {
-            session.close();
-        }
-    }
+	public static Login login;
+
+	public static void main(String[] args) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			login = new Login();
+			login.setVisible(true);
+			login.setLocationRelativeTo(null);
+		} finally {
+			session.close();
+		}
+	}
 }
