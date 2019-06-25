@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.thegrocery.thegroceryfrugal.GUI;
+
 /**
  *
  * @author Mila
@@ -34,91 +35,6 @@ public class NewIngredient extends javax.swing.JFrame {
         setTitle("New Ingredient");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel1.setText("Choose ingredient from results:");
-
-        quantityLbl.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        quantityLbl.setText("Quantity:");
-
-        quantityField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        quantityField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quantityFieldActionPerformed(evt);
-            }
-        });
-
-        typeLbl.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        typeLbl.setText("Quantity Type:");
-
-        typeDropDown.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        typeDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cups", "Fluid Ounces", "Grams", "Ounces", "Pounds", "Tablespoon", "Teaspoon" }));
-        typeDropDown.setToolTipText("");
-        typeDropDown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                typeDropDownActionPerformed(evt);
-            }
-        });
-
-        notesLbl.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        notesLbl.setText("Notes:");
-
-        notesField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        notesField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                notesFieldActionPerformed(evt);
-            }
-        });
-
-        addToRecipeBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        addToRecipeBtn.setText("Add to Recipe");
-        addToRecipeBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        addToRecipeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addToRecipeBtnActionPerformed(evt);
-            }
-        });
-
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jPanel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jPanel2.setNextFocusableComponent(jScrollPane1);
-
-        buttonGroup.add(jRadBtn1);
-        jRadBtn1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn1.setText("1");
-
-        buttonGroup.add(jRadBtn2);
-        jRadBtn2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn2.setText("4");
-
-        buttonGroup.add(jRadBtn3);
-        jRadBtn3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn3.setText("2");
-
-        buttonGroup.add(jRadBtn4);
-        jRadBtn4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn4.setText("5");
-
-        buttonGroup.add(jRadBtn5);
-        jRadBtn5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn5.setText("6");
-        jRadBtn5.setToolTipText("");
-
-        buttonGroup.add(jRadBtn6);
-        jRadBtn6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn6.setText("7");
-
-        buttonGroup.add(jRadBtn7);
-        jRadBtn7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn7.setText("8");
-
-        buttonGroup.add(jRadBtn8);
-        jRadBtn8.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn8.setText("3");
-
-        buttonGroup.add(jRadBtn9);
-        jRadBtn9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jRadBtn9.setText("9");
         jLabel1.setText("Ingredient Name: ");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -158,30 +74,6 @@ public class NewIngredient extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        //allows user to search for ingredient
-    }                                         
-
-    private void searchFldActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        //where the user types the input they are searching for
-    }                                         
-
-    private void addToRecipeBtnActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        //adds results to recipe
-    }                                              
-
-    private void typeDropDownActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        //dropdown for selection of quantity type
-    }                                            
-
-    private void quantityFieldActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        //where the user types the quantity input
-    }                                             
-
-    private void notesFieldActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        //where the user types notes
-    }                                          
-    }// </editor-fold>//GEN-END:initComponents
     /**
      * @param args the command line arguments
      */
