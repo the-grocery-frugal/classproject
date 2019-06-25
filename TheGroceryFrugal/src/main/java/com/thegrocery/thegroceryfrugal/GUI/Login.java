@@ -9,6 +9,7 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.transaction.Transactional.TxType;
 
