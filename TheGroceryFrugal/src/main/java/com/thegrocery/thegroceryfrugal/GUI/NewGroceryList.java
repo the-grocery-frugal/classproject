@@ -20,11 +20,16 @@ import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class NewGroceryList extends javax.swing.JFrame {
 
-    public NewGroceryList(Users user) {
+    public NewGroceryList(Users user, DefaultMutableTreeNode node, JTree tree) {
         this.user = user;
+        this.node = node;
+        this.tree = tree;
         initComponents();
     }
 
@@ -190,6 +195,12 @@ public class NewGroceryList extends javax.swing.JFrame {
            } 
            
            if (groceryListID != null) {
+               String listName = listTitle.getText().isEmpty() ? "List" : listTitle.getText();
+               
+               DefaultMutableTreeNode list = new DefaultMutableTreeNode(listName);
+               node.add(list);
+               tree.updateUI();
+               
                JOptionPane.showMessageDialog(null, "List successfully created", "Success", JOptionPane.INFORMATION_MESSAGE);
                this.dispose();
            } else {
@@ -255,7 +266,7 @@ public class NewGroceryList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewGroceryList(UserUtility.getUser("default")).setVisible(true);
+                new NewGroceryList(UserUtility.getUser("default"), new DefaultMutableTreeNode(), new JTree()).setVisible(true);
             }
         });
     }
@@ -274,6 +285,8 @@ public class NewGroceryList extends javax.swing.JFrame {
     private javax.swing.JButton newListBtn;
     private String selected_recipe;
     private Users user;
+    private DefaultMutableTreeNode node;
+    private JTree tree;
     // End of variables declaration                   
 }
 
