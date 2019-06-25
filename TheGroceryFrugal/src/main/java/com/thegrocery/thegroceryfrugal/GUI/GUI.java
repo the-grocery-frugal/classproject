@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class GUI extends javax.swing.JFrame {
 
@@ -51,7 +52,17 @@ public class GUI extends javax.swing.JFrame {
         GroceryListRadBtn = new javax.swing.JRadioButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jScrollPane2 = new javax.swing.JScrollPane();
-        treeDisplay = new javax.swing.JTree();
+        
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Grocery Frugal");
+        recipes = new DefaultMutableTreeNode("Recipes");
+        groceryLists = new DefaultMutableTreeNode("Grocery Lists");
+        
+        root.add(recipes);
+        root.add(groceryLists);
+        
+        treeDisplay = new javax.swing.JTree(root);
+        treeDisplay.setShowsRootHandles(true);
+        treeDisplay.setRootVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Overview");
@@ -255,7 +266,7 @@ public class GUI extends javax.swing.JFrame {
             nr.setLocationRelativeTo(null);
             nr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         } else if(GroceryListRadBtn.isSelected()){
-            NewGroceryList ngl = new NewGroceryList(user);
+            NewGroceryList ngl = new NewGroceryList(user, groceryLists, treeDisplay);
             ngl.setVisible(true);
             ngl.setAutoRequestFocus(true);
             ngl.setLocationRelativeTo(null);
@@ -347,6 +358,8 @@ public class GUI extends javax.swing.JFrame {
      */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
+        selectedNode = treeDisplay.getLastSelectedPathComponent().toString();
+        
     }//GEN-LAST:event_treeDisplayValueChanged
 
   
@@ -405,6 +418,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextArea searchTextArea;
     private javax.swing.JTree treeDisplay;
     private Users user;
+    private DefaultMutableTreeNode recipes, groceryLists;
+    private String selectedNode;
     // End of variables declaration//GEN-END:variables
     
 }//end GUI class
