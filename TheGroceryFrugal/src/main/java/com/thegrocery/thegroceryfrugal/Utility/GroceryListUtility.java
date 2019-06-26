@@ -9,6 +9,7 @@ import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.Users;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -53,5 +54,32 @@ public class GroceryListUtility {
             session.close();
         }
         return groceryListID;    
+    }
+    
+    /**
+     * Author: Amanda Kok
+     * Gathers all grocery lists stored with user id and returns them
+     * @param id user id to search by
+     * @return returns a list of all lists added with user id, id
+     */
+    public static List<GroceryList> gatherUserGroceryLists(long id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<GroceryList> lists = null;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM GroceryList WHERE user_id = " + id;
+            lists = session.createQuery(query).list();
+        }catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            } 
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return lists;
     }
 }
