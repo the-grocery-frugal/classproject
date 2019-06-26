@@ -10,8 +10,10 @@ package com.thegrocery.thegroceryfrugal.GUI;
 import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Users;
+import com.thegrocery.thegroceryfrugal.Models.GroceryList;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -56,6 +58,13 @@ public class GUI extends javax.swing.JFrame {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Grocery Frugal");
         recipes = new DefaultMutableTreeNode("Recipes");
         groceryLists = new DefaultMutableTreeNode("Grocery Lists");
+        
+        long userId = user.getId();
+        List<GroceryList> userLists = GroceryListUtility.gatherUserGroceryLists(userId);
+        for (GroceryList list : userLists) {
+            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle());
+            groceryLists.add(listNode);
+        }
         
         root.add(recipes);
         root.add(groceryLists);
