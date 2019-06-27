@@ -1,7 +1,6 @@
 package com.thegrocery.thegroceryfrugal.Models;
 // Generated Jun 4, 2019 6:31:11 AM by Hibernate Tools 4.3.1
 
-
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -157,8 +156,5 @@ public class Recipe  implements java.io.Serializable {
         recipeIngredientses.remove(recipeIngredients);
         recipeIngredients.setRecipe(null);
     }
-    
-    
 
 }
-

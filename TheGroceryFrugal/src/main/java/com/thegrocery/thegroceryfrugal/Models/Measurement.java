@@ -1,7 +1,6 @@
 package com.thegrocery.thegroceryfrugal.Models;
 // Generated Jun 4, 2019 6:31:11 AM by Hibernate Tools 4.3.1
 
-
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -18,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "measurement")
-public class Measurement  implements java.io.Serializable {
+public class Measurement implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,8 +77,4 @@ public class Measurement  implements java.io.Serializable {
         recipeIngredientses.remove(recipeIngredients);
         recipeIngredients.setMeasurement(null);
     }
-
-
 }
-
-

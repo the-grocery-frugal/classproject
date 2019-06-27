@@ -7,8 +7,10 @@ package com.thegrocery.thegroceryfrugal.Utility;
 
 import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
+import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.Users;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -53,5 +55,67 @@ public class GroceryListUtility {
             session.close();
         }
         return groceryListID;    
+    }
+    
+    /**
+     * Author: Amanda Kok
+     * Gathers all grocery lists stored with user id and returns them
+     * @param id user id to search by
+     * @return returns a list of all lists added with user id, id
+     */
+    public static List<GroceryList> gatherUserGroceryLists(long id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<GroceryList> lists = null;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM GroceryList WHERE user_id = " + id;
+            lists = session.createQuery(query).list();
+        }catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            } 
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return lists;
+    }
+    
+    /**
+     * Author: Amanda Kok
+     * Gathers all ingredients related to recipe id parameter
+     * @param listID recipe id
+     * @return Returns a list of all ingredients associated with a recipe id
+     */
+    public static List<Ingredients> gatherListIngredients(long listID) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        GroceryList list = null;
+        Recipe recipe = null;
+        
+        try {
+            tx = session.beginTransaction();
+            
+            String query = "FROM GroceryList WHERE id = " + listID;
+            list = (GroceryList)session.createQuery(query).uniqueResult();
+            
+            recipe = list.getRecipe_id();
+            //String query2 = "FROM Recipe WHERE id = " + list.getRecipe_id();
+            //recipe = (Recipe)session.createQuery(query2).uniqueResult();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        List<Ingredients> ingredients = IngredientUtility.findIngredientsByRecipeName(recipe.getName());
+        
+        return ingredients;
     }
 }

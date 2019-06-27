@@ -7,14 +7,18 @@
  */
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Users;
+import com.thegrocery.thegroceryfrugal.Models.GroceryList;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class GUI extends javax.swing.JFrame {
 
@@ -50,7 +54,24 @@ public class GUI extends javax.swing.JFrame {
         GroceryListRadBtn = new javax.swing.JRadioButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jScrollPane2 = new javax.swing.JScrollPane();
-        treeDisplay = new javax.swing.JTree();
+        
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Grocery Frugal");
+        recipes = new DefaultMutableTreeNode("Recipes");
+        groceryLists = new DefaultMutableTreeNode("Grocery Lists");
+        
+        long userId = user.getId();
+        List<GroceryList> userLists = GroceryListUtility.gatherUserGroceryLists(userId);
+        for (GroceryList list : userLists) {
+            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle() + " " + list.getId());
+            groceryLists.add(listNode);
+        }
+        
+        root.add(recipes);
+        root.add(groceryLists);
+        
+        treeDisplay = new javax.swing.JTree(root);
+        treeDisplay.setShowsRootHandles(true);
+        treeDisplay.setRootVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Overview");
@@ -254,7 +275,7 @@ public class GUI extends javax.swing.JFrame {
             nr.setLocationRelativeTo(null);
             nr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         } else if(GroceryListRadBtn.isSelected()){
-            NewGroceryList ngl = new NewGroceryList(user);
+            NewGroceryList ngl = new NewGroceryList(user, groceryLists, treeDisplay);
             ngl.setVisible(true);
             ngl.setAutoRequestFocus(true);
             ngl.setLocationRelativeTo(null);
@@ -276,11 +297,34 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     /**
+     * Author: Amanda Kok
      * Displays recipe or grocery list selected from jtree in displayPane.
      * @param evt Action event initiated by user
      */
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
-        //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area     
+        //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area 
+        if (RecipeRadBtn.isSelected()) {
+            
+        } else if (GroceryListRadBtn.isSelected()) {
+            displayPane.setText(null);
+            
+            String[] split = selectedNode.split(" ");
+            String listID = split[split.length -1];
+            List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
+            
+            StringBuilder listTitle = new StringBuilder();
+            for (int i = 0; i < split.length-1; i++) {
+                listTitle.append(split[i]);
+            }
+            
+            displayPane.append(listTitle.toString() + "\n");
+            
+            for (Ingredients ingredient : listIngredients) {
+                displayPane.append("\n" + ingredient.getName());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to open", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_openBtnActionPerformed
 
     /**
@@ -346,6 +390,8 @@ public class GUI extends javax.swing.JFrame {
      */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
+        selectedNode = treeDisplay.getLastSelectedPathComponent().toString();
+        
     }//GEN-LAST:event_treeDisplayValueChanged
 
   
@@ -404,6 +450,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextArea searchTextArea;
     private javax.swing.JTree treeDisplay;
     private Users user;
+    private DefaultMutableTreeNode recipes, groceryLists;
+    private String selectedNode;
     // End of variables declaration//GEN-END:variables
     
 }//end GUI class
