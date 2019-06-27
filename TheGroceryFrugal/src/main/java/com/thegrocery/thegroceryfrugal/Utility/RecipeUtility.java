@@ -8,6 +8,7 @@ package com.thegrocery.thegroceryfrugal.Utility;
 import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Models.Categories;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
+import com.thegrocery.thegroceryfrugal.Models.Users;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -289,4 +290,26 @@ public class RecipeUtility {
         }
         return recipes;
     }
+    
+    public static boolean deleteRecipe(Recipe recipe, Users user){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        boolean success = false;
+        if (recipe.getUser() != user){
+            return success;
+        }
+        try {
+            session.beginTransaction();
+            if (RecipeIngredientUtility.deleteAssociation(recipe)){
+                session.delete(recipe);
+            }
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return success;
+    }
+    
 }

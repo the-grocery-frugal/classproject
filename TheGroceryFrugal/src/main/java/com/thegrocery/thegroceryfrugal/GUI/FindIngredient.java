@@ -253,6 +253,7 @@ public class FindIngredient extends javax.swing.JFrame {
             }
 
         }
+        this.dispose();
     }//GEN-LAST:event_addToRecipeBtnActionPerformed
 
     private void typeDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeDropDownActionPerformed
