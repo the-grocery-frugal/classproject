@@ -21,138 +21,140 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "recipe")
-public class Recipe implements java.io.Serializable {
+public class Recipe  implements java.io.Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable=false)
+    private int id;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Categories categories;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "nutrition_id", referencedColumnName = "id")
+    private Nutrition nutrition;
+    
+    @Column(name = "description")
+    private String description;
+    
+    @Column(name = "name")
+    private String name;
+    
+    @Column(name = "steps")
+    private String steps;
+    
+    @OneToMany(mappedBy = "recipe")
+    private Set<RecipeIngredients> recipeIngredientses = new HashSet(0);
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Users user;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "category_id")
-	private Categories categories;
+    public Recipe() {
+        
+    }
+    
+    public Recipe(String name) {
+        this.name = name;
+    }
+    
+    public Recipe(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+    
+    public Recipe(String name, String description, String steps){
+        this.name = name;
+        this.description = description;
+        this.steps = steps;
+    }
+    
+    public Recipe(String name, Categories category, String description, String steps) {
+        this.name = name;
+        this.categories = category;
+        this.description = description;
+        this.steps = steps;
+    }
+    
+    
+    public Recipe(Categories categories, Nutrition nutrition, String description, String name, String steps, Set recipeIngredientses) {
+       this.categories = categories;
+       this.nutrition = nutrition;
+       this.description = description;
+       this.name = name;
+       this.steps = steps;
+       this.recipeIngredientses = recipeIngredientses;
+    }
+   
+    public int getId() {
+        return this.id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    public Categories getCategories() {
+        return this.categories;
+    }
+    
+    public void setCategories(Categories categories) {
+        this.categories = categories;
+    }
+    public Nutrition getNutrition() {
+        return this.nutrition;
+    }
+    
+    public void setNutrition(Nutrition nutrition) {
+        this.nutrition = nutrition;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getSteps() {
+        return this.steps;
+    }
+    
+    public void setSteps(String steps) {
+        this.steps = steps;
+    }
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "nutrition_id", referencedColumnName = "id")
-	private Nutrition nutrition;
+    public Users getUser() {
+        return user;
+    }
 
-	@Column(name = "description")
-	private String description;
-
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "steps")
-	private String steps;
-
-	@OneToMany(mappedBy = "recipe")
-	private Set<RecipeIngredients> recipeIngredientses = new HashSet(0);
-
-	public Recipe() {
-
-	}
-
-	public Recipe(String name) {
-		this.name = name;
-	}
-
-	public Recipe(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-	public Recipe(String name, String description, String steps) {
-		this.name = name;
-		this.description = description;
-		this.steps = steps;
-	}
-
-	public Recipe(String name, Categories category, String description, String steps) {
-		this.name = name;
-		this.categories = category;
-		this.description = description;
-		this.steps = steps;
-	}
-
-	public Recipe(Categories categories, Nutrition nutrition, String description, String name, String steps,
-			Set recipeIngredientses) {
-		this.categories = categories;
-		this.nutrition = nutrition;
-		this.description = description;
-		this.name = name;
-		this.steps = steps;
-		this.recipeIngredientses = recipeIngredientses;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Categories getCategories() {
-		return this.categories;
-	}
-
-	public void setCategories(Categories categories) {
-		this.categories = categories;
-	}
-
-	public Nutrition getNutrition() {
-		return this.nutrition;
-	}
-
-	public void setNutrition(Nutrition nutrition) {
-		this.nutrition = nutrition;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSteps() {
-		return this.steps;
-	}
-
-	public void setSteps(String steps) {
-		this.steps = steps;
-	}
-
-	public Set getRecipeIngredientses() {
-		return this.recipeIngredientses;
-	}
-
-	public void setRecipeIngredientses(Set recipeIngredientses) {
-		this.recipeIngredientses = recipeIngredientses;
-	}
-
-	public void addRecipeIngredients(RecipeIngredients recipeIngredients) {
-		recipeIngredientses.add(recipeIngredients);
-		recipeIngredients.setRecipe(this);
-	}
-
-	public void removeRecipeIngredients(RecipeIngredients recipeIngredients) {
-		recipeIngredientses.remove(recipeIngredients);
-		recipeIngredients.setRecipe(null);
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
+    public void setUser(Users user) {
+        this.user = user;
+    }
+    
+    public Set getRecipeIngredientses() {
+        return this.recipeIngredientses;
+    }
+    
+    public void setRecipeIngredientses(Set recipeIngredientses) {
+        this.recipeIngredientses = recipeIngredientses;
+    }
+    
+    public void addRecipeIngredients(RecipeIngredients recipeIngredients) {
+        recipeIngredientses.add(recipeIngredients);
+        recipeIngredients.setRecipe(this);
+    }
+    
+    public void removeRecipeIngredients(RecipeIngredients recipeIngredients) {
+        recipeIngredientses.remove(recipeIngredients);
+        recipeIngredients.setRecipe(null);
+    }
 
 }

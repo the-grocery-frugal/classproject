@@ -10,6 +10,8 @@ import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Measurement;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.RecipeIngredients;
+import java.util.Iterator;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -172,6 +174,33 @@ public class RecipeIngredientUtility {
             recipeIngredients = (RecipeIngredients)session.createQuery(query).uniqueResult();
             recipeIngredients.setMeasurement(measurement);
             session.update(recipeIngredients);
+            success = true;
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return success;
+    }
+    
+    public static boolean deleteAssociation(Recipe recipe){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<RecipeIngredients> recipeIngredients;
+        boolean success = false;
+        try{
+            tx = session.beginTransaction();
+            String query = "FROM RecipeIngredients WHERE recipe_id = " + recipe.getId();
+            recipeIngredients = session.createQuery(query).list();
+            if (!recipeIngredients.isEmpty()){
+                for (Iterator iter = recipeIngredients.iterator(); iter.hasNext();){
+                    RecipeIngredients recipeIngredient = (RecipeIngredients) iter.next();
+                    session.delete(recipeIngredient);
+                }
+            }
             success = true;
             tx.commit();
         } catch (HibernateException e) {

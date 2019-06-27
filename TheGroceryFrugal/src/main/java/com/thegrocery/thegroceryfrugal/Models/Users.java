@@ -1,11 +1,14 @@
 package com.thegrocery.thegroceryfrugal.Models;
 // Generated Jun 4, 2019 6:31:11 AM by Hibernate Tools 4.3.1
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -29,6 +32,9 @@ public class Users  implements java.io.Serializable {
     
     @Column(name="password", length=80, nullable=false)
     private String password;
+    
+    @OneToMany(mappedBy = "user")
+    private Set<Recipe> recipes = new HashSet(0);
 
     public Users() {
     }
