@@ -80,7 +80,9 @@ public class GroceryList {
         this.title = title;
     }
 
-    
+    public long getId() {
+        return id;
+    }
     
     
     

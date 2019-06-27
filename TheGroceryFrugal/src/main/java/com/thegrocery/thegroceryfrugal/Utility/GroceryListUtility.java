@@ -7,6 +7,7 @@ package com.thegrocery.thegroceryfrugal.Utility;
 
 import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
+import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.Users;
 import java.util.List;
@@ -81,5 +82,40 @@ public class GroceryListUtility {
         }
         
         return lists;
+    }
+    
+    /**
+     * Author: Amanda Kok
+     * Gathers all ingredients related to recipe id parameter
+     * @param listID recipe id
+     * @return Returns a list of all ingredients associated with a recipe id
+     */
+    public static List<Ingredients> gatherListIngredients(long listID) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        GroceryList list = null;
+        Recipe recipe = null;
+        
+        try {
+            tx = session.beginTransaction();
+            
+            String query = "FROM GroceryList WHERE id = " + listID;
+            list = (GroceryList)session.createQuery(query).uniqueResult();
+            
+            recipe = list.getRecipe_id();
+            //String query2 = "FROM Recipe WHERE id = " + list.getRecipe_id();
+            //recipe = (Recipe)session.createQuery(query2).uniqueResult();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        List<Ingredients> ingredients = IngredientUtility.findIngredientsByRecipeName(recipe.getName());
+        
+        return ingredients;
     }
 }

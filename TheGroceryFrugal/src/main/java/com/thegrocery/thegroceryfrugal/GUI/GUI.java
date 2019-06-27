@@ -62,7 +62,7 @@ public class GUI extends javax.swing.JFrame {
         long userId = user.getId();
         List<GroceryList> userLists = GroceryListUtility.gatherUserGroceryLists(userId);
         for (GroceryList list : userLists) {
-            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle());
+            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle() + " " + list.getId());
             groceryLists.add(listNode);
         }
         
@@ -297,11 +297,34 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     /**
+     * Author: Amanda Kok
      * Displays recipe or grocery list selected from jtree in displayPane.
      * @param evt Action event initiated by user
      */
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
-        //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area     
+        //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area 
+        if (RecipeRadBtn.isSelected()) {
+            
+        } else if (GroceryListRadBtn.isSelected()) {
+            displayPane.setText(null);
+            
+            String[] split = selectedNode.split(" ");
+            String listID = split[split.length -1];
+            List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
+            
+            StringBuilder listTitle = new StringBuilder();
+            for (int i = 0; i < split.length-1; i++) {
+                listTitle.append(split[i]);
+            }
+            
+            displayPane.append(listTitle.toString() + "\n");
+            
+            for (Ingredients ingredient : listIngredients) {
+                displayPane.append("\n" + ingredient.getName());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to open", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_openBtnActionPerformed
 
     /**
