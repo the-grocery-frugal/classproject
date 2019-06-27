@@ -7,6 +7,7 @@
 
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
@@ -34,6 +35,8 @@ public class NewRecipe extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionPne = new javax.swing.JTextPane();
         jLabel6 = new javax.swing.JLabel();
+        createRecipeBtn = new javax.swing.JButton();
+        addIngredientBtn = new javax.swing.JButton();
         doneBtn = new javax.swing.JButton();
         stepsLbl = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -59,7 +62,25 @@ public class NewRecipe extends javax.swing.JFrame {
 
         descriptionPne.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(descriptionPne);
-
+        
+        addIngredientBtn.setFont(new java.awt.Font("Segoe UI", 0, 12));
+        addIngredientBtn.setText("Add Ingredient to Recipe");
+        addIngredientBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        addIngredientBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addIngredientBtnActionPerformed(evt);
+            }
+        });
+        
+        createRecipeBtn.setFont(new java.awt.Font("Segoe UI", 0, 12));
+        createRecipeBtn.setText("Create Recipe");
+        createRecipeBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        createRecipeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createRecipeBtnActionPerformed(evt);
+            }
+        });
+        
         doneBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         doneBtn.setText("Done");
         doneBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -105,6 +126,8 @@ public class NewRecipe extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(79, 79, 79)
                                 .addComponent(jLabel6))
+                            .addComponent(createRecipeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addIngredientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(doneBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 21, Short.MAX_VALUE))))
@@ -125,6 +148,8 @@ public class NewRecipe extends javax.swing.JFrame {
                 .addGap(2, 2, 2)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(createRecipeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addIngredientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(doneBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
@@ -150,14 +175,27 @@ public class NewRecipe extends javax.swing.JFrame {
      */
     private void doneBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
         // allows user to finish with steps and description, moves forward to ingredient search and add
-        NewIngredient ni = new NewIngredient();
+        this.dispose();
 
         // Create the new recipe
         // Need to add checks to see if an ingredient by that name exists
+        
+    }//end doneBtnActionPerformed   
+    
+    private void addIngredientBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        FindIngredient fi = new FindIngredient(this.recipe);
+        fi.setVisible(true);
+        fi.setLocationRelativeTo(null);
+        fi.setAutoRequestFocus(true);
+    }
+    
+    private void createRecipeBtnActionPerformed(java.awt.event.ActionEvent evt){
         if (recipeTitle.getText().isEmpty()){
             // ERROR CHECKING FOR BLANK RECIPE
+            JOptionPane.showMessageDialog(null, "ERROR - Title can't be blank", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (RecipeUtility.findRecipeByName(recipeTitle.getText()).isEmpty()) {
-            RecipeUtility.addRecipe(recipeTitle.getText(), descriptionPne.getText(), stepsPne.getText());
+            Integer recipeID = RecipeUtility.addRecipe(recipeTitle.getText(), descriptionPne.getText(), stepsPne.getText());
+            this.recipe = RecipeUtility.getRecipe(recipeTitle.getText());
             if (descriptionPne.getText() != null){
                 RecipeUtility.addDescription(recipeTitle.getText(), descriptionPne.getText());
             }
@@ -165,15 +203,12 @@ public class NewRecipe extends javax.swing.JFrame {
             if (stepsPne.getText() != null){
                 RecipeUtility.addSteps(recipeTitle.getText(), stepsPne.getText());
             }
-            ni.setVisible(true); 
-            ni.setLocationRelativeTo(null);
-            ni.setAutoRequestFocus(true);
             
         } else {
             // Add error message about creating a recipe that already exists
             JOptionPane.showMessageDialog(null, "ERROR - Recipe Already Exists", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//end doneBtnActionPerformed                                      
+    }
 
     /**
      * @param args the command line arguments
@@ -217,6 +252,8 @@ public class NewRecipe extends javax.swing.JFrame {
     private javax.swing.JLabel descriptionLbl;
     private javax.swing.JTextPane descriptionPne;
     private javax.swing.JButton doneBtn;
+    private javax.swing.JButton createRecipeBtn;
+    private javax.swing.JButton addIngredientBtn;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -225,6 +262,7 @@ public class NewRecipe extends javax.swing.JFrame {
     private javax.swing.JLabel stepsLbl;
     private javax.swing.JTextPane stepsPne;
     private Users user;
+    private Recipe recipe;
     // End of variables declaration                   
 }
 

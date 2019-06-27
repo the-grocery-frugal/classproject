@@ -48,6 +48,10 @@ public class Recipe  implements java.io.Serializable {
     
     @OneToMany(mappedBy = "recipe")
     private Set<RecipeIngredients> recipeIngredientses = new HashSet(0);
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Users user;
 
     public Recipe() {
         
@@ -127,6 +131,15 @@ public class Recipe  implements java.io.Serializable {
     public void setSteps(String steps) {
         this.steps = steps;
     }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+    
     public Set getRecipeIngredientses() {
         return this.recipeIngredientses;
     }
@@ -145,7 +158,7 @@ public class Recipe  implements java.io.Serializable {
         recipeIngredients.setRecipe(null);
     }
     
-
+    
 
 }
 
