@@ -56,26 +56,30 @@ public class Recipe  implements java.io.Serializable {
         
     }
     
-    public Recipe(String name) {
+    public Recipe(String name, Users user) {
         this.name = name;
+        this.user = user;
     }
     
-    public Recipe(String name, String description) {
+    public Recipe(String name, String description, Users user) {
         this.name = name;
         this.description = description;
+        this.user = user;
     }
     
-    public Recipe(String name, String description, String steps){
+    public Recipe(String name, String description, String steps, Users user){
         this.name = name;
         this.description = description;
         this.steps = steps;
+        this.user = user;
     }
     
-    public Recipe(String name, Categories category, String description, String steps) {
+    public Recipe(String name, Categories category, String description, String steps, Users user) {
         this.name = name;
         this.categories = category;
         this.description = description;
         this.steps = steps;
+        this.user = user;
     }
     
     

@@ -21,13 +21,13 @@ import org.hibernate.Transaction;
 public class RecipeUtility {
     
     // Add a recipe to the database
-    public static Integer addRecipe(String recipeName) {
+    public static Integer addRecipe(String recipeName, Users user) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Integer recipeID = null;
         try {
             tx = session.beginTransaction();
-            Recipe recipe = new Recipe(recipeName);
+            Recipe recipe = new Recipe(recipeName, user);
             recipeID = (Integer) session.save(recipe);
             tx.commit();
         } catch (HibernateException e) {
@@ -39,13 +39,13 @@ public class RecipeUtility {
         return recipeID;    
     }
     
-    public static Integer addRecipe(String recipeName, String description) {
+    public static Integer addRecipe(String recipeName, String description, Users user) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Integer recipeID = null;
         try {
             tx = session.beginTransaction();
-            Recipe recipe = new Recipe(recipeName,description );
+            Recipe recipe = new Recipe(recipeName,description,user);
             recipeID = (Integer) session.save(recipe);
             tx.commit();
         } catch (HibernateException e) {
@@ -57,13 +57,13 @@ public class RecipeUtility {
         return recipeID;    
     }
     
-    public static Integer addRecipe(String recipeName, String description, String steps) {
+    public static Integer addRecipe(String recipeName, String description, String steps, Users user) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Integer recipeID = null;
         try {
             tx = session.beginTransaction();
-            Recipe recipe = new Recipe(recipeName, description, steps);
+            Recipe recipe = new Recipe(recipeName, description, steps, user);
             recipeID = (Integer) session.save(recipe);
             tx.commit();
         } catch (HibernateException e) {
@@ -76,14 +76,14 @@ public class RecipeUtility {
     }
     
     // Add steps to a recipe by its name
-    public static boolean addSteps(String name, String steps) {
+    public static boolean changeSteps(Users user, String name, String steps) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
         boolean success = false;
         try {
             tx = session.beginTransaction();
-            String query = "FROM Recipe where name='" + name + "'";
+            String query = "FROM Recipe where name='" + name + "' AND user_id = " + user.getId();
             recipe = (Recipe) session.createQuery(query).uniqueResult();
             recipe.setSteps(steps);
             session.update(recipe);
@@ -100,7 +100,7 @@ public class RecipeUtility {
     }
     
     // Add steps to a recipe by its ID
-    public static boolean addSteps(Integer recipeID, String steps) {
+    public static boolean changeSteps(Users user, Integer recipeID, String steps) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
@@ -108,10 +108,13 @@ public class RecipeUtility {
         try {
             tx = session.beginTransaction();
             recipe = (Recipe)session.get(Recipe.class, recipeID);
-            recipe.setSteps(steps);
-            session.update(recipe);
-            tx.commit();
-            success = true;
+            if (recipe.getUser() == user){
+                recipe.setSteps(steps);
+                session.update(recipe);
+                tx.commit();
+                success = true;
+            }
+            
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
@@ -123,14 +126,14 @@ public class RecipeUtility {
     }
     
     // Add a description to a recipe by its name
-    public static boolean addDescription(String name, String description) {
+    public static boolean changeDescription(Users user, String name, String description) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
         boolean success = false;
         try {
             tx = session.beginTransaction();
-            String query = "FROM Recipe where name='" + name + "'";
+            String query = "FROM Recipe where name='" + name + "' AND user_id =" + user.getId();
             recipe = (Recipe) session.createQuery(query).uniqueResult();
             recipe.setDescription(description);
             session.update(recipe);
@@ -146,7 +149,7 @@ public class RecipeUtility {
     }
     
     // Add a description to a recipe by its ID
-    public static boolean addDescription(Integer RecipeID, String description) {
+    public static boolean changeDescription(Users user, Integer RecipeID, String description) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Recipe recipe = null;
@@ -154,10 +157,13 @@ public class RecipeUtility {
         try {
             tx = session.beginTransaction();
             recipe = (Recipe)session.get(Recipe.class, RecipeID);
-            recipe.setDescription(description);
-            session.update(recipe);
-            success = true;
-            tx.commit();
+            if (recipe.getUser() == user){
+                recipe.setDescription(description);
+                session.update(recipe);
+                success = true;
+                tx.commit();
+            }
+            
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
@@ -188,6 +194,28 @@ public class RecipeUtility {
             session.close();
         }
         
+        return success;
+    }
+    
+    public static boolean changeName(String old_name, String new_name) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Recipe recipe = null;
+        boolean success = false;
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM Recipe where name='" + old_name + "'";
+            recipe = (Recipe) session.createQuery(query).uniqueResult();
+            recipe.setName(new_name);
+            session.update(recipe);
+            success = true;
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return success;
     }
     

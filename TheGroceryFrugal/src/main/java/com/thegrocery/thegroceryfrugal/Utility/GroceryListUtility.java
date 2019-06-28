@@ -57,6 +57,49 @@ public class GroceryListUtility {
         return groceryListID;    
     }
     
+    public static boolean changeName(GroceryList groceryList, String new_name){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        boolean success = false;
+        
+        try {
+            tx = session.beginTransaction();
+            groceryList.setTitle(new_name);
+            success = true;
+            tx.commit();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally{
+            session.close();
+        }
+        
+        return success;
+    }
+    
+    public static boolean changeName(Users user, String old_name, String new_name){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        GroceryList groceryList = null;
+        boolean success = false;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM GroceryList where lower(name) = lower('" + old_name + "') AND user_id =" + user.getId();
+            groceryList = (GroceryList)session.createQuery(query).uniqueResult();
+            groceryList.setTitle(new_name);
+            success = true;
+            tx.commit();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally{
+            session.close();
+        }
+        
+        return success;
+    }
+    
     /**
      * Author: Amanda Kok
      * Gathers all grocery lists stored with user id and returns them
