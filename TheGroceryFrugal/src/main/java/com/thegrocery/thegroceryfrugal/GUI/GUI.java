@@ -11,13 +11,20 @@ import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class GUI extends javax.swing.JFrame {
@@ -65,6 +72,13 @@ public class GUI extends javax.swing.JFrame {
             DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle() + " " + list.getId());
             groceryLists.add(listNode);
         }
+        
+        List<Recipe> defaultRecipes = RecipeUtility.gatherDefaultRecipes();
+        for (Recipe recipe : defaultRecipes) {
+            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(recipe.getName());
+            recipes.add(listNode);
+        }
+        
         
         root.add(recipes);
         root.add(groceryLists);
@@ -340,6 +354,56 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        if (RecipeRadBtn.isSelected()) {
+            
+        } else if (GroceryListRadBtn.isSelected()) {
+            String[] split = selectedNode.split(" ");
+            String listID = split[split.length -1];
+            List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
+            
+            StringBuilder listTitle = new StringBuilder();
+            for (int i = 0; i < split.length-1; i++) {
+                listTitle.append(split[i]);
+            }
+            
+            final JPanel panel = new JPanel(new BorderLayout());
+            JLabel warning = new JLabel("This will permanantly delete Grocery List " + listTitle.toString() + ".  Do you wish to continue?");
+            JRadioButton yesRdBtn = new JRadioButton("Confirm Delete");
+            yesRdBtn.setActionCommand("Delete");
+            JRadioButton noRdBtn = new JRadioButton("Do Not Delete");
+            noRdBtn.setActionCommand("Stop");
+            
+            ButtonGroup confirmBtnGroup = new ButtonGroup();
+            confirmBtnGroup.add(yesRdBtn);
+            confirmBtnGroup.add(noRdBtn);
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.add(yesRdBtn);
+            buttonPanel.add(noRdBtn);
+            
+            panel.add(warning, BorderLayout.CENTER);
+            panel.add(buttonPanel, BorderLayout.SOUTH);
+            
+            JOptionPane.showMessageDialog(null, panel);
+            
+            String deleteResponse = confirmBtnGroup.getSelection().getActionCommand();
+            
+            displayPane.append("response: " + deleteResponse);
+            
+            switch (deleteResponse) {
+                case "Delete":
+                    displayPane.append("Delete");
+                    JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "Stop":
+                    displayPane.append("Nope");
+                    JOptionPane.showMessageDialog(null, "List not deleted", "No Action Taken", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+            }
+            
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to delete.", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
         
     }//GEN-LAST:event_deleteBtnActionPerformed
 

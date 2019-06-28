@@ -340,4 +340,31 @@ public class RecipeUtility {
         return success;
     }
     
+    /**
+     * Author: Amanda Kok
+     * Gathers all default recipes, that are associated with all users, and
+     * returns them.
+     * @return Returns a list of all default recipes
+     */
+    public static List<Recipe> gatherDefaultRecipes() {
+        List<Recipe> defaultRecipes = null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        
+        try {
+            session.beginTransaction();
+            String query = "FROM Recipe WHERE user_id = 19";
+            defaultRecipes = session.createQuery(query).list();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return defaultRecipes;
+    }
+    
 }
