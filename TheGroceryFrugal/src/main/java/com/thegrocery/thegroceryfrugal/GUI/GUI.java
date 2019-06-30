@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -325,7 +326,7 @@ public class GUI extends javax.swing.JFrame {
         } else if (GroceryListRadBtn.isSelected()) {
             displayPane.setText(null);
             
-            String[] split = selectedNode.split(" ");
+            String[] split = selectedNodeString.split(" ");
             String listID = split[split.length -1];
             List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
             
@@ -349,6 +350,23 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
+        if (RecipeRadBtn.isSelected()) {
+            ModifyRecipe modifyRecipe = new ModifyRecipe();
+            modifyRecipe.setVisible(true);
+            modifyRecipe.setAutoRequestFocus(true);
+            modifyRecipe.setLocationRelativeTo(null);
+            modifyRecipe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        }else if (GroceryListRadBtn.isSelected()) {
+            ModifyGroceryList modifyList = new ModifyGroceryList();
+            modifyList.setVisible(true);
+            modifyList.setAutoRequestFocus(true);
+            modifyList.setLocationRelativeTo(null);
+            modifyList.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to modify.", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
         
     }//GEN-LAST:event_modifyBtnActionPerformed
 
@@ -360,9 +378,8 @@ public class GUI extends javax.swing.JFrame {
         if (RecipeRadBtn.isSelected()) {
             
         } else if (GroceryListRadBtn.isSelected()) {
-            String[] split = selectedNode.split(" ");
+            String[] split = selectedNodeString.split(" ");
             String listID = split[split.length -1];
-            List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
             
             StringBuilder listTitle = new StringBuilder();
             for (int i = 0; i < split.length-1; i++) {
@@ -390,20 +407,24 @@ public class GUI extends javax.swing.JFrame {
             
             String deleteResponse = confirmBtnGroup.getSelection().getActionCommand();
             
-            displayPane.append("response: " + deleteResponse);
-            
             switch (deleteResponse) {
                 case "Delete":
-                    displayPane.append("Delete");
-                    JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted", JOptionPane.INFORMATION_MESSAGE);
+                    boolean success = GroceryListUtility.deleteGroceryList(Long.parseLong(listID));
+                    
+                    if (success) {
+                        JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        DefaultTreeModel treeModel = (DefaultTreeModel)treeDisplay.getModel();
+                        treeModel.removeNodeFromParent(selectedNode);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Unknown error deleting " + listTitle.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     break;
                 case "Stop":
                     displayPane.append("Nope");
                     JOptionPane.showMessageDialog(null, "List not deleted", "No Action Taken", JOptionPane.INFORMATION_MESSAGE);
                     break;
-            }
-            
-            
+            }     
         } else {
             JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to delete.", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -466,7 +487,8 @@ public class GUI extends javax.swing.JFrame {
      */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
-        selectedNode = treeDisplay.getLastSelectedPathComponent().toString();
+        selectedNodeString = treeDisplay.getLastSelectedPathComponent().toString();
+        selectedNode = (DefaultMutableTreeNode)treeDisplay.getLastSelectedPathComponent();
         
     }//GEN-LAST:event_treeDisplayValueChanged
 
@@ -526,8 +548,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextArea searchTextArea;
     private javax.swing.JTree treeDisplay;
     private Users user;
-    private DefaultMutableTreeNode recipes, groceryLists;
-    private String selectedNode;
+    private DefaultMutableTreeNode recipes, groceryLists, selectedNode;
+    private String selectedNodeString;
     // End of variables declaration//GEN-END:variables
     
 }//end GUI class
