@@ -7,6 +7,7 @@
  */
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Users;
@@ -26,6 +27,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.tree.DefaultMutableTreeNode;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class GUI extends javax.swing.JFrame {
 
@@ -147,7 +150,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Search Existing Files:");
 
         dropdownList.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        dropdownList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name", "Ingredient" }));
+        dropdownList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Recipe", "Ingredient", "Grocery List" }));
         dropdownList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dropdownListActionPerformed(evt);
@@ -428,8 +431,17 @@ public class GUI extends javax.swing.JFrame {
                 Ingredients ingredient = (Ingredients) iter.next();
                 displayPane.append(ingredient.toString());
             }
+        } else if (dropdownList.getSelectedItem() == "Recipe") {
+            List<Recipe> recipes = RecipeUtility.findRecipeByName(searchTextArea.getText());
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+            for (Iterator iter = recipes.iterator(); iter.hasNext();){
+                Recipe recipe = (Recipe)iter.next();
+                displayPane.append(recipe.toString(tx, session));
+            }
+        } else if (dropdownList.getSelectedItem() == "Grocery List") {
+            
         }
-        System.out.println(dropdownList.getSelectedItem());
     }//GEN-LAST:event_searchBtnActionPerformed
 
     /**
