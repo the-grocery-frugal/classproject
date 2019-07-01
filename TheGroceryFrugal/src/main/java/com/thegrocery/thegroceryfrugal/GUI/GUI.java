@@ -93,12 +93,15 @@ public class GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Overview");
+        setBackground(new java.awt.Color(62, 69, 81));
+        setForeground(new java.awt.Color(62, 69, 81));
 
         displayPane.setColumns(20);
         displayPane.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         displayPane.setRows(5);
         jScrollPane3.setViewportView(displayPane);
 
+        modifyBtn.setBackground(new java.awt.Color(186, 207, 242));
         modifyBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         modifyBtn.setText("Modify Existing");
         modifyBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -108,6 +111,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        newBtn.setBackground(new java.awt.Color(186, 207, 242));
         newBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         newBtn.setText("New");
         newBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -117,6 +121,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        deleteBtn.setBackground(new java.awt.Color(186, 207, 242));
         deleteBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         deleteBtn.setText("Delete");
         deleteBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -126,6 +131,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        logoutBtn.setBackground(new java.awt.Color(186, 207, 242));
         logoutBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         logoutBtn.setText("Log Out");
         logoutBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -138,6 +144,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Selection Display:");
 
+        openBtn.setBackground(new java.awt.Color(186, 207, 242));
         openBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         openBtn.setText("Open Existing");
         openBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -165,6 +172,7 @@ public class GUI extends javax.swing.JFrame {
         searchTextArea.setRows(5);
         jScrollPane1.setViewportView(searchTextArea);
 
+        searchBtn.setBackground(new java.awt.Color(186, 207, 242));
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         searchBtn.setText("Search!");
         searchBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
