@@ -69,6 +69,7 @@ public class NewGroceryList extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Pull ingredients from recipe");
 
+        newListBtn.setBackground(new java.awt.Color(186, 207, 242));
         newListBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         newListBtn.setText("Save List");
         newListBtn.setToolTipText("");
@@ -90,6 +91,7 @@ public class NewGroceryList extends javax.swing.JFrame {
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
+        jButton1.setBackground(new java.awt.Color(186, 207, 242));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jButton1.setText("Search");
         jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
