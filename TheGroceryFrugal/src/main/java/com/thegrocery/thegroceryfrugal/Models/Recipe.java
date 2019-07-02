@@ -156,5 +156,10 @@ public class Recipe  implements java.io.Serializable {
         recipeIngredientses.remove(recipeIngredients);
         recipeIngredients.setRecipe(null);
     }
+    
+    @Override
+    public String toString() {
+    	return name;
+    }
 
 }

@@ -179,6 +179,9 @@ public class NewRecipe extends javax.swing.JFrame {
 
         // Create the new recipe
         // Need to add checks to see if an ingredient by that name exists
+        if (this.gui != null) {
+        	this.gui.loadRecipes();
+        }
         
     }//end doneBtnActionPerformed   
     
@@ -203,6 +206,8 @@ public class NewRecipe extends javax.swing.JFrame {
             if (stepsPne.getText() != null){
                 RecipeUtility.addSteps(recipeTitle.getText(), stepsPne.getText());
             }
+            
+            JOptionPane.showMessageDialog(this, "The recipe is created successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
             
         } else {
             // Add error message about creating a recipe that already exists
@@ -263,6 +268,10 @@ public class NewRecipe extends javax.swing.JFrame {
     private javax.swing.JTextPane stepsPne;
     private Users user;
     private Recipe recipe;
+    private GUI gui;
     // End of variables declaration                   
+	public void setGUIParent(GUI gui) {
+		this.gui = gui;
+	}
 }
 

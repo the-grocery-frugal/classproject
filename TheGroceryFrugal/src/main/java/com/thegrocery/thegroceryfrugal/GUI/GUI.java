@@ -9,9 +9,11 @@ package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import java.util.Iterator;
@@ -25,8 +27,17 @@ public class GUI extends javax.swing.JFrame {
     public GUI(Users user) {
         this.user = user;
         initComponents();
-        
+        loadRecipes();
     }
+    
+	protected void loadRecipes() {
+		recipes.removeAllChildren();
+		List<Recipe> receiptElements = RecipeUtility.listAllRecipes();
+		for (Recipe rep : receiptElements) {
+			recipes.add(new DefaultMutableTreeNode(rep));
+		}
+
+	}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -270,6 +281,7 @@ public class GUI extends javax.swing.JFrame {
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
         if(RecipeRadBtn.isSelected()){
             NewRecipe nr = new NewRecipe(user);
+            nr.setGUIParent(this);
             nr.setVisible(true);
             nr.setAutoRequestFocus(true);
             nr.setLocationRelativeTo(null);
@@ -340,7 +352,33 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        
+		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
+		if (selectedNode == null) {
+			return;
+		}
+		Object selectedObject = selectedNode.getUserObject();
+		if (selectedObject instanceof Recipe) {
+			Recipe recipe = (Recipe) selectedObject;
+			if (recipe.getUser() != user) {
+				JOptionPane.showMessageDialog(this,
+						String.format("Cannot delete a recipe belongs to user :%s", recipe.getUser().getUsername()));
+				return;
+			}
+			int result = JOptionPane.showConfirmDialog(this,
+					String.format("Do you want to delete the receipt %s", recipe.getName()));
+			if (result != JOptionPane.YES_OPTION) {
+				return;
+			}
+			try {
+				RecipeUtility.deleteRecipe(recipe, user);
+				JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
+				loadRecipes();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted unsuccesfully, error: %s",
+						recipe.getName(), ex.getMessage()));
+			}
+
+		}
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     /**
