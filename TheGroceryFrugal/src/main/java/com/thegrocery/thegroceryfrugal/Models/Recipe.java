@@ -165,8 +165,7 @@ public class Recipe  implements java.io.Serializable {
         recipeIngredients.setRecipe(null);
     }
     
-    public String toString(Transaction tx, Session session){
-        
+    public String toString(Transaction tx, Session session) {      
         Recipe recipe = (Recipe) session.createQuery("SELECT R FROM Recipe R JOIN FETCH R.recipeIngredientses RI WHERE RI.recipe = " + this.getId()).uniqueResult();
         Set<RecipeIngredients> recipeIngredients = recipe.getRecipeIngredientses();
         String string = recipe.getName() + "\n";
@@ -180,6 +179,10 @@ public class Recipe  implements java.io.Serializable {
         string += recipe.getSteps();
         string += "\n-----------------------------------------------------------\n";
         return string;
+    }
+    @Override
+    public String toString() {
+    	return name;
     }
 
 }

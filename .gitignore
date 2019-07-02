@@ -2,3 +2,17 @@
 /The Grocery Frugal/build/
 /mavenproject1/TheGroceryFrugal/target/
 desktop.ini
+.classpath
+.project
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.m2e.core.prefs
+target/classes/META-INF/MANIFEST.MF
+target/classes/META-INF/maven/com.the-grocery/TheGroceryFrugal/pom.properties
+target/classes/META-INF/maven/com.the-grocery/TheGroceryFrugal/pom.xml
+TheGroceryFrugal/.classpath
+TheGroceryFrugal/.gitignore
+TheGroceryFrugal/.project
+TheGroceryFrugal/.settings/org.eclipse.core.resources.prefs
+TheGroceryFrugal/.settings/org.eclipse.jdt.core.prefs
+TheGroceryFrugal/.settings/org.eclipse.m2e.core.prefs
