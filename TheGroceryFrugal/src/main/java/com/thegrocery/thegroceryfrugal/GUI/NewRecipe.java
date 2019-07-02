@@ -197,14 +197,14 @@ public class NewRecipe extends javax.swing.JFrame {
             // ERROR CHECKING FOR BLANK RECIPE
             JOptionPane.showMessageDialog(null, "ERROR - Title can't be blank", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (RecipeUtility.findRecipeByName(recipeTitle.getText()).isEmpty()) {
-            Integer recipeID = RecipeUtility.addRecipe(recipeTitle.getText(), descriptionPne.getText(), stepsPne.getText());
+            Integer recipeID = RecipeUtility.addRecipe(recipeTitle.getText(), descriptionPne.getText(), stepsPne.getText(), user);
             this.recipe = RecipeUtility.getRecipe(recipeTitle.getText());
             if (descriptionPne.getText() != null){
-                RecipeUtility.addDescription(recipeTitle.getText(), descriptionPne.getText());
+                RecipeUtility.changeDescription(user, recipeTitle.getText(), descriptionPne.getText());
             }
 
             if (stepsPne.getText() != null){
-                RecipeUtility.addSteps(recipeTitle.getText(), stepsPne.getText());
+                RecipeUtility.changeSteps(user, recipeTitle.getText(), stepsPne.getText());
             }
             
             JOptionPane.showMessageDialog(this, "The recipe is created successfully", "Information", JOptionPane.INFORMATION_MESSAGE);

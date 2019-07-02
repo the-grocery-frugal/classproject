@@ -57,6 +57,49 @@ public class GroceryListUtility {
         return groceryListID;    
     }
     
+    public static boolean changeName(GroceryList groceryList, String new_name){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        boolean success = false;
+        
+        try {
+            tx = session.beginTransaction();
+            groceryList.setTitle(new_name);
+            success = true;
+            tx.commit();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally{
+            session.close();
+        }
+        
+        return success;
+    }
+    
+    public static boolean changeName(Users user, String old_name, String new_name){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        GroceryList groceryList = null;
+        boolean success = false;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM GroceryList where lower(name) = lower('" + old_name + "') AND user_id =" + user.getId();
+            groceryList = (GroceryList)session.createQuery(query).uniqueResult();
+            groceryList.setTitle(new_name);
+            success = true;
+            tx.commit();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally{
+            session.close();
+        }
+        
+        return success;
+    }
+    
     /**
      * Author: Amanda Kok
      * Gathers all grocery lists stored with user id and returns them
@@ -87,8 +130,8 @@ public class GroceryListUtility {
     /**
      * Author: Amanda Kok
      * Gathers all ingredients related to recipe id parameter
-     * @param listID recipe id
-     * @return Returns a list of all ingredients associated with a recipe id
+     * @param listID grocery list id
+     * @return Returns a list of all ingredients associated with a grocery list id
      */
     public static List<Ingredients> gatherListIngredients(long listID) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -117,5 +160,40 @@ public class GroceryListUtility {
         List<Ingredients> ingredients = IngredientUtility.findIngredientsByRecipeName(recipe.getName());
         
         return ingredients;
+    }
+    
+    /**
+     * Author: Amanda Kok
+     * Deletes parameter list from database
+     * @param listID id of GroceryList object to be removed from database
+     * @return Returns true if successfully deleted list, false if not
+     */
+    public static boolean deleteGroceryList(long listID) {
+     boolean success = false;
+     GroceryList list = null;
+     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+     Transaction tx = null;
+     
+     try {
+         tx = session.beginTransaction();
+        
+        String query = "FROM GroceryList WHERE id = " + listID;
+        list = (GroceryList)session.createQuery(query).uniqueResult();
+        
+        list.setRecipe_id(null);
+        list.setUser_id(null);
+        
+        session.delete(list);
+        tx.commit();
+        success = true;
+     } catch (HibernateException e) {
+         if (tx != null) {
+             tx.rollback();
+         }
+         e.printStackTrace();
+     } finally {
+         session.close();
+     }
+     return success;
     }
 }

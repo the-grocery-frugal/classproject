@@ -7,20 +7,31 @@
  */
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class GUI extends javax.swing.JFrame {
 
@@ -77,6 +88,13 @@ public class GUI extends javax.swing.JFrame {
             groceryLists.add(listNode);
         }
         
+        List<Recipe> defaultRecipes = RecipeUtility.gatherDefaultRecipes();
+        for (Recipe recipe : defaultRecipes) {
+            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(recipe.getName());
+            recipes.add(listNode);
+        }
+        
+        
         root.add(recipes);
         root.add(groceryLists);
         
@@ -86,12 +104,15 @@ public class GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Overview");
+        setBackground(new java.awt.Color(62, 69, 81));
+        setForeground(new java.awt.Color(62, 69, 81));
 
         displayPane.setColumns(20);
         displayPane.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         displayPane.setRows(5);
         jScrollPane3.setViewportView(displayPane);
 
+        modifyBtn.setBackground(new java.awt.Color(186, 207, 242));
         modifyBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         modifyBtn.setText("Modify Existing");
         modifyBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -101,6 +122,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        newBtn.setBackground(new java.awt.Color(186, 207, 242));
         newBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         newBtn.setText("New");
         newBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -110,6 +132,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        deleteBtn.setBackground(new java.awt.Color(186, 207, 242));
         deleteBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         deleteBtn.setText("Delete");
         deleteBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -119,6 +142,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        logoutBtn.setBackground(new java.awt.Color(186, 207, 242));
         logoutBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         logoutBtn.setText("Log Out");
         logoutBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -131,6 +155,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Selection Display:");
 
+        openBtn.setBackground(new java.awt.Color(186, 207, 242));
         openBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         openBtn.setText("Open Existing");
         openBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -144,7 +169,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Search Existing Files:");
 
         dropdownList.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        dropdownList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name", "Ingredient" }));
+        dropdownList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Recipe", "Ingredient", "Grocery List" }));
         dropdownList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dropdownListActionPerformed(evt);
@@ -158,6 +183,7 @@ public class GUI extends javax.swing.JFrame {
         searchTextArea.setRows(5);
         jScrollPane1.setViewportView(searchTextArea);
 
+        searchBtn.setBackground(new java.awt.Color(186, 207, 242));
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         searchBtn.setText("Search!");
         searchBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -320,7 +346,7 @@ public class GUI extends javax.swing.JFrame {
         } else if (GroceryListRadBtn.isSelected()) {
             displayPane.setText(null);
             
-            String[] split = selectedNode.split(" ");
+            String[] split = selectedNodeString.split(" ");
             String listID = split[split.length -1];
             List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
             
@@ -344,6 +370,23 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
+        if (RecipeRadBtn.isSelected()) {
+            ModifyRecipe modifyRecipe = new ModifyRecipe();
+            modifyRecipe.setVisible(true);
+            modifyRecipe.setAutoRequestFocus(true);
+            modifyRecipe.setLocationRelativeTo(null);
+            modifyRecipe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        }else if (GroceryListRadBtn.isSelected()) {
+            ModifyGroceryList modifyList = new ModifyGroceryList();
+            modifyList.setVisible(true);
+            modifyList.setAutoRequestFocus(true);
+            modifyList.setLocationRelativeTo(null);
+            modifyList.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to modify.", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
         
     }//GEN-LAST:event_modifyBtnActionPerformed
 
@@ -352,33 +395,84 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
-		if (selectedNode == null) {
-			return;
-		}
-		Object selectedObject = selectedNode.getUserObject();
-		if (selectedObject instanceof Recipe) {
-			Recipe recipe = (Recipe) selectedObject;
-			if (recipe.getUser() != user) {
-				JOptionPane.showMessageDialog(this,
-						String.format("Cannot delete a recipe belongs to user :%s", recipe.getUser().getUsername()));
-				return;
-			}
-			int result = JOptionPane.showConfirmDialog(this,
-					String.format("Do you want to delete the receipt %s", recipe.getName()));
-			if (result != JOptionPane.YES_OPTION) {
-				return;
-			}
-			try {
-				RecipeUtility.deleteRecipe(recipe, user);
-				JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
-				loadRecipes();
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted unsuccesfully, error: %s",
-						recipe.getName(), ex.getMessage()));
-			}
+        if (RecipeRadBtn.isSelected()) {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
+            if (selectedNode == null) {
+              return;
+            }
+            Object selectedObject = selectedNode.getUserObject();
+            if (selectedObject instanceof Recipe) {
+              Recipe recipe = (Recipe) selectedObject;
+              if (recipe.getUser() != user) {
+                JOptionPane.showMessageDialog(this,
+                    String.format("Cannot delete a recipe belongs to user :%s", recipe.getUser().getUsername()));
+                return;
+              }
+              int result = JOptionPane.showConfirmDialog(this,
+                  String.format("Do you want to delete the receipt %s", recipe.getName()));
+              if (result != JOptionPane.YES_OPTION) {
+                return;
+              }
+              try {
+                RecipeUtility.deleteRecipe(recipe, user);
+                JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
+                loadRecipes();
+              } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted unsuccesfully, error: %s",
+                    recipe.getName(), ex.getMessage()));
+              }
+        } else if (GroceryListRadBtn.isSelected()) {
+            String[] split = selectedNodeString.split(" ");
+            String listID = split[split.length -1];
+            
+            StringBuilder listTitle = new StringBuilder();
+            for (int i = 0; i < split.length-1; i++) {
+                listTitle.append(split[i]);
+            }
+            
+            final JPanel panel = new JPanel(new BorderLayout());
+            JLabel warning = new JLabel("This will permanantly delete Grocery List " + listTitle.toString() + ".  Do you wish to continue?");
+            JRadioButton yesRdBtn = new JRadioButton("Confirm Delete");
+            yesRdBtn.setActionCommand("Delete");
+            JRadioButton noRdBtn = new JRadioButton("Do Not Delete");
+            noRdBtn.setActionCommand("Stop");
+            
+            ButtonGroup confirmBtnGroup = new ButtonGroup();
+            confirmBtnGroup.add(yesRdBtn);
+            confirmBtnGroup.add(noRdBtn);
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.add(yesRdBtn);
+            buttonPanel.add(noRdBtn);
+            
+            panel.add(warning, BorderLayout.CENTER);
+            panel.add(buttonPanel, BorderLayout.SOUTH);
+            
+            JOptionPane.showMessageDialog(null, panel);
+            
+            String deleteResponse = confirmBtnGroup.getSelection().getActionCommand();
+            
+            switch (deleteResponse) {
+                case "Delete":
+                    boolean success = GroceryListUtility.deleteGroceryList(Long.parseLong(listID));
+                    
+                    if (success) {
+                        JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        DefaultTreeModel treeModel = (DefaultTreeModel)treeDisplay.getModel();
+                        treeModel.removeNodeFromParent(selectedNode);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Unknown error deleting " + listTitle.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    break;
+                case "Stop":
+                    displayPane.append("Nope");
+                    JOptionPane.showMessageDialog(null, "List not deleted", "No Action Taken", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+            }     
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to delete.", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
 
-		}
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     /**
@@ -402,8 +496,17 @@ public class GUI extends javax.swing.JFrame {
                 Ingredients ingredient = (Ingredients) iter.next();
                 displayPane.append(ingredient.toString());
             }
+        } else if (dropdownList.getSelectedItem() == "Recipe") {
+            List<Recipe> recipes = RecipeUtility.findRecipeByName(searchTextArea.getText());
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = session.beginTransaction();
+            for (Iterator iter = recipes.iterator(); iter.hasNext();){
+                Recipe recipe = (Recipe)iter.next();
+                displayPane.append(recipe.toString(tx, session));
+            }
+        } else if (dropdownList.getSelectedItem() == "Grocery List") {
+            
         }
-        System.out.println(dropdownList.getSelectedItem());
     }//GEN-LAST:event_searchBtnActionPerformed
 
     /**
@@ -428,7 +531,8 @@ public class GUI extends javax.swing.JFrame {
      */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
-        selectedNode = treeDisplay.getLastSelectedPathComponent().toString();
+        selectedNodeString = treeDisplay.getLastSelectedPathComponent().toString();
+        selectedNode = (DefaultMutableTreeNode)treeDisplay.getLastSelectedPathComponent();
         
     }//GEN-LAST:event_treeDisplayValueChanged
 
@@ -488,8 +592,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextArea searchTextArea;
     private javax.swing.JTree treeDisplay;
     private Users user;
-    private DefaultMutableTreeNode recipes, groceryLists;
-    private String selectedNode;
+    private DefaultMutableTreeNode recipes, groceryLists, selectedNode;
+    private String selectedNodeString;
     // End of variables declaration//GEN-END:variables
     
 }//end GUI class

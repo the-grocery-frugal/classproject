@@ -40,6 +40,8 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login Screen");
         setAlwaysOnTop(true);
+        setBackground(new java.awt.Color(0, 51, 153));
+        setForeground(new java.awt.Color(0, 51, 153));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel1.setText("Username:");
@@ -62,6 +64,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        loginBtn.setBackground(new java.awt.Color(186, 207, 242));
         loginBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         loginBtn.setText("Log In!");
         loginBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -73,6 +76,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setText("Or");
 
+        newProfileBtn.setBackground(new java.awt.Color(186, 207, 242));
         newProfileBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         newProfileBtn.setText("Create New Profile");
         newProfileBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
