@@ -342,19 +342,19 @@ public class RecipeUtility {
     
     /**
      * Author: Amanda Kok
-     * Gathers all default recipes, that are associated with all users, and
-     * returns them.
-     * @return Returns a list of all default recipes
+     * Gathers all recipes for userId parameter and
+     * returns them.  If userId is 19, it returns all default recipes
+     * @return Returns a list of all recipes associated with userId
      */
-    public static List<Recipe> gatherDefaultRecipes() {
-        List<Recipe> defaultRecipes = null;
+    public static List<Recipe> gatherRecipes(long id) {
+        List<Recipe> gatheredRecipes = null;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         
         try {
             session.beginTransaction();
-            String query = "FROM Recipe WHERE user_id = 19";
-            defaultRecipes = session.createQuery(query).list();
+            String query = "FROM Recipe WHERE user_id = " + id;
+            gatheredRecipes = session.createQuery(query).list();
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
@@ -364,7 +364,7 @@ public class RecipeUtility {
             session.close();
         }
         
-        return defaultRecipes;
+        return gatheredRecipes;
     }
     
 }

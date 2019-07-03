@@ -12,11 +12,15 @@ import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class NewRecipe extends javax.swing.JFrame {
 
-    public NewRecipe(Users user) {
+    public NewRecipe(Users user, DefaultMutableTreeNode node, JTree tree) {
         this.user = user;
+        this.node = node;
+        this.tree = tree;
         initComponents();
     }
 
@@ -179,9 +183,12 @@ public class NewRecipe extends javax.swing.JFrame {
 
         // Create the new recipe
         // Need to add checks to see if an ingredient by that name exists
-        if (this.gui != null) {
-        	this.gui.loadRecipes();
-        }
+        /**
+         * See notes by declaration of this method in GUI.java
+         */
+//        if (this.gui != null) {
+//        	this.gui.loadRecipes();
+//        }
         
     }//end doneBtnActionPerformed   
     
@@ -205,6 +212,13 @@ public class NewRecipe extends javax.swing.JFrame {
 
             if (stepsPne.getText() != null){
                 RecipeUtility.changeSteps(user, recipeTitle.getText(), stepsPne.getText());
+            }
+            
+            if (recipeID != null) {
+               
+               DefaultMutableTreeNode recipe = new DefaultMutableTreeNode(recipeTitle.getText());
+               node.add(recipe);
+               tree.updateUI();
             }
             
             JOptionPane.showMessageDialog(this, "The recipe is created successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -248,7 +262,7 @@ public class NewRecipe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewRecipe(UserUtility.getUser("default")).setVisible(true);
+                new NewRecipe(UserUtility.getUser("default"), new DefaultMutableTreeNode(), new JTree()).setVisible(true);
             }
         });
     }
@@ -269,6 +283,8 @@ public class NewRecipe extends javax.swing.JFrame {
     private Users user;
     private Recipe recipe;
     private GUI gui;
+    private DefaultMutableTreeNode node;
+    private JTree tree;
     // End of variables declaration                   
 	public void setGUIParent(GUI gui) {
 		this.gui = gui;
