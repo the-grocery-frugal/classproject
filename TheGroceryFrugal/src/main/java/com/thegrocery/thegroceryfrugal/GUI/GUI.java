@@ -1,9 +1,7 @@
 /**
- * File: GUI.java
- * Author: Milagros Sasieta
- * Date: 6/16/2019
- * Purpose: Create the UI for the main profile overview and methods that control
- * functionality of this window.
+ * File: GUI.java Author: Milagros Sasieta Date: 6/16/2019 Purpose: Create the
+ * UI for the main profile overview and methods that control functionality of
+ * this window.
  */
 package com.thegrocery.thegroceryfrugal.GUI;
 
@@ -38,17 +36,22 @@ public class GUI extends javax.swing.JFrame {
     public GUI(Users user) {
         this.user = user;
         initComponents();
-        loadRecipes();
+//        loadRecipes();
     }
-    
-	protected void loadRecipes() {
-		recipes.removeAllChildren();
-		List<Recipe> receiptElements = RecipeUtility.listAllRecipes();
-		for (Recipe rep : receiptElements) {
-			recipes.add(new DefaultMutableTreeNode(rep));
-		}
 
-	}
+   /**
+    * This is causing issues with the recipe display.  All recipes should not be
+    * added to the JTree, only default recipes belonging to userID 19 and recipes
+    * belonging to the individual user should be added.
+    */
+//    protected void loadRecipes() {
+//        recipes.removeAllChildren();
+//        List<Recipe> receiptElements = RecipeUtility.listAllRecipes();
+//        for (Recipe rep : receiptElements) {
+//            recipes.add(new DefaultMutableTreeNode(rep));
+//        }
+//
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,28 +79,33 @@ public class GUI extends javax.swing.JFrame {
         GroceryListRadBtn = new javax.swing.JRadioButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jScrollPane2 = new javax.swing.JScrollPane();
-        
+
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Grocery Frugal");
         recipes = new DefaultMutableTreeNode("Recipes");
         groceryLists = new DefaultMutableTreeNode("Grocery Lists");
-        
+
         long userId = user.getId();
         List<GroceryList> userLists = GroceryListUtility.gatherUserGroceryLists(userId);
         for (GroceryList list : userLists) {
             DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle() + " " + list.getId());
             groceryLists.add(listNode);
         }
-        
-        List<Recipe> defaultRecipes = RecipeUtility.gatherDefaultRecipes();
+
+        List<Recipe> defaultRecipes = RecipeUtility.gatherRecipes(19);
         for (Recipe recipe : defaultRecipes) {
             DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(recipe.getName());
             recipes.add(listNode);
         }
         
-        
+        List<Recipe> userRecipes = RecipeUtility.gatherRecipes(userId);
+        for (Recipe recipe : userRecipes) {
+            DefaultMutableTreeNode recipeNode = new DefaultMutableTreeNode(recipe.getName());
+            recipes.add(recipeNode);
+        }
+
         root.add(recipes);
         root.add(groceryLists);
-        
+
         treeDisplay = new javax.swing.JTree(root);
         treeDisplay.setShowsRootHandles(true);
         treeDisplay.setRootVisible(false);
@@ -169,7 +177,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Search Existing Files:");
 
         dropdownList.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        dropdownList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Recipe", "Ingredient", "Grocery List" }));
+        dropdownList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Recipe", "Ingredient", "Grocery List"}));
         dropdownList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dropdownListActionPerformed(evt);
@@ -206,7 +214,7 @@ public class GUI extends javax.swing.JFrame {
                 GroceryListRadBtnActionPerformed(evt);
             }
         });
-        
+
         ButtonGroup radioGroup = new ButtonGroup();
         radioGroup.add(RecipeRadBtn);
         radioGroup.add(GroceryListRadBtn);
@@ -221,98 +229,99 @@ public class GUI extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(8, 8, 8)
-                                .addComponent(dropdownList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchBtn)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(208, 208, 208)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(GroceryListRadBtn)
-                    .addComponent(newBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RecipeRadBtn))
-                .addGap(40, 40, 40))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(jLabel1)
+                                                        .addGap(8, 8, 8)
+                                                        .addComponent(dropdownList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(searchBtn)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(208, 208, 208)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(GroceryListRadBtn)
+                                .addComponent(newBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(RecipeRadBtn))
+                        .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(191, 191, 191)
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1)
-                                .addComponent(dropdownList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(searchBtn)
-                                .addComponent(GroceryListRadBtn)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(RecipeRadBtn)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(newBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(191, 191, 191)
+                                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(24, 24, 24)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLabel1)
+                                                        .addComponent(dropdownList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(searchBtn)
+                                                        .addComponent(GroceryListRadBtn)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addGap(12, 12, 12)
+                                                        .addComponent(jLabel2))
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(RecipeRadBtn)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jScrollPane2)
+                                                .addComponent(jScrollPane3)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(newBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Launches window for creating a new recipe or grocery list, depending on 
+     * Launches window for creating a new recipe or grocery list, depending on
      * radio button selection.
+     *
      * @param evt Action event initiated by user
      */
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
-        if(RecipeRadBtn.isSelected()){
-            NewRecipe nr = new NewRecipe(user);
+        if (RecipeRadBtn.isSelected()) {
+            NewRecipe nr = new NewRecipe(user, recipes, treeDisplay);
             nr.setGUIParent(this);
             nr.setVisible(true);
             nr.setAutoRequestFocus(true);
             nr.setLocationRelativeTo(null);
             nr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        } else if(GroceryListRadBtn.isSelected()){
+        } else if (GroceryListRadBtn.isSelected()) {
             NewGroceryList ngl = new NewGroceryList(user, groceryLists, treeDisplay);
             ngl.setVisible(true);
             ngl.setAutoRequestFocus(true);
@@ -324,6 +333,7 @@ public class GUI extends javax.swing.JFrame {
     /**
      * Logs user out of their account and displays a confirmation window before
      * moving user back to main log in window.
+     *
      * @param evt Action event initiated by user
      */
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
@@ -335,28 +345,29 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     /**
-     * Author: Amanda Kok
-     * Displays recipe or grocery list selected from jtree in displayPane.
+     * Author: Amanda Kok Displays recipe or grocery list selected from jtree in
+     * displayPane.
+     *
      * @param evt Action event initiated by user
      */
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area 
         if (RecipeRadBtn.isSelected()) {
-            
+
         } else if (GroceryListRadBtn.isSelected()) {
             displayPane.setText(null);
-            
+
             String[] split = selectedNodeString.split(" ");
-            String listID = split[split.length -1];
+            String listID = split[split.length - 1];
             List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
-            
+
             StringBuilder listTitle = new StringBuilder();
-            for (int i = 0; i < split.length-1; i++) {
+            for (int i = 0; i < split.length - 1; i++) {
                 listTitle.append(split[i]);
             }
-            
+
             displayPane.append(listTitle.toString() + "\n");
-            
+
             for (Ingredients ingredient : listIngredients) {
                 displayPane.append("\n" + ingredient.getName());
             }
@@ -366,7 +377,9 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_openBtnActionPerformed
 
     /**
-     * Opens a grocery list or recipe for user to modify.  Saves changes to database.
+     * Opens a grocery list or recipe for user to modify. Saves changes to
+     * database.
+     *
      * @param evt Action event initiated by user
      */
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
@@ -376,123 +389,127 @@ public class GUI extends javax.swing.JFrame {
             modifyRecipe.setAutoRequestFocus(true);
             modifyRecipe.setLocationRelativeTo(null);
             modifyRecipe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-        }else if (GroceryListRadBtn.isSelected()) {
+
+        } else if (GroceryListRadBtn.isSelected()) {
             ModifyGroceryList modifyList = new ModifyGroceryList();
             modifyList.setVisible(true);
             modifyList.setAutoRequestFocus(true);
             modifyList.setLocationRelativeTo(null);
             modifyList.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to modify.", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_modifyBtnActionPerformed
 
     /**
      * Deletes selected grocery list or recipe from database.
+     *
      * @param evt Action event initiated by user
      */
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         if (RecipeRadBtn.isSelected()) {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
             if (selectedNode == null) {
-              return;
+                return;
             }
             Object selectedObject = selectedNode.getUserObject();
             if (selectedObject instanceof Recipe) {
-              Recipe recipe = (Recipe) selectedObject;
-              if (recipe.getUser() != user) {
-                JOptionPane.showMessageDialog(this,
-                    String.format("Cannot delete a recipe belongs to user :%s", recipe.getUser().getUsername()));
-                return;
-              }
-              int result = JOptionPane.showConfirmDialog(this,
-                  String.format("Do you want to delete the receipt %s", recipe.getName()));
-              if (result != JOptionPane.YES_OPTION) {
-                return;
-              }
-              try {
-                RecipeUtility.deleteRecipe(recipe, user);
-                JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
-                loadRecipes();
-              } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted unsuccesfully, error: %s",
-                    recipe.getName(), ex.getMessage()));
-              }
-        } else if (GroceryListRadBtn.isSelected()) {
-            String[] split = selectedNodeString.split(" ");
-            String listID = split[split.length -1];
-            
-            StringBuilder listTitle = new StringBuilder();
-            for (int i = 0; i < split.length-1; i++) {
-                listTitle.append(split[i]);
+                Recipe recipe = (Recipe) selectedObject;
+                if (recipe.getUser() != user) {
+                    JOptionPane.showMessageDialog(this,
+                            String.format("Cannot delete a recipe belongs to user :%s", recipe.getUser().getUsername()));
+                    return;
+                }
+                int result = JOptionPane.showConfirmDialog(this,
+                        String.format("Do you want to delete the receipt %s", recipe.getName()));
+                if (result != JOptionPane.YES_OPTION) {
+                    return;
+                }
+                try {
+                    RecipeUtility.deleteRecipe(recipe, user);
+                    JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
+//                    loadRecipes();          See note by declaration
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted unsuccesfully, error: %s",
+                            recipe.getName(), ex.getMessage()));
+                }
+            } else if (GroceryListRadBtn.isSelected()) {
+                String[] split = selectedNodeString.split(" ");
+                String listID = split[split.length - 1];
+
+                StringBuilder listTitle = new StringBuilder();
+                for (int i = 0; i < split.length - 1; i++) {
+                    listTitle.append(split[i]);
+                }
+
+                final JPanel panel = new JPanel(new BorderLayout());
+                JLabel warning = new JLabel("This will permanantly delete Grocery List " + listTitle.toString() + ".  Do you wish to continue?");
+                JRadioButton yesRdBtn = new JRadioButton("Confirm Delete");
+                yesRdBtn.setActionCommand("Delete");
+                JRadioButton noRdBtn = new JRadioButton("Do Not Delete");
+                noRdBtn.setActionCommand("Stop");
+
+                ButtonGroup confirmBtnGroup = new ButtonGroup();
+                confirmBtnGroup.add(yesRdBtn);
+                confirmBtnGroup.add(noRdBtn);
+                JPanel buttonPanel = new JPanel();
+                buttonPanel.add(yesRdBtn);
+                buttonPanel.add(noRdBtn);
+
+                panel.add(warning, BorderLayout.CENTER);
+                panel.add(buttonPanel, BorderLayout.SOUTH);
+
+                JOptionPane.showMessageDialog(null, panel);
+
+                String deleteResponse = confirmBtnGroup.getSelection().getActionCommand();
+
+                switch (deleteResponse) {
+                    case "Delete":
+                        boolean success = GroceryListUtility.deleteGroceryList(Long.parseLong(listID));
+
+                        if (success) {
+                            JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted", JOptionPane.INFORMATION_MESSAGE);
+
+                            DefaultTreeModel treeModel = (DefaultTreeModel) treeDisplay.getModel();
+                            treeModel.removeNodeFromParent(selectedNode);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Unknown error deleting " + listTitle.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    case "Stop":
+                        displayPane.append("Nope");
+                        JOptionPane.showMessageDialog(null, "List not deleted", "No Action Taken", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to delete.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
-            
-            final JPanel panel = new JPanel(new BorderLayout());
-            JLabel warning = new JLabel("This will permanantly delete Grocery List " + listTitle.toString() + ".  Do you wish to continue?");
-            JRadioButton yesRdBtn = new JRadioButton("Confirm Delete");
-            yesRdBtn.setActionCommand("Delete");
-            JRadioButton noRdBtn = new JRadioButton("Do Not Delete");
-            noRdBtn.setActionCommand("Stop");
-            
-            ButtonGroup confirmBtnGroup = new ButtonGroup();
-            confirmBtnGroup.add(yesRdBtn);
-            confirmBtnGroup.add(noRdBtn);
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.add(yesRdBtn);
-            buttonPanel.add(noRdBtn);
-            
-            panel.add(warning, BorderLayout.CENTER);
-            panel.add(buttonPanel, BorderLayout.SOUTH);
-            
-            JOptionPane.showMessageDialog(null, panel);
-            
-            String deleteResponse = confirmBtnGroup.getSelection().getActionCommand();
-            
-            switch (deleteResponse) {
-                case "Delete":
-                    boolean success = GroceryListUtility.deleteGroceryList(Long.parseLong(listID));
-                    
-                    if (success) {
-                        JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted", JOptionPane.INFORMATION_MESSAGE);
-                        
-                        DefaultTreeModel treeModel = (DefaultTreeModel)treeDisplay.getModel();
-                        treeModel.removeNodeFromParent(selectedNode);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Unknown error deleting " + listTitle.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    break;
-                case "Stop":
-                    displayPane.append("Nope");
-                    JOptionPane.showMessageDialog(null, "List not deleted", "No Action Taken", JOptionPane.INFORMATION_MESSAGE);
-                    break;
-            }     
-        } else {
-            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to delete.", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     /**
      * Controls whether user is searching by name or ingredient
+     *
      * @param evt Action event initiated by user
      */
     private void dropdownListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropdownListActionPerformed
-        
+
     }//GEN-LAST:event_dropdownListActionPerformed
 
     /**
-     * Searches recipes using text in searchTextArea.  Will search recipes either 
+     * Searches recipes using text in searchTextArea. Will search recipes either
      * by name or ingredient, depending on drop down selection.
+     *
      * @param evt Action event initiated by user
      */
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         //run the search
-        if(dropdownList.getSelectedItem() == "Ingredient"){
+        if (dropdownList.getSelectedItem() == "Ingredient") {
             List<Ingredients> ingredients = IngredientUtility.findIngredientsByName(searchTextArea.getText());
-            for (Iterator iter = ingredients.iterator(); iter.hasNext(); ) {
+            for (Iterator iter = ingredients.iterator(); iter.hasNext();) {
                 Ingredients ingredient = (Ingredients) iter.next();
                 displayPane.append(ingredient.toString());
             }
@@ -500,17 +517,18 @@ public class GUI extends javax.swing.JFrame {
             List<Recipe> recipes = RecipeUtility.findRecipeByName(searchTextArea.getText());
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
-            for (Iterator iter = recipes.iterator(); iter.hasNext();){
-                Recipe recipe = (Recipe)iter.next();
+            for (Iterator iter = recipes.iterator(); iter.hasNext();) {
+                Recipe recipe = (Recipe) iter.next();
                 displayPane.append(recipe.toString(tx, session));
             }
         } else if (dropdownList.getSelectedItem() == "Grocery List") {
-            
+
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     /**
      * Controls whether actions are taken on recipes.
+     *
      * @param evt Action event initiated by user
      */
     private void RecipeRadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecipeRadBtnActionPerformed
@@ -519,6 +537,7 @@ public class GUI extends javax.swing.JFrame {
 
     /**
      * Controls whether actions are taken on grocery lists.
+     *
      * @param evt Action event initiated by user
      */
     private void GroceryListRadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroceryListRadBtnActionPerformed
@@ -527,16 +546,16 @@ public class GUI extends javax.swing.JFrame {
 
     /**
      * Initiates and changes nodes in the jtree display
+     *
      * @param evt Action event initiated by user
      */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
         selectedNodeString = treeDisplay.getLastSelectedPathComponent().toString();
-        selectedNode = (DefaultMutableTreeNode)treeDisplay.getLastSelectedPathComponent();
-        
+        selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
+
     }//GEN-LAST:event_treeDisplayValueChanged
 
-  
     /**
      * @param args the command line arguments
      */
@@ -595,5 +614,5 @@ public class GUI extends javax.swing.JFrame {
     private DefaultMutableTreeNode recipes, groceryLists, selectedNode;
     private String selectedNodeString;
     // End of variables declaration//GEN-END:variables
-    
+
 }//end GUI class
