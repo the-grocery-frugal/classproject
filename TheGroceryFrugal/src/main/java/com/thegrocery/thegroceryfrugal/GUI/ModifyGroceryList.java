@@ -1,5 +1,8 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+
 /**
  *
  * @author Mila
@@ -271,7 +274,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModifyRecipe().setVisible(true);
+                new ModifyRecipe(RecipeUtility.getRecipe("default"), UserUtility.getUser("default")).setVisible(true);
             }
         });
     }

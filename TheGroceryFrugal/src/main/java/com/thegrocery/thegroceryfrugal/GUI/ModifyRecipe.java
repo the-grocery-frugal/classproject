@@ -5,6 +5,23 @@
  */
 package com.thegrocery.thegroceryfrugal.GUI;
 
+import com.thegrocery.thegroceryfrugal.HibernateUtil;
+import com.thegrocery.thegroceryfrugal.Models.Ingredients;
+import com.thegrocery.thegroceryfrugal.Models.Measurement;
+import com.thegrocery.thegroceryfrugal.Models.Recipe;
+import com.thegrocery.thegroceryfrugal.Models.RecipeIngredients;
+import com.thegrocery.thegroceryfrugal.Models.Users;
+import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
+import com.thegrocery.thegroceryfrugal.Utility.MeasurementUtility;
+import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JOptionPane;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 /**
  *
  * @author Mila
@@ -13,9 +30,22 @@ public class ModifyRecipe extends javax.swing.JFrame {
 
     /**
      * Creates new form ModifyGroceryList
+     * @param recipe
+     * @param user
      */
-    public ModifyRecipe() {
+    public ModifyRecipe(Recipe recipe, Users user) {
+        this.recipe = recipe;
+        this.user = user;
         initComponents();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        jTextArea1.setText(recipe.toString(tx, session));
+        String text = "Instructions:\n"
+                + "In the text field below, type the ingredient you would like to edit.\n"
+                + "If the ingredient is not currently in the recipe, type in the quantity and measurement type,\n"
+                + "and select add ingredient.\n";
+        JOptionPane.showMessageDialog(null, text, "Instructions", JOptionPane.PLAIN_MESSAGE);
+        tx.commit();
     }
 
     /**
@@ -105,9 +135,18 @@ public class ModifyRecipe extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel4.setText("Amount Type:");
         jLabel4.setToolTipText("");
+        
+        // CUSTOM CODE BY SHIMER FOR HANDLING QUANTITY TYPES
+        List<Measurement> measurements = MeasurementUtility.listAllMeasurements();
+        String[] types = new String[measurements.size()];
+        for (int i = 0; i < measurements.size(); i++) {
+            types[i] = measurements.get(i).getName();
+            
+        }
+        // END CUSTOM CODE
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cups", "Teaspoons", "Tablespoons", "Pounds", "Ounces", "Grams", "Fluid Ounces", "Other" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(types));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -218,6 +257,27 @@ public class ModifyRecipe extends javax.swing.JFrame {
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // search button for existing ingredients
+        //Ingredients ingredient = IngredientUtility.findIngredientsByName(searchField.getText());
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        
+        Recipe recipe = (Recipe) session.createQuery("SELECT R FROM Recipe R JOIN FETCH R.recipeIngredientses RI WHERE RI.recipe = " + this.recipe.getId()).uniqueResult();
+        Set<RecipeIngredients> recipeIngredients = recipe.getRecipeIngredientses();
+        boolean inRecipe = false;
+        for (Iterator iter = recipeIngredients.iterator(); iter.hasNext();){
+            RecipeIngredients RI = (RecipeIngredients)iter.next();
+            if (RI.getIngredients().getName() == null ? searchField.getText() == null : RI.getIngredients().getName().equals(searchField.getText())){
+                inRecipe = true;
+                quantityField.setText(RI.getQuantity().toString());
+                jComboBox1.setSelectedItem(RI.getMeasurement().getName());
+            }
+        }
+        
+        tx.commit();
+        if (inRecipe == false){
+            JOptionPane.showMessageDialog(null, "This recipe " + recipe.getName() + " does not have the ingredient " + searchField.getText() + ".", "Could not find Ingredient in recipe", JOptionPane.PLAIN_MESSAGE);
+        }
+        
     }                                         
 
     private void newIngredientBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                 
@@ -275,7 +335,7 @@ public class ModifyRecipe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModifyRecipe().setVisible(true);
+                new ModifyRecipe(RecipeUtility.getRecipe("Banana Boats"), UserUtility.getUser("system-user")).setVisible(true);
             }
         });
     }
@@ -297,5 +357,7 @@ public class ModifyRecipe extends javax.swing.JFrame {
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton updateBtn;
+    private Recipe recipe;
+    private Users user;
     // End of variables declaration                   
 }

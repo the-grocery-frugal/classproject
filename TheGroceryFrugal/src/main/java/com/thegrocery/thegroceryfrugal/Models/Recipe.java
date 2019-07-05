@@ -166,18 +166,35 @@ public class Recipe  implements java.io.Serializable {
     }
     
     public String toString(Transaction tx, Session session){
+        String string = "";
         
-        Recipe recipe = (Recipe) session.createQuery("SELECT R FROM Recipe R JOIN FETCH R.recipeIngredientses RI WHERE RI.recipe = " + this.getId()).uniqueResult();
-        Set<RecipeIngredients> recipeIngredients = recipe.getRecipeIngredientses();
-        String string = recipe.getName() + "\n";
-        string += "Creator: " + recipe.getUser().getUsername() + "\n\n";
-        string += "Ingredients: \n";
-        for (Iterator iter = recipeIngredients.iterator(); iter.hasNext();){
-            RecipeIngredients RI = (RecipeIngredients)iter.next();
-            string += RI.getQuantity() + " " + RI.getMeasurement().getName() + " " + RI.getIngredients().getName() + " " + RI.getDescription() + "\n";
+        string = this.getName() + "\n";
+        string += "Creator: " + this.getUser().getUsername() + "\n\n";
+        
+        try{
+            Recipe recipe = (Recipe) session.createQuery("SELECT R FROM Recipe R JOIN FETCH R.recipeIngredientses RI WHERE RI.recipe = " + this.getId()).uniqueResult();
+            Set<RecipeIngredients> recipeIngredients = recipe.getRecipeIngredientses();
+            string += "Ingredients: \n";
+            for (Iterator iter = recipeIngredients.iterator(); iter.hasNext();){
+                RecipeIngredients RI = (RecipeIngredients)iter.next();
+                if (RI.getDescription() == null || RI.getDescription() == "null"){
+                    string += RI.getQuantity() + " " + RI.getMeasurement().getName() + " " + RI.getIngredients().getName() + "\n";
+                } else {
+                    string += RI.getQuantity() + " " + RI.getMeasurement().getName() + " " + RI.getIngredients().getName() + " " + RI.getDescription() + "\n";
+                }
+                
+            }
+        } catch (NullPointerException ex){
+            string += "No Ingredients found for this recipe\n"; 
         }
+            
         string += "\nSteps: \n";
-        string += recipe.getSteps();
+        if (this.getSteps() == null || this.getSteps() == "null"){
+            string += "No steps found for this recipe\n";
+        } else {
+            string += this.getSteps();
+        }
+        
         string += "\n-----------------------------------------------------------\n";
         return string;
     }
