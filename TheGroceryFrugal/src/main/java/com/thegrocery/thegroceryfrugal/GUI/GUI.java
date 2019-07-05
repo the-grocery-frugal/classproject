@@ -18,6 +18,7 @@ import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import java.awt.BorderLayout;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -28,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -383,24 +385,38 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
-        if (RecipeRadBtn.isSelected()) {
-            ModifyRecipe modifyRecipe = new ModifyRecipe();
-            modifyRecipe.setVisible(true);
-            modifyRecipe.setAutoRequestFocus(true);
-            modifyRecipe.setLocationRelativeTo(null);
-            modifyRecipe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        } else if (GroceryListRadBtn.isSelected()) {
-            ModifyGroceryList modifyList = new ModifyGroceryList();
-            modifyList.setVisible(true);
-            modifyList.setAutoRequestFocus(true);
-            modifyList.setLocationRelativeTo(null);
-            modifyList.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+        TreePath[] paths = treeDisplay.getSelectionPaths();
+        
+        if (paths != null) {
+            try{
+                String type = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 2]).replaceAll("\\s+","").replaceAll("]", "");
+            
+                if ("Recipes".equals(type)){
+                    String recipe = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceFirst("\\s+","").replaceAll("]", "");
+                    ModifyRecipe mr = new ModifyRecipe(RecipeUtility.getRecipe(recipe), user);
+                    mr.setVisible(true);
+                    mr.setAutoRequestFocus(true);
+                    mr.setLocationRelativeTo(null);
+                    mr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    System.out.println(recipe);
+                } else if ("Grocery Lists".equals(type)){
+                    String grocery_list = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceAll("\\s+","").replaceAll("]", "");
+                    System.out.println(grocery_list);
+                }
+            } catch(IndexOutOfBoundsException ex){
+                System.out.println("MUST SELECT AN ACTUAL NODE");
+            }
+            
+        } else if (paths == null && RecipeRadBtn.isSelected()){
+            System.out.println("RECIPE RADIO PRESSED");
+        } else if (paths == null && GroceryListRadBtn.isSelected()){
+            System.out.println("GROCERYLIST RADIO PRESSED");
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to modify.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("NOTHING SELECTED");
         }
-
+        
+        //Recipe recipe = RecipeUtility.getRecipe(Arrays.toString(paths).split(",")[-1]);
+        
     }//GEN-LAST:event_modifyBtnActionPerformed
 
     /**
@@ -507,7 +523,9 @@ public class GUI extends javax.swing.JFrame {
      */
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         //run the search
-        if (dropdownList.getSelectedItem() == "Ingredient") {
+        displayPane.setWrapStyleWord(true);
+        displayPane.setLineWrap(true);
+        if(dropdownList.getSelectedItem() == "Ingredient"){
             List<Ingredients> ingredients = IngredientUtility.findIngredientsByName(searchTextArea.getText());
             for (Iterator iter = ingredients.iterator(); iter.hasNext();) {
                 Ingredients ingredient = (Ingredients) iter.next();

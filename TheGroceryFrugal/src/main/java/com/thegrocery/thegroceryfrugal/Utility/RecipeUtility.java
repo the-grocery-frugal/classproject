@@ -328,7 +328,7 @@ public class RecipeUtility {
         }
         try {
             session.beginTransaction();
-            if (RecipeIngredientUtility.deleteAssociation(recipe)){
+            if (RecipeIngredientUtility.deleteAllAssociations(recipe)){
                 session.delete(recipe);
             }
         } catch (HibernateException e) {

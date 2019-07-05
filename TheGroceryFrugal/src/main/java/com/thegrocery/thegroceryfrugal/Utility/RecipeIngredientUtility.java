@@ -186,7 +186,7 @@ public class RecipeIngredientUtility {
         return success;
     }
     
-    public static boolean deleteAssociation(Recipe recipe){
+    public static boolean deleteAllAssociations(Recipe recipe){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<RecipeIngredients> recipeIngredients;
@@ -201,6 +201,54 @@ public class RecipeIngredientUtility {
                     session.delete(recipeIngredient);
                 }
             }
+            success = true;
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return success;
+    }
+    
+    public static boolean deleteAssociation(Recipe recipe, Ingredients ingredient){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<RecipeIngredients> recipeIngredients;
+        boolean success = false;
+        try{
+            tx = session.beginTransaction();
+            String query = "FROM RecipeIngredients WHERE recipe_id = " + recipe.getId();
+            recipeIngredients = session.createQuery(query).list();
+            if (!recipeIngredients.isEmpty()){
+                for (Iterator iter = recipeIngredients.iterator(); iter.hasNext();){
+                    RecipeIngredients recipeIngredient = (RecipeIngredients) iter.next();
+                    if (recipeIngredient.getIngredients().getName().equals(ingredient.getName())){
+                        session.delete(recipeIngredient);
+                    }
+                }
+            }
+            success = true;
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return success;
+    }
+    
+    public static boolean deleteAssociation(RecipeIngredients recipeIngredient){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        boolean success = false;
+        try{
+            tx = session.beginTransaction();
+            session.delete(recipeIngredient);
             success = true;
             tx.commit();
         } catch (HibernateException e) {
