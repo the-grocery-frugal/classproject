@@ -355,7 +355,13 @@ public class GUI extends javax.swing.JFrame {
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area 
         if (RecipeRadBtn.isSelected()) {
-
+            displayPane.setText(null);
+            
+            Recipe recipe = RecipeUtility.getRecipe(selectedNodeString);
+            try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+                 Transaction tx = session.beginTransaction();
+                displayPane.append(recipe.toString(tx, session));
+            }
         } else if (GroceryListRadBtn.isSelected()) {
             displayPane.setText(null);
 
@@ -526,19 +532,23 @@ public class GUI extends javax.swing.JFrame {
         displayPane.setWrapStyleWord(true);
         displayPane.setLineWrap(true);
         if(dropdownList.getSelectedItem() == "Ingredient"){
+            displayPane.setText(null);
             List<Ingredients> ingredients = IngredientUtility.findIngredientsByName(searchTextArea.getText());
             for (Iterator iter = ingredients.iterator(); iter.hasNext();) {
                 Ingredients ingredient = (Ingredients) iter.next();
                 displayPane.append(ingredient.toString());
             }
         } else if (dropdownList.getSelectedItem() == "Recipe") {
+            displayPane.setText(null);
             List<Recipe> recipes = RecipeUtility.findRecipeByName(searchTextArea.getText());
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = session.beginTransaction();
-            for (Iterator iter = recipes.iterator(); iter.hasNext();) {
-                Recipe recipe = (Recipe) iter.next();
-                displayPane.append(recipe.toString(tx, session));
-            }
+            
+            try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) { 
+                Transaction tx = session.beginTransaction();
+                for (Iterator iter = recipes.iterator(); iter.hasNext();) {
+                    Recipe recipe = (Recipe) iter.next();
+                    displayPane.append(recipe.toString(tx, session));
+                }
+            } 
         } else if (dropdownList.getSelectedItem() == "Grocery List") {
 
         }

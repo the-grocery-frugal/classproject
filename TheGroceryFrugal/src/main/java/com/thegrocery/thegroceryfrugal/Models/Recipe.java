@@ -186,7 +186,7 @@ public class Recipe  implements java.io.Serializable {
                 
             }
         } catch (NullPointerException ex){
-            string += "No Ingredients found for this recipe\n"; 
+            string += "Ingredients:\n   (No ingredients found. You can add ingredients with the 'Modify Existing' button.)\n";
         }
             
         string += "\nSteps: \n";
