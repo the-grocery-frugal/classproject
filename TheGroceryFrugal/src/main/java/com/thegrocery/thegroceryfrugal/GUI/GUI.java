@@ -404,10 +404,8 @@ public class GUI extends javax.swing.JFrame {
                     mr.setAutoRequestFocus(true);
                     mr.setLocationRelativeTo(null);
                     mr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    System.out.println(recipe);
                 } else if ("Grocery Lists".equals(type)){
                     String grocery_list = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceAll("\\s+","").replaceAll("]", "");
-                    System.out.println(grocery_list);
                 }
             } catch(IndexOutOfBoundsException ex){
                 System.out.println("MUST SELECT AN ACTUAL NODE");
