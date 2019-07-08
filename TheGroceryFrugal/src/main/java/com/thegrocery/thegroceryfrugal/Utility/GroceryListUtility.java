@@ -9,7 +9,10 @@ import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
+import com.thegrocery.thegroceryfrugal.Models.RecipeIngredients;
 import com.thegrocery.thegroceryfrugal.Models.Users;
+
+import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -227,4 +230,37 @@ public class GroceryListUtility {
      }
      return success;
     }
+
+	public static boolean deleteAssociation(Recipe recipe, boolean tranFlg) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<GroceryList> groceyList;
+        boolean success = false;
+        try{
+        	if (tranFlg) {
+                tx = session.beginTransaction();
+        	}
+            String query = "FROM GroceryList WHERE recipe_id = " + recipe.getId();
+            groceyList = session.createQuery(query).list();
+            if (!groceyList.isEmpty()){
+                for (Iterator iter = groceyList.iterator(); iter.hasNext();){
+                	GroceryList grocery = (GroceryList) iter.next();
+                    session.delete(grocery);
+                }
+            }
+            success = true;
+            if (tranFlg) {
+            	tx.commit();
+            }
+        } catch (HibernateException e) {
+            if (tranFlg && tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+        	if (tranFlg) {
+                session.close();	
+        	}
+        }
+        
+        return success;
+	}
 }

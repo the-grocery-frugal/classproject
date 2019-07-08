@@ -214,11 +214,8 @@ public class NewRecipe extends javax.swing.JFrame {
                 RecipeUtility.changeSteps(user, recipeTitle.getText(), stepsPne.getText());
             }
             
-            if (recipeID != null) {
-               
-               DefaultMutableTreeNode recipe = new DefaultMutableTreeNode(recipeTitle.getText());
-               node.add(recipe);
-               tree.updateUI();
+            if (recipeID != null) {               
+               gui.loadRecipes();
             }
             
             JOptionPane.showMessageDialog(this, "The recipe is created successfully", "Information", JOptionPane.INFORMATION_MESSAGE);

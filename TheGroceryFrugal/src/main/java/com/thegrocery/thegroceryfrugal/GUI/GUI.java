@@ -38,22 +38,8 @@ public class GUI extends javax.swing.JFrame {
     public GUI(Users user) {
         this.user = user;
         initComponents();
-//        loadRecipes();
+        loadRecipes();
     }
-
-   /**
-    * This is causing issues with the recipe display.  All recipes should not be
-    * added to the JTree, only default recipes belonging to userID 19 and recipes
-    * belonging to the individual user should be added.
-    */
-//    protected void loadRecipes() {
-//        recipes.removeAllChildren();
-//        List<Recipe> receiptElements = RecipeUtility.listAllRecipes();
-//        for (Recipe rep : receiptElements) {
-//            recipes.add(new DefaultMutableTreeNode(rep));
-//        }
-//
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -355,29 +341,34 @@ public class GUI extends javax.swing.JFrame {
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area 
         if (RecipeRadBtn.isSelected()) {
+        	displayPane.setText(null);
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
+			if (selectedNode == null) {
+				return;
+			}
+			Object selectedObject = selectedNode.getUserObject();
+			if (!(selectedObject instanceof Recipe)) {
+				return;
+			}
+			Recipe recipe = (Recipe) selectedObject;
+
+			StringBuilder content = new StringBuilder();
+			content.append(recipe.getName() + "\n");
+			if (recipe.getSteps() != null) {
+				content.append("========== STEPS ========== \n" + recipe.getSteps() + "\n");
+			}
+			if (recipe.getUser() != null) {
+				content.append("========== USERS ========== \n" + recipe.getUser().getUsername() + "\n");
+			}
+            
+            displayPane.append(content.toString() + "\n");
+        } else if (GroceryListRadBtn.isSelected()) {
             displayPane.setText(null);
             
             Recipe recipe = RecipeUtility.getRecipe(selectedNodeString);
             try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
                  Transaction tx = session.beginTransaction();
                 displayPane.append(recipe.toString(tx, session));
-            }
-        } else if (GroceryListRadBtn.isSelected()) {
-            displayPane.setText(null);
-
-            String[] split = selectedNodeString.split(" ");
-            String listID = split[split.length - 1];
-            List<Ingredients> listIngredients = GroceryListUtility.gatherListIngredients(Long.parseLong(listID));
-
-            StringBuilder listTitle = new StringBuilder();
-            for (int i = 0; i < split.length - 1; i++) {
-                listTitle.append(split[i]);
-            }
-
-            displayPane.append(listTitle.toString() + "\n");
-
-            for (Ingredients ingredient : listIngredients) {
-                displayPane.append("\n" + ingredient.getName());
             }
         } else {
             JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to open", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -429,84 +420,87 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        if (RecipeRadBtn.isSelected()) {
-            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
-            if (selectedNode == null) {
-                return;
-            }
-            Object selectedObject = selectedNode.getUserObject();
-            if (selectedObject instanceof Recipe) {
-                Recipe recipe = (Recipe) selectedObject;
-                if (recipe.getUser() != user) {
-                    JOptionPane.showMessageDialog(this,
-                            String.format("Cannot delete a recipe belongs to user :%s", recipe.getUser().getUsername()));
-                    return;
-                }
-                int result = JOptionPane.showConfirmDialog(this,
-                        String.format("Do you want to delete the receipt %s", recipe.getName()));
-                if (result != JOptionPane.YES_OPTION) {
-                    return;
-                }
-                try {
-                    RecipeUtility.deleteRecipe(recipe, user);
-                    JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
-//                    loadRecipes();          See note by declaration
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted unsuccesfully, error: %s",
-                            recipe.getName(), ex.getMessage()));
-                }
-            } else if (GroceryListRadBtn.isSelected()) {
-                String[] split = selectedNodeString.split(" ");
-                String listID = split[split.length - 1];
+		if (RecipeRadBtn.isSelected()) {
+			Object selectedObject = selectedNode.getUserObject();
+			if (selectedObject instanceof Recipe) {
+				Recipe recipe = (Recipe) selectedObject;
+				if (recipe.getUser() == null || !recipe.getUser().equals(user)) {
+					JOptionPane.showMessageDialog(this, "Cannot delete a recipe belongs to others");
+					return;
+				}
+				int result = JOptionPane.showConfirmDialog(this,
+						String.format("Do you want to delete the receipt %s", recipe.getName()));
+				if (result != JOptionPane.YES_OPTION) {
+					return;
+				}
+				try {
+					RecipeUtility.deleteRecipe(recipe, user);
+					JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
+					loadRecipes();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(this, String.format(
+							"The recipe %s was deleted unsuccesfully, error: %s", recipe.getName(), ex.getMessage()));
+				}
+			}
+		} else if (GroceryListRadBtn.isSelected()) {
+			String[] split = selectedNodeString.split(" ");
+			String listID = split[split.length - 1];
 
-                StringBuilder listTitle = new StringBuilder();
-                for (int i = 0; i < split.length - 1; i++) {
-                    listTitle.append(split[i]);
-                }
+			StringBuilder listTitle = new StringBuilder();
+			for (int i = 0; i < split.length - 1; i++) {
+				listTitle.append(split[i]);
+			}
 
-                final JPanel panel = new JPanel(new BorderLayout());
-                JLabel warning = new JLabel("This will permanantly delete Grocery List " + listTitle.toString() + ".  Do you wish to continue?");
-                JRadioButton yesRdBtn = new JRadioButton("Confirm Delete");
-                yesRdBtn.setActionCommand("Delete");
-                JRadioButton noRdBtn = new JRadioButton("Do Not Delete");
-                noRdBtn.setActionCommand("Stop");
+			final JPanel panel = new JPanel(new BorderLayout());
+			JLabel warning = new JLabel("This will permanantly delete Grocery List " + listTitle.toString()
+					+ ".  Do you wish to continue?");
+			JRadioButton yesRdBtn = new JRadioButton("Confirm Delete");
+			yesRdBtn.setActionCommand("Delete");
+			JRadioButton noRdBtn = new JRadioButton("Do Not Delete");
+			noRdBtn.setActionCommand("Stop");
 
-                ButtonGroup confirmBtnGroup = new ButtonGroup();
-                confirmBtnGroup.add(yesRdBtn);
-                confirmBtnGroup.add(noRdBtn);
-                JPanel buttonPanel = new JPanel();
-                buttonPanel.add(yesRdBtn);
-                buttonPanel.add(noRdBtn);
+			ButtonGroup confirmBtnGroup = new ButtonGroup();
+			confirmBtnGroup.add(yesRdBtn);
+			confirmBtnGroup.add(noRdBtn);
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.add(yesRdBtn);
+			buttonPanel.add(noRdBtn);
 
-                panel.add(warning, BorderLayout.CENTER);
-                panel.add(buttonPanel, BorderLayout.SOUTH);
+			panel.add(warning, BorderLayout.CENTER);
+			panel.add(buttonPanel, BorderLayout.SOUTH);
 
-                JOptionPane.showMessageDialog(null, panel);
+			JOptionPane.showMessageDialog(null, panel);
 
-                String deleteResponse = confirmBtnGroup.getSelection().getActionCommand();
+			String deleteResponse = confirmBtnGroup.getSelection().getActionCommand();
 
-                switch (deleteResponse) {
-                    case "Delete":
-                        boolean success = GroceryListUtility.deleteGroceryList(Long.parseLong(listID));
+			switch (deleteResponse) {
+			case "Delete":
+				boolean success = GroceryListUtility.deleteGroceryList(Long.parseLong(listID));
 
-                        if (success) {
-                            JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted", JOptionPane.INFORMATION_MESSAGE);
+				if (success) {
+					JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted",
+							JOptionPane.INFORMATION_MESSAGE);
 
-                            DefaultTreeModel treeModel = (DefaultTreeModel) treeDisplay.getModel();
-                            treeModel.removeNodeFromParent(selectedNode);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Unknown error deleting " + listTitle.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        break;
-                    case "Stop":
-                        displayPane.append("Nope");
-                        JOptionPane.showMessageDialog(null, "List not deleted", "No Action Taken", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to delete.", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
+					DefaultTreeModel treeModel = (DefaultTreeModel) treeDisplay.getModel();
+					treeModel.removeNodeFromParent(selectedNode);
+				} else {
+					JOptionPane.showMessageDialog(null, "Unknown error deleting " + listTitle.toString(), "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				break;
+			case "Stop":
+				displayPane.append("Nope");
+				JOptionPane.showMessageDialog(null, "List not deleted", "No Action Taken",
+						JOptionPane.INFORMATION_MESSAGE);
+				break;
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Please select a radio button for the object you are attempting to delete.", "Error",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+        
 
     }//GEN-LAST:event_deleteBtnActionPerformed
 
@@ -577,6 +571,9 @@ public class GUI extends javax.swing.JFrame {
      */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
+    	if (treeDisplay.getLastSelectedPathComponent() == null) {
+    		return;
+    	}
         selectedNodeString = treeDisplay.getLastSelectedPathComponent().toString();
         selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
 
@@ -641,4 +638,15 @@ public class GUI extends javax.swing.JFrame {
     private String selectedNodeString;
     // End of variables declaration//GEN-END:variables
 
+	protected void loadRecipes() {
+		recipes.removeAllChildren();
+		List<Recipe> receiptElements = RecipeUtility.listAllUserAndDefaultRecipes(user);
+		for (Recipe rep : receiptElements) {
+			recipes.add(new DefaultMutableTreeNode(rep));
+		}
+		DefaultTreeModel model = (DefaultTreeModel) treeDisplay.getModel();
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+		model.reload(root);
+		treeDisplay.setModel(model);
+	}    
 }//end GUI class

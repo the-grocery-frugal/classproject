@@ -416,14 +416,17 @@ public class RecipeUtility {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         boolean success = false;
-        if (recipe.getUser() != user){
+        if (recipe.getUser() == null || !recipe.getUser().equals(user)) {
             return success;
         }
         try {
-            session.beginTransaction();
-            if (RecipeIngredientUtility.deleteAllAssociations(recipe)){
+            tx = session.beginTransaction();
+            if (RecipeIngredientUtility.deleteAssociation(recipe, false)
+            		&& GroceryListUtility.deleteAssociation(recipe, false)){
                 session.delete(recipe);
             }
+            tx.commit();
+            
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
@@ -459,5 +462,25 @@ public class RecipeUtility {
         
         return gatheredRecipes;
     }
+
+	public static List<Recipe> listAllUserAndDefaultRecipes(Users user) {
+		List<Recipe> userRecipes = null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM Recipe WHERE user_id = 19 OR user_id = " + user.getId();
+            userRecipes = session.createQuery(query).list();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+		return userRecipes;
+	}
     
 }

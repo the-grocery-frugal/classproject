@@ -147,4 +147,12 @@ public class Users implements java.io.Serializable {
     public String toString() {
         return this.username + " " + this.password;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (!(obj instanceof Users)) {
+    		return false;
+    	}
+    	return id == ((Users)obj).id;
+    }
 }

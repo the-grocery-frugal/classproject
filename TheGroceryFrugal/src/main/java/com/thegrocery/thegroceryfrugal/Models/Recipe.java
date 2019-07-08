@@ -74,7 +74,8 @@ public class Recipe implements java.io.Serializable {
     /**
      * An user.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id")
     private Users user;
 
