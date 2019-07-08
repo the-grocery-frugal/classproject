@@ -9,15 +9,24 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.transaction.Transactional.TxType;
+
+/**
+ * Login frame to login users.
+ *
+ * @author Milagros Sasieta
+ */
 
 public class Login extends javax.swing.JFrame {
+    /**
+     * Constructs and displays Login Window.
+     */
     public Login() {
         initComponents();
-        //passwordField.setSize(50, 10);
-        //passwordField.setText("");
+        passwordField.setPreferredSize(new Dimension(100, 20));
+        usernameTextField.setPreferredSize(new Dimension(100, 20));
     }
 
     /**
@@ -151,22 +160,30 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_newProfileBtnActionPerformed
 
     /**
-     * Verifies if username and password are correct.  If they are correct, launches
-     * the main profile overview UI.  Otherwise, displays and error message.
-     * @param evt 
+     * Verifies if username and password are correct. If they are correct,
+     * launches the main profile overview UI. Otherwise, displays and error
+     * message.
+     *
+     * @param evt Action event initiated by user
      */
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
     //needs to verify correct username and password are used. If TRUE, then use below code to initiate GUI. If FALSE, error needs to be made for invalid/blank input
-        if(UserUtility.checkPassword(usernameTextField.getText(), passwordField.getText())){
-            GUI gui = new GUI(UserUtility.getUser(usernameTextField.getText()));
-            gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            gui.setVisible(true);
-            gui.setLocationRelativeTo(null);
-            this.dispose();
-        } else {
+        if (usernameTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             this.setVisible(false);
-            JOptionPane.showMessageDialog(null, "Username and Password do not match.  Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ERROR - Empty Fields", "Error", JOptionPane.ERROR_MESSAGE);
             this.setVisible(true);
+        } else {
+            if (UserUtility.checkPassword(usernameTextField.getText(), passwordField.getText())) {
+                GUI gui = new GUI(UserUtility.getUser(usernameTextField.getText()));
+                gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                gui.setVisible(true);
+                gui.setLocationRelativeTo(null);
+                this.dispose();
+            } else {
+                this.setVisible(false);
+                JOptionPane.showMessageDialog(this, "Username and Password do not match.  Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                this.setVisible(true);
+            }
         }
     }//GEN-LAST:event_loginBtnActionPerformed
 

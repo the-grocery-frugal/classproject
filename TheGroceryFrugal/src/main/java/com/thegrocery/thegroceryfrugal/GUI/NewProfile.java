@@ -8,6 +8,7 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import javax.swing.JOptionPane;
 
 public class NewProfile extends javax.swing.JFrame {
 
@@ -120,13 +121,21 @@ public class NewProfile extends javax.swing.JFrame {
      * @param evt Action event initiated by user 
      */
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        //needs to add username and password to database for recall
-        if(UserUtility.createUser(usernameTextField.getText(), passwordField.getText())){
-            this.setVisible(false);
+        if (usernameTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+            setVisible(false);
+            JOptionPane.showMessageDialog(this, "ERROR - Empty Fields", "Error", JOptionPane.ERROR_MESSAGE);
+            setVisible(true);
         } else {
-            // Put code here about a user with this username already exists
+            //needs to add username and password to database for recall
+            if (UserUtility.createUser(usernameTextField.getText(), passwordField.getText())) {
+                this.setVisible(false);
+            } else {
+                setVisible(false);
+                JOptionPane.showMessageDialog(this, "ERROR - This username already exist", "Error", JOptionPane.ERROR_MESSAGE);
+                setVisible(true);
+            }
         }
-        
+
     }//GEN-LAST:event_saveBtnActionPerformed
 
     public static void main(String args[]) {

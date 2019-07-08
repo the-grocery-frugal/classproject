@@ -237,18 +237,18 @@ public class FindIngredient extends javax.swing.JFrame {
 
     private void addToRecipeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToRecipeBtnActionPerformed
         //adds results to recipe
-        if (selected_ingredient.isEmpty()){
-                // ERROR CHECKING FOR EMPTY INGREDIENT
+        if (selected_ingredient.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ERROR - Empty Ingredient", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            if (notesField.getText().isEmpty()){
-                Integer recipeIngredientID = RecipeIngredientUtility.associateIngredientToRecipe(recipe, 
-                        IngredientUtility.getIngredient(selected_ingredient), 
-                        MeasurementUtility.findMeasurement(typeDropDown.getSelectedItem().toString()), 
+            if (notesField.getText().isEmpty()) {
+                Integer recipeIngredientID = RecipeIngredientUtility.associateIngredientToRecipe(recipe,
+                        IngredientUtility.getIngredient(selected_ingredient),
+                        MeasurementUtility.findMeasurement(typeDropDown.getSelectedItem().toString()),
                         Float.valueOf(quantityField.getText()));
             } else {
-                Integer recipeIngredientID = RecipeIngredientUtility.associateIngredientToRecipe(recipe, 
-                        IngredientUtility.getIngredient(selected_ingredient), 
-                        MeasurementUtility.findMeasurement(typeDropDown.getSelectedItem().toString()), 
+                Integer recipeIngredientID = RecipeIngredientUtility.associateIngredientToRecipe(recipe,
+                        IngredientUtility.getIngredient(selected_ingredient),
+                        MeasurementUtility.findMeasurement(typeDropDown.getSelectedItem().toString()),
                         Float.valueOf(quantityField.getText()),
                         notesField.getText());
             }

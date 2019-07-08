@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: RecipeUtility.java
+ * Author: jacob
+ * Date: 6/16/2019
  */
 package com.thegrocery.thegroceryfrugal.Utility;
 
@@ -15,12 +15,19 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
+ * Utility class to deal with Recipes.
  *
  * @author jacob
  */
 public class RecipeUtility {
     
-    // Add a recipe to the database
+    /**
+     * Adds a recipe to the database.
+     *
+     * @param recipeName a recipe name
+     * @param user       a recipe user
+     * @return an ID of a new recipe
+     */
     public static Integer addRecipe(String recipeName, Users user) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -39,6 +46,14 @@ public class RecipeUtility {
         return recipeID;    
     }
     
+    /**
+     * Adds a recipe to the database.
+     *
+     * @param recipeName  a recipe name
+     * @param description a recipe description
+     * @param user        a recipe user
+     * @return an ID of a new recipe
+     */
     public static Integer addRecipe(String recipeName, String description, Users user) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -57,6 +72,15 @@ public class RecipeUtility {
         return recipeID;    
     }
     
+    /**
+     * Adds a recipe to the database.
+     *
+     * @param recipeName  a recipe name
+     * @param description a recipe description
+     * @param steps       a recipe steps
+     * @param user        a recipe user
+     * @return an ID of a new recipe
+     */
     public static Integer addRecipe(String recipeName, String description, String steps, Users user) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -75,7 +99,14 @@ public class RecipeUtility {
         return recipeID;    
     }
     
-    // Add steps to a recipe by its name
+    /**
+     * Adds steps to a recipe by its name.
+     *
+     * @param user  an user
+     * @param name  a recipe name to search
+     * @param steps a new Step
+     * @return true if recipe is found or false otherwise
+     */
     public static boolean changeSteps(Users user, String name, String steps) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -99,7 +130,14 @@ public class RecipeUtility {
         return success;
     }
     
-    // Add steps to a recipe by its ID
+    /**
+     * Adds steps to a recipe by its ID.
+     *
+     * @param user     an user
+     * @param recipeID a recipe id to search
+     * @param steps    a new Step
+     * @return true if recipe is found or false otherwise
+     */
     public static boolean changeSteps(Users user, Integer recipeID, String steps) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -125,7 +163,14 @@ public class RecipeUtility {
         return success;
     }
     
-    // Add a description to a recipe by its name
+    /**
+     * Adds a description to a recipe by its name.
+     *
+     * @param user        an recipe user
+     * @param name        an recipe name to search
+     * @param description a description to add
+     * @return true if recipe is found or false otherwise
+     */
     public static boolean changeDescription(Users user, String name, String description) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -148,7 +193,14 @@ public class RecipeUtility {
         return success;
     }
     
-    // Add a description to a recipe by its ID
+    /**
+     * Adds a description to a recipe by its ID.
+     *
+     * @param user        an recipe user
+     * @param recipeID    an recipe id to search
+     * @param description a description to add
+     * @return true if recipe is found or false otherwise
+     */
     public static boolean changeDescription(Users user, Integer RecipeID, String description) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -174,6 +226,13 @@ public class RecipeUtility {
         return success;
     }
     
+    /**
+     * Sets category of a recipe found by name.
+     *
+     * @param name     a recipe name to search
+     * @param category a new category
+     * @return true if recipe is found or false otherwise
+     */
     public static boolean addCategory(String name, Categories category){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -197,6 +256,13 @@ public class RecipeUtility {
         return success;
     }
     
+    /**
+     * Changes recipe name.
+     *
+     * @param old_name old name
+     * @param new_name new name
+     * @return true if recipe is found or false otherwise
+     */
     public static boolean changeName(String old_name, String new_name) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -219,9 +285,12 @@ public class RecipeUtility {
         return success;
     }
     
-    // Find a recipe by its name.  This uses the LIKE operator with the WHERE
-    // clause in order to allow searching for specifc terms in case the user
-    // doesn't know what is available.
+    /**
+     * Retrieves and returns a list of all recipes matching a specified name.
+     *
+     * @param name a name to search.
+     * @return a list of all found recipes
+     */
     public static List<Recipe> findRecipeByName(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -240,7 +309,11 @@ public class RecipeUtility {
         return recipes;
     }
     
-    // THIS IS A WIP
+    /**
+     * Retrieves and returns a list of all recipes in a given category.
+     *
+     * @return a list of all recipes
+     */
     public static List<Recipe> findRecipeByCategory(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -258,9 +331,12 @@ public class RecipeUtility {
         return recipes;
     }
     
-    // Find a recipe by an ingredients name.  This uses the LIKE operator with the WHERE
-    // clause in order to allow searching for specifc terms in case the user
-    // doesn't know what is available.
+    /**
+     * Finds a list of all recipe matching an ingredients name.
+     *
+     * @param ingredient an ingredients name
+     * @return a list of all recipe found
+     */
     public static List<Recipe> findRecipeByIngredientName(String ingredient){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -283,6 +359,12 @@ public class RecipeUtility {
         return recipes;
     }
     
+    /**
+     * Returns a Recipe object found by name.
+     *
+     * @param recipe_name a recipe name to search
+     * @return a Recipe object found or null otherwise
+     */
     public static Recipe getRecipe(String recipe_name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -301,7 +383,11 @@ public class RecipeUtility {
         return recipe;
     }
     
-    // Simply list all recipes
+    /**
+     * Simply list all recipes.
+     *
+     * @return a list of all recipes.
+     */
     public static List<Recipe> listAllRecipes(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -319,6 +405,13 @@ public class RecipeUtility {
         return recipes;
     }
     
+    /**
+     * Deleted a recipe from database.
+     *
+     * @param recipe a recipe
+     * @param user   an user
+     * @return true if recipe is found or false otherwise
+     */
     public static boolean deleteRecipe(Recipe recipe, Users user){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -341,10 +434,10 @@ public class RecipeUtility {
     }
     
     /**
-     * Author: Amanda Kok
-     * Gathers all recipes for userId parameter and
-     * returns them.  If userId is 19, it returns all default recipes
-     * @return Returns a list of all recipes associated with userId
+     * Author: Amanda Kok Gathers all default recipes, that are associated with
+     * all users, and returns them.
+     *
+     * @return Returns a list of all default recipes
      */
     public static List<Recipe> gatherRecipes(long id) {
         List<Recipe> gatheredRecipes = null;

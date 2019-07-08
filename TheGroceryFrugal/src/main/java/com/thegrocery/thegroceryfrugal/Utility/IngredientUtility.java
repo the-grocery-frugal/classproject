@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: IngredientUtility.java
+ * Author: jacob
+ * Date: 6/16/2019
  */
 package com.thegrocery.thegroceryfrugal.Utility;
 
@@ -13,11 +13,17 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
+ * Utility class to deal with "ingredients" table.
  *
  * @author jacob
  */
 public class IngredientUtility {
-    // Add an ingredient to the database
+    /**
+     * Adds a new ingredient to the database.
+     *
+     * @param name an ingredient name
+     * @return an ID of a new ingredient
+     */
     public static Integer addIngredient(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -37,8 +43,13 @@ public class IngredientUtility {
         return ingredientID;
     }
     
-    // Add a description to an ingredient by its name
-    // THIS IS TO TEST PUSHING TO GIT
+    /**
+     * Adds a description to an ingredient by its name.
+     *
+     * @param name        an ingredient name to search
+     * @param description an ingredient description
+     * @return true on success or false otherwise
+     */
     public static boolean addDescription(String name, String description){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -60,7 +71,13 @@ public class IngredientUtility {
         return success;
     }
     
-    // Add a description to an ingredient by its ID
+    /**
+     * Adds a description to an ingredient by its ID.
+     *
+     * @param ingredientID an ingredient ID to search
+     * @param description  an ingredient description
+     * @return true on success or false otherwise
+     */
     public static boolean addDescription(Integer ingredientID, String description){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -81,7 +98,12 @@ public class IngredientUtility {
         return success;
     }
     
-    // Find all ingredients by their name
+    /**
+     * Finds all ingredients by their name.
+     *
+     * @param name an ingredient name to search
+     * @return a list of ingredients that match a given name
+     */
     public static List<Ingredients> findIngredientsByName(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -100,8 +122,12 @@ public class IngredientUtility {
         return ingredients; 
     }
     
-    // Find all ingredients for all recipes with this name.  This will bring back
-    // a lot depending on how accruate the search is
+    /**
+     * Find all ingredients for all recipes with this name.
+     *
+     * @param name a recipe name
+     * @return list of all ingredients for all recipes with this name
+     */
     public static List<Ingredients> findIngredientsByRecipeName(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -124,6 +150,12 @@ public class IngredientUtility {
         return ingredients;
     }
     
+    /**
+     * Finds ingredient by its name.
+     *
+     * @param name an ingredient  name
+     * @return a Ingredients found or null if not found
+     */
     public static Ingredients getIngredient(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -143,7 +175,11 @@ public class IngredientUtility {
         return ingredient;
     }
     
-    // List all ingredients
+    /**
+     * Returns list of all ingredients.
+     *
+     * @return list of all ingredients
+     */
     public static List<Ingredients> listAllIngredients(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;

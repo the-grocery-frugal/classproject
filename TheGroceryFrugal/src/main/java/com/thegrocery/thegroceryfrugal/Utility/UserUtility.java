@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: UserUtility.java
+ * Author: jacob
+ * Date: 6/16/2019
  */
 package com.thegrocery.thegroceryfrugal.Utility;
 
@@ -10,21 +10,38 @@ import com.thegrocery.thegroceryfrugal.Models.Users;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.exception.ConstraintViolationException;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
+ * Utility class to deal with Users.
  *
  * @author jacob
  */
 public class UserUtility {
     
+    /**
+     * Generates a new password based on given string.
+     *
+     * @param password password string
+     * @return a generated password
+     */
     private static String generatePassword(String password){
         return BCrypt.hashpw(password, BCrypt.gensalt(12));
     }
     
-    // Create a user account, must have a username and password
+    /**
+     * Creates a new account and puts it to database.
+     *
+     * @param username an username
+     * @param password a password
+     * @return true if new user was created successfully or false otherwise
+     */
     public static boolean createUser(String username, String password){
+        // check to see is given username already registered
+        if (getUser(username) != null) {
+            return false;
+        }
+        
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         try {
@@ -46,9 +63,13 @@ public class UserUtility {
     }
     
     
-    // Check if the provided username and password is correct
-    // TODO: Add username checking capability.  If the username doesn't exist at all,
-    // no point in checking if the passwords    
+    /**
+     * Checks if the provided username and password is correct
+     *
+     * @param username a username
+     * @param password a password
+     * @return true if this user present and password match or false otherwise
+     */   
     public static boolean checkPassword(String username, String password){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -78,6 +99,12 @@ public class UserUtility {
         return authenticated;
     }
     
+    /**
+     * Get User object by username
+     *
+     * @param username an username
+     * @return an User object found or null otherwise
+     */
     public static Users getUser(String username){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;

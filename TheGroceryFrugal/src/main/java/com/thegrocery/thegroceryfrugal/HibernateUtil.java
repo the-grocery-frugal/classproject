@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: HibernateUtil.java
+ * Author: jacob
+ * Date: 6/16/2019
  */
 package com.thegrocery.thegroceryfrugal;
 
@@ -31,6 +31,11 @@ public class HibernateUtil {
         }
     }
     
+    /**
+     * Returns the SessionFactory object.
+     *
+     * @return the SessionFactory object     * @return the SessionFactory object
+     */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
