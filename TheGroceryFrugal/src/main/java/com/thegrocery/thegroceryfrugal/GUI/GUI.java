@@ -6,14 +6,11 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.HibernateUtil;
-import com.thegrocery.thegroceryfrugal.Main;
 import com.thegrocery.thegroceryfrugal.Models.Ingredients;
-import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Models.Users;
 import com.thegrocery.thegroceryfrugal.Models.GroceryList;
 import com.thegrocery.thegroceryfrugal.Models.Recipe;
 import com.thegrocery.thegroceryfrugal.Utility.IngredientUtility;
-import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
 import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
@@ -22,7 +19,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -340,6 +336,37 @@ public class GUI extends javax.swing.JFrame {
      */
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area 
+        TreePath[] paths = treeDisplay.getSelectionPaths();
+        displayPane.setWrapStyleWord(true);
+        displayPane.setLineWrap(true);
+        displayPane.setText(null);
+        
+        if (paths != null) {
+            try{
+                String type = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 2]).replaceAll("\\s+","").replaceAll("]", "");
+            
+                if ("Recipes".equals(type)){
+                    Recipe recipe = RecipeUtility.getRecipe((Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceFirst("\\s+","").replaceAll("]", ""));
+                    try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) { 
+                        Transaction tx = session.beginTransaction();
+                        displayPane.setText(recipe.toString(tx, session));
+                    } 
+                    
+                } else if ("Grocery Lists".equals(type)){
+                    String grocery_list = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceAll("\\s+","").replaceAll("]", "");
+                }
+            } catch(IndexOutOfBoundsException ex){
+                System.out.println("MUST SELECT AN ACTUAL NODE");
+            }
+            
+        } else if (paths == null && RecipeRadBtn.isSelected()){
+            System.out.println("RECIPE RADIO PRESSED");
+        } else if (paths == null && GroceryListRadBtn.isSelected()){
+            System.out.println("GROCERYLIST RADIO PRESSED");
+        } else {
+            System.out.println("NOTHING SELECTED");
+        }
+        /*
         if (RecipeRadBtn.isSelected()) {
         	displayPane.setText(null);
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
@@ -373,6 +400,7 @@ public class GUI extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to open", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
+        */
     }//GEN-LAST:event_openBtnActionPerformed
 
     /**
