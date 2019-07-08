@@ -274,7 +274,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModifyRecipe(RecipeUtility.getRecipe("default"), UserUtility.getUser("default")).setVisible(true);
+                new ModifyRecipe(RecipeUtility.getRecipe("default"), UserUtility.getUser("system-user")).setVisible(true);
             }
         });
     }
