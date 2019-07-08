@@ -40,15 +40,6 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         loadRecipes();
     }
-    
-	protected void loadRecipes() {
-		recipes.removeAllChildren();
-		List<Recipe> receiptElements = RecipeUtility.listAllRecipes();
-		for (Recipe rep : receiptElements) {
-			recipes.add(new DefaultMutableTreeNode(rep));
-		}
-
-	}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -342,7 +333,27 @@ public class GUI extends javax.swing.JFrame {
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         //needs to open existing list or recipe and display folder in the Jtree area, and display ingredients or recipe in view selection area 
         if (RecipeRadBtn.isSelected()) {
+        	displayPane.setText(null);
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
+			if (selectedNode == null) {
+				return;
+			}
+			Object selectedObject = selectedNode.getUserObject();
+			if (!(selectedObject instanceof Recipe)) {
+				return;
+			}
+			Recipe recipe = (Recipe) selectedObject;
+
+			StringBuilder content = new StringBuilder();
+			content.append(recipe.getName() + "\n");
+			if (recipe.getSteps() != null) {
+				content.append("========== STEPS ========== \n" + recipe.getSteps() + "\n");
+			}
+			if (recipe.getUser() != null) {
+				content.append("========== USERS ========== \n" + recipe.getUser().getUsername() + "\n");
+			}
             
+            displayPane.append(content.toString() + "\n");
         } else if (GroceryListRadBtn.isSelected()) {
             displayPane.setText(null);
             
@@ -396,31 +407,31 @@ public class GUI extends javax.swing.JFrame {
      */
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         if (RecipeRadBtn.isSelected()) {
-            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
-            if (selectedNode == null) {
-              return;
-            }
-            Object selectedObject = selectedNode.getUserObject();
-            if (selectedObject instanceof Recipe) {
-              Recipe recipe = (Recipe) selectedObject;
-              if (recipe.getUser() != user) {
-                JOptionPane.showMessageDialog(this,
-                    String.format("Cannot delete a recipe belongs to user :%s", recipe.getUser().getUsername()));
-                return;
-              }
-              int result = JOptionPane.showConfirmDialog(this,
-                  String.format("Do you want to delete the receipt %s", recipe.getName()));
-              if (result != JOptionPane.YES_OPTION) {
-                return;
-              }
-              try {
-                RecipeUtility.deleteRecipe(recipe, user);
-                JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
-                loadRecipes();
-              } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted unsuccesfully, error: %s",
-                    recipe.getName(), ex.getMessage()));
-              }
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
+			if (selectedNode == null) {
+				return;
+			}
+			Object selectedObject = selectedNode.getUserObject();
+			if (selectedObject instanceof Recipe) {
+				Recipe recipe = (Recipe) selectedObject;
+				if (recipe.getUser() == null || !recipe.getUser().equals(user)) {
+					JOptionPane.showMessageDialog(this, "Cannot delete a recipe belongs to others");
+					return;
+				}
+				int result = JOptionPane.showConfirmDialog(this,
+						String.format("Do you want to delete the receipt %s", recipe.getName()));
+				if (result != JOptionPane.YES_OPTION) {
+					return;
+				}
+				try {
+					RecipeUtility.deleteRecipe(recipe, user);
+					JOptionPane.showMessageDialog(this, String.format("The recipe %s was deleted", recipe.getName()));
+					loadRecipes();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(this, String.format(
+							"The recipe %s was deleted unsuccesfully, error: %s", recipe.getName(), ex.getMessage()));
+				}
+			}
         } else if (GroceryListRadBtn.isSelected()) {
             String[] split = selectedNodeString.split(" ");
             String listID = split[split.length -1];
@@ -531,6 +542,9 @@ public class GUI extends javax.swing.JFrame {
      */
     private void treeDisplayValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeDisplayValueChanged
         //used to initiate and change nodes in the tree
+    	if (treeDisplay.getLastSelectedPathComponent() == null) {
+    		return;
+    	}
         selectedNodeString = treeDisplay.getLastSelectedPathComponent().toString();
         selectedNode = (DefaultMutableTreeNode)treeDisplay.getLastSelectedPathComponent();
         
@@ -595,5 +609,15 @@ public class GUI extends javax.swing.JFrame {
     private DefaultMutableTreeNode recipes, groceryLists, selectedNode;
     private String selectedNodeString;
     // End of variables declaration//GEN-END:variables
-    
+	protected void loadRecipes() {
+		recipes.removeAllChildren();
+		List<Recipe> receiptElements = RecipeUtility.listAllUserAndDefaultRecipes(user);
+		for (Recipe rep : receiptElements) {
+			recipes.add(new DefaultMutableTreeNode(rep));
+		}
+		DefaultTreeModel model = (DefaultTreeModel) treeDisplay.getModel();
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+		model.reload(root);
+		treeDisplay.setModel(model);
+	}    
 }//end GUI class

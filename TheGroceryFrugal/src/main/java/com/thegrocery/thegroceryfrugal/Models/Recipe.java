@@ -52,7 +52,7 @@ public class Recipe  implements java.io.Serializable {
     @OneToMany(mappedBy = "recipe")
     private Set<RecipeIngredients> recipeIngredientses = new HashSet(0);
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id")
     private Users user;
 
