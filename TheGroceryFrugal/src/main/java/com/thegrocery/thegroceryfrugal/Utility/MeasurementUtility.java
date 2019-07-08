@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: MeasurementUtility.java
+ * Author: jacob
+ * Date: 6/16/2019
  */
 package com.thegrocery.thegroceryfrugal.Utility;
 
@@ -13,10 +13,18 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
+ * Utility class to deal with "measurement" table.
  *
  * @author jacob
  */
 public class MeasurementUtility {
+    
+    /**
+     * Adds a new measurement to the database.
+     *
+     * @param name a new measurement name
+     * @return an ID of a new measurement added
+     */
     public static Integer addMeasurement(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -37,6 +45,12 @@ public class MeasurementUtility {
         return measurementID;
     }
     
+    /**
+     * Finds a measurement by its name
+     *
+     * @param name a measurement name
+     * @return Measurement object if exists or null otherwise
+     */
     public static Measurement findMeasurement(String name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -56,6 +70,11 @@ public class MeasurementUtility {
         return measurement;
     }
     
+    /**
+     * Returns list of all measurement.
+     *
+     * @return list of all measurement
+     */
     public static List<Measurement> listAllMeasurements(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -74,7 +93,10 @@ public class MeasurementUtility {
         return measurements;
     }
     
-    public static void blankMethod(){
+    /**
+     * Do nothing - Used for adding more methods
+     */
+    private static void blankMethod(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         

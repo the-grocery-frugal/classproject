@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: RecipeIngredientUtility.java
+ * Author: jacob
+ * Date: 6/16/2019
  */
 package com.thegrocery.thegroceryfrugal.Utility;
 
@@ -17,10 +17,20 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
+ * Utility class to deal with RecipeIngredient.
  *
  * @author jacob
  */
 public class RecipeIngredientUtility {
+    
+    /**
+     * Associates a specified ingredient with a specified recipe.
+     *
+     * @param recipe      a recipe
+     * @param ingredient  an ingredient
+     * @param measurement a measurement
+     * @return an ID of a new RecipeIngredient
+     */
     public static Integer associateIngredientToRecipe(Recipe recipe, Ingredients ingredient, Measurement measurement){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -41,6 +51,15 @@ public class RecipeIngredientUtility {
         return recipeIngredientID;
     }
     
+    /**
+     * Associates a specified ingredient with a specified recipe.
+     *
+     * @param recipe      a recipe
+     * @param ingredient  an ingredient
+     * @param measurement a measurement
+     * @param quantity    a quantity
+     * @return an ID of a new RecipeIngredient
+     */
     public static Integer associateIngredientToRecipe(Recipe recipe, Ingredients ingredient, Measurement measurement, Float quantity){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -61,6 +80,16 @@ public class RecipeIngredientUtility {
         return recipeIngredientID;
     }
     
+    /**
+     * Associates a specified ingredient with a specified recipe.
+     *
+     * @param recipe      a recipe
+     * @param ingredient  an ingredient
+     * @param measurement a measurement
+     * @param quantity    a quantity
+     * @param description a description
+     * @return an ID of a new RecipeIngredient
+     */
     public static Integer associateIngredientToRecipe(Recipe recipe, Ingredients ingredient, Measurement measurement, Float quantity, String description){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -81,7 +110,14 @@ public class RecipeIngredientUtility {
         return recipeIngredientID;
     }
     
-    
+    /**
+     * Changes a quantity of recipe ingredient found by ingredient id and recipe id.
+     *
+     * @param ingredient_id an ingredient id to search
+     * @param recipe_id     a recipe id to search
+     * @param quantity      a new quantity
+     * @return true of recipe ingredient exists or false otherwise
+     */
     public static boolean changeQuantity(Integer ingredient_id, Integer recipe_id, Float quantity){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -105,6 +141,14 @@ public class RecipeIngredientUtility {
         return success;
     }
     
+    /**
+     * Changes a quantity of recipe ingredient found by ingredient name and recipe name.
+     *
+     * @param ingredient_name an ingredient name
+     * @param recipe_name     a recipe name
+     * @param quantity        a new quantity
+     * @return true of recipe ingredient exists or false otherwise
+     */
     public static boolean changeQuantity(String ingredient_name, String recipe_name, Float quantity){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -134,6 +178,14 @@ public class RecipeIngredientUtility {
         return success;
     }
     
+    /**
+     * Changes a measurement type for and recipe ingredient found by ingredient if and recipe id.
+     *
+     * @param ingredient_id an ingredient id
+     * @param recipe_id     a recipe id
+     * @param measurement   a new measurement
+     * @return true of recipe ingredient exists or false otherwise
+     */
     public static boolean changeMeasurementType(Integer ingredient_id, Integer recipe_id, Measurement measurement){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -157,6 +209,14 @@ public class RecipeIngredientUtility {
         return success;
     }
     
+    /**
+     * Changes a measurement type for and recipe ingredient found by ingredient name and recipe name.
+     *
+     * @param ingredient_name an ingredient name
+     * @param recipe_name     a recipe name
+     * @param measurement     a new measurement
+     * @return true of recipe ingredient exists or false otherwise
+     */
     public static boolean changeMeasurementType(String ingredient_name, String recipe_name, Measurement measurement){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -186,6 +246,12 @@ public class RecipeIngredientUtility {
         return success;
     }
     
+    /**
+     * Deletes all associated ingredients for a given recipe
+     *
+     * @param recipe a recipe
+     * @return true of recipe exists or false otherwise
+     */
     public static boolean deleteAllAssociations(Recipe recipe){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -213,6 +279,13 @@ public class RecipeIngredientUtility {
         return success;
     }
     
+    /**
+     * Deletes all associated ingredients for a given recipe
+     *
+     * @param recipe a recipe
+     * @param ingredient a ingredient
+     * @return true of recipe exists or false otherwise
+     */
     public static boolean deleteAssociation(Recipe recipe, Ingredients ingredient){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -242,6 +315,12 @@ public class RecipeIngredientUtility {
         return success;
     }
     
+    /**
+     * Deletes all associated ingredients for a given recipe
+     *
+     * @param recipeIngredient an associated recipeIngredient
+     * @return true of recipe exists or false otherwise
+     */
     public static boolean deleteAssociation(RecipeIngredients recipeIngredient){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;

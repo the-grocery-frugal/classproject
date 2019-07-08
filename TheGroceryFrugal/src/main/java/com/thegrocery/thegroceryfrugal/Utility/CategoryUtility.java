@@ -1,3 +1,9 @@
+/**
+ * File: CategoryUtility.java
+ * Author: jacob
+ * Date: 6/16/2019
+ */
+
 package com.thegrocery.thegroceryfrugal.Utility;
 
 import com.thegrocery.thegroceryfrugal.HibernateUtil;
@@ -14,10 +20,16 @@ import org.hibernate.Transaction;
  */
 
 /**
+ * Utility class to deal with "categories" table.
  *
  * @author jacob
  */
 public class CategoryUtility {
+    /**
+     * Retrieves from database and returns a list of all categories.
+     *
+     * @return a list of all categories
+     */
     public static List<Categories> getAllCategories(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;

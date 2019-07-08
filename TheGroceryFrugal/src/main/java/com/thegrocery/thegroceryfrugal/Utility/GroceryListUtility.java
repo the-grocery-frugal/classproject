@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: GroceryListUtility.java
+ * Author: jacob
+ * Date: 6/16/2019
  */
 package com.thegrocery.thegroceryfrugal.Utility;
 
@@ -16,11 +16,18 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
+ * Utility class to deal with grocery list.
  *
  * @author jacob
  */
 public class GroceryListUtility {
-    // Add a grocery_list to the database
+    /**
+     * Adds a new grocery_list to the database.
+     *
+     * @param user   the user
+     * @param recipe the recipe
+     * @return an ID of a new grocery list
+     */
     public static Integer addGroceryList(Users user, Recipe recipe) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -39,6 +46,14 @@ public class GroceryListUtility {
         return groceryListID;    
     }
     
+    /**
+     * Adds a new grocery list to the database.
+     *
+     * @param user   the user
+     * @param recipe the recipe
+     * @param title  the title
+     * @return an ID of a new grocery list
+     */
     public static Integer addGroceryList(Users user, Recipe recipe, String title) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -57,6 +72,13 @@ public class GroceryListUtility {
         return groceryListID;    
     }
     
+    /**
+     * Changes grocery list name.
+     *
+     * @param groceryList a grocery list
+     * @param new_name    a new name
+     * @return true on success or false otherwise
+     */
     public static boolean changeName(GroceryList groceryList, String new_name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -77,6 +99,14 @@ public class GroceryListUtility {
         return success;
     }
     
+    /**
+     * Changes grocery list name.
+     *
+     * @param user     the user
+     * @param old_name an old name
+     * @param new_name a new name
+     * @return true on success or false otherwise
+     */
     public static boolean changeName(Users user, String old_name, String new_name){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -101,8 +131,9 @@ public class GroceryListUtility {
     }
     
     /**
-     * Author: Amanda Kok
-     * Gathers all grocery lists stored with user id and returns them
+     * Author: Amanda Kok Gathers all grocery lists stored with user id and
+     * returns them.
+     *
      * @param id user id to search by
      * @return returns a list of all lists added with user id, id
      */
@@ -128,10 +159,10 @@ public class GroceryListUtility {
     }
     
     /**
-     * Author: Amanda Kok
-     * Gathers all ingredients related to recipe id parameter
-     * @param listID grocery list id
-     * @return Returns a list of all ingredients associated with a grocery list id
+     * Author: Amanda Kok Gathers all ingredients related to recipe id parameter.
+     *
+     * @param listID recipe id
+     * @return Returns a list of all ingredients associated with a recipe id
      */
     public static List<Ingredients> gatherListIngredients(long listID) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();

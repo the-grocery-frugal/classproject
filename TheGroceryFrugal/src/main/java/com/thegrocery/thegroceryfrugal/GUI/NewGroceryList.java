@@ -24,8 +24,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+/**
+ * The frame to create a new grocery list.
+ *
+ * @author Milagros Sasieta
+ */
 public class NewGroceryList extends javax.swing.JFrame {
-
+    
+    /**
+     * Constructs a frame to create a new grocery list
+     *
+     * @param user a logged user
+     * @param node a node
+     * @param tree a tree
+     */
     public NewGroceryList(Users user, DefaultMutableTreeNode node, JTree tree) {
         this.user = user;
         this.node = node;
@@ -176,10 +188,10 @@ public class NewGroceryList extends javax.swing.JFrame {
     }                                         
 
     /**
-     * Author: Jacob Shimer
-     * Checks if user has entered a recipe name. If blank, displays and error. 
-     * Otherwise, creates a list and displays a confirmation message before 
-     * closing window.
+     * Author: Jacob Shimer Checks if user has entered a recipe name. If blank,
+     * displays and error. Otherwise, creates a list and displays a confirmation
+     * message before closing window.
+     *
      * @param evt Action event initiated by user
      */
     private void newListBtnActionPerformed(java.awt.event.ActionEvent evt) {  
@@ -212,29 +224,34 @@ public class NewGroceryList extends javax.swing.JFrame {
     }
     
     /**
-     * Author: Jacob Shimer
-     * User input is used to search for recipes that have matching names.  
-     * Search results are then displayed in a new window.  
+     * Author: Jacob Shimer User input is used to search for recipes that have
+     * matching names. Search results are then displayed in a new window.
+     *
      * @param evt Action event initiated by user
      */
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt){
-        final JPanel panel = new JPanel();
-        ButtonGroup radioGroup = new ButtonGroup();
-        List<Recipe> recipes = RecipeUtility.findRecipeByName(this.jTextField1.getText());
-        for (Iterator iter = recipes.iterator(); iter.hasNext();) {
-            Recipe recipe = (Recipe)iter.next();
-            JRadioButton radio_button = new JRadioButton(recipe.getName());
-            radio_button.setActionCommand(recipe.getName());
-            radioGroup.add(radio_button);
-            panel.add(radio_button);
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if (this.jTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a recipe name", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            final JPanel panel = new JPanel();
+            ButtonGroup radioGroup = new ButtonGroup();
+            List<Recipe> recipes = RecipeUtility.findRecipeByName(this.jTextField1.getText());
+            for (Iterator iter = recipes.iterator(); iter.hasNext(); ) {
+                Recipe recipe = (Recipe) iter.next();
+                JRadioButton radio_button = new JRadioButton(recipe.getName());
+                radio_button.setActionCommand(recipe.getName());
+                radioGroup.add(radio_button);
+                panel.add(radio_button);
+            }
+            JOptionPane.showMessageDialog(this, panel);
+            selected_recipe = radioGroup.getSelection().getActionCommand();
+            List<Ingredients> ingredients = IngredientUtility.findIngredientsByRecipeName(selected_recipe);
+            for (Iterator iter = ingredients.iterator(); iter.hasNext(); ) {
+                Ingredients ingredient = (Ingredients) iter.next();
+                DisplayPanel.append(ingredient.toString());
+            }
         }
-        JOptionPane.showMessageDialog(null, panel);
-        selected_recipe = radioGroup.getSelection().getActionCommand();
-        List<Ingredients> ingredients = IngredientUtility.findIngredientsByRecipeName(selected_recipe);
-        for (Iterator iter = ingredients.iterator(); iter.hasNext();){
-            Ingredients ingredient = (Ingredients)iter.next();
-            DisplayPanel.append(ingredient.toString());
-        }
+
     }
 
     /**
