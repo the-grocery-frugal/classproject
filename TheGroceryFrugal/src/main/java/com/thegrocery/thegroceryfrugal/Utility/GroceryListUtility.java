@@ -14,6 +14,9 @@ import com.thegrocery.thegroceryfrugal.Models.Users;
 
 import java.util.Iterator;
 import java.util.List;
+
+import javax.persistence.Query;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -262,5 +265,30 @@ public class GroceryListUtility {
         }
         
         return success;
+	}
+
+	public static GroceryList getByTitle(String title) {
+		GroceryList list = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			String query = "FROM GroceryList WHERE title = :title";
+			Query q = session.createQuery(query);
+			q.setParameter("title", title);			
+			list = (GroceryList) q.getSingleResult();
+
+			session.delete(list);
+			tx.commit();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			if (tx != null) {
+				tx.rollback();
+			} 
+		} finally {
+			session.close();
+		}
+		return list;
 	}
 }
