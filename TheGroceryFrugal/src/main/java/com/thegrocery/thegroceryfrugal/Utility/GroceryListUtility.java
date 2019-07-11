@@ -206,64 +206,108 @@ public class GroceryListUtility {
      * @return Returns true if successfully deleted list, false if not
      */
     public static boolean deleteGroceryList(long listID) {
-     boolean success = false;
-     GroceryList list = null;
-     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-     Transaction tx = null;
-     
-     try {
-         tx = session.beginTransaction();
-        
-        String query = "FROM GroceryList WHERE id = " + listID;
-        list = (GroceryList)session.createQuery(query).uniqueResult();
-        
-        list.setRecipe_id(null);
-        list.setUser_id(null);
-        
-        session.delete(list);
-        tx.commit();
-        success = true;
-     } catch (HibernateException e) {
-         if (tx != null) {
-             tx.rollback();
-         }
-         e.printStackTrace();
-     } finally {
-         session.close();
-     }
-     return success;
+        boolean success = false;
+        GroceryList list = null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+           String query = "FROM GroceryList WHERE id = " + listID;
+           list = (GroceryList)session.createQuery(query).uniqueResult();
+
+           list.setRecipe_id(null);
+           list.setUser_id(null);
+
+           session.delete(list);
+           tx.commit();
+           success = true;
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return success;
     }
 
-	public static boolean deleteAssociation(Recipe recipe, boolean tranFlg) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    public static boolean deleteAssociation(Recipe recipe, boolean tranFlg) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<GroceryList> groceyList;
         boolean success = false;
         try{
-        	if (tranFlg) {
+            if (tranFlg) {
                 tx = session.beginTransaction();
-        	}
+            }
             String query = "FROM GroceryList WHERE recipe_id = " + recipe.getId();
             groceyList = session.createQuery(query).list();
             if (!groceyList.isEmpty()){
                 for (Iterator iter = groceyList.iterator(); iter.hasNext();){
-                	GroceryList grocery = (GroceryList) iter.next();
+                    GroceryList grocery = (GroceryList) iter.next();
                     session.delete(grocery);
                 }
             }
             success = true;
             if (tranFlg) {
-            	tx.commit();
+                tx.commit();
             }
         } catch (HibernateException e) {
             if (tranFlg && tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
-        	if (tranFlg) {
-                session.close();	
-        	}
+            if (tranFlg) {
+            session.close();	
+            }
+        }
+
+    return success;
+    }
+    
+    public static GroceryList getGroceryListByTitle(String title, Users user) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        GroceryList list = null;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM GroceryList WHERE title = '" + title + "' AND user_id = " + user.getId();
+            list = (GroceryList)session.createQuery(query).uniqueResult();
+        }catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            } 
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
         
+        return list;
+    }
+    
+    public static List<GroceryList> getListOfGroceryListsByTitle(String title, Users user){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<GroceryList> lists = null;
+        
+        try {
+            tx = session.beginTransaction();
+            String query = "FROM GroceryList WHERE title LIKE '%" + title + "%' AND user_id = " + user.getId();
+            lists = session.createQuery(query).list();
+        }catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            } 
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return lists;
+    }
         return success;
 	}
 

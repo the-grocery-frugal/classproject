@@ -360,6 +360,7 @@ public class Recipe implements java.io.Serializable {
         string += "\n-----------------------------------------------------------\n";
         return string;
     }
+    
     @Override
     public String toString() {
     	return name;

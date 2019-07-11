@@ -68,7 +68,27 @@ public class GUI extends javax.swing.JFrame {
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Grocery Frugal");
         recipes = new DefaultMutableTreeNode("Recipes");
-        groceryLists = new DefaultMutableTreeNode("Grocery Lists");        
+        groceryLists = new DefaultMutableTreeNode("Grocery Lists");
+
+        long userId = user.getId();
+        List<GroceryList> userLists = GroceryListUtility.gatherUserGroceryLists(userId);
+        for (GroceryList list : userLists) {
+            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle());
+            groceryLists.add(listNode);
+        }
+
+        List<Recipe> defaultRecipes = RecipeUtility.gatherRecipes(19);
+        for (Recipe recipe : defaultRecipes) {
+            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(recipe.getName());
+            recipes.add(listNode);
+        }
+        
+        List<Recipe> userRecipes = RecipeUtility.gatherRecipes(userId);
+        for (Recipe recipe : userRecipes) {
+            DefaultMutableTreeNode recipeNode = new DefaultMutableTreeNode(recipe.getName());
+            recipes.add(recipeNode);
+        }
+
         root.add(recipes);
         root.add(groceryLists);
 
@@ -321,46 +341,32 @@ public class GUI extends javax.swing.JFrame {
         displayPane.setWrapStyleWord(true);
         displayPane.setLineWrap(true);
         displayPane.setText(null);
-        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
-		if (selectedNode == null) {
-			return;
-		}
-		Object selectedObject = selectedNode.getUserObject();
-        if (RecipeRadBtn.isSelected()) {		
-			if (!(selectedObject instanceof Recipe)) {
-				return;
-			}
-			Recipe recipe = (Recipe) selectedObject;
-
-			StringBuilder content = new StringBuilder();
-			content.append(recipe.getName() + "\n");
-			if (recipe.getSteps() != null) {
-				content.append("========== STEPS ========== \n" + recipe.getSteps() + "\n");
-			}
-			if (recipe.getUser() != null) {
-				content.append("========== USERS ========== \n" + recipe.getUser().getUsername() + "\n");
-			}
+      
+        if (paths != null) {
+            try{
+                String type = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 2]).replaceFirst("\\s+","").replaceAll("]", "");
             
-            displayPane.append(content.toString() + "\n");
-        } else if (GroceryListRadBtn.isSelected()) {
-        	if (!(selectedObject instanceof GroceryList)) {
-				return;
-			}
-        	GroceryList groceryList = (GroceryList) selectedObject;
-
-			StringBuilder content = new StringBuilder();
-			content.append(groceryList.getTitle() + "\n");
-			if (groceryList.getRecipe_id() != null) {
-				content.append("========== RECIPE ========== \n" + groceryList.getRecipe_id() + "\n");
-			}
-			if (groceryList.getUser_id() != null) {
-				content.append("========== USERS ========== \n" + groceryList.getUser_id().getUsername() + "\n");
-			}
-            
-            displayPane.append(content.toString() + "\n");
+                if ("Recipes".equals(type)){
+                    Recipe recipe = RecipeUtility.getRecipe((Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceFirst("\\s+","").replaceAll("]", ""));
+                    try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) { 
+                        Transaction tx = session.beginTransaction();
+                        displayPane.setText(recipe.toString(tx, session));
+                    } 
+                    
+                } else if ("Grocery Lists".equals(type)){
+                    GroceryList list = GroceryListUtility.getGroceryListByTitle(((Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceFirst("\\s+","").replaceAll("]", "")), user);
+                    try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) { 
+                        Transaction tx = session.beginTransaction();
+                        displayPane.setText(list.toString(tx, session));
+                    }
+                }
+            } catch(IndexOutOfBoundsException ex){
+                JOptionPane.showMessageDialog(null, "You must select an actual Recipe or Grocery List name", "Error: Nothing Selected", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to open", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "You must select an actual Recipe or Grocery List name", "Error: Nothing Selected", JOptionPane.ERROR_MESSAGE);
         }
+        treeDisplay.clearSelection();
         
     }//GEN-LAST:event_openBtnActionPerformed
 
@@ -371,33 +377,36 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Action event initiated by user
      */
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
-    	DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeDisplay.getLastSelectedPathComponent();
-		if (selectedNode == null) {
-			return;
-		}
-		Object selectedObject = selectedNode.getUserObject();
-        if (RecipeRadBtn.isSelected()) {		
-			if (!(selectedObject instanceof Recipe)) {
-				return;
-			}
-            ModifyRecipe mr = new ModifyRecipe((Recipe) selectedObject, user);
-            mr.setVisible(true);
-            mr.setAutoRequestFocus(true);
-            mr.setLocationRelativeTo(null);
-            mr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		} else if (GroceryListRadBtn.isSelected()) {
-			if (!(selectedObject instanceof GroceryList)) {
-				return;
-			}
-            ModifyGroceryList mr = new ModifyGroceryList();
-            mr.setVisible(true);
-            mr.setAutoRequestFocus(true);
-            mr.setLocationRelativeTo(null);
-            mr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		} else {
-			JOptionPane.showMessageDialog(null, "Please select a radio button for the object you are attempting to open", "Error", JOptionPane.INFORMATION_MESSAGE);
-		}       
+        TreePath[] paths = treeDisplay.getSelectionPaths();
         
+        if (paths != null) {
+            try{
+                String type = (Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 2]).replaceFirst("\\s+","").replaceAll("]", "");
+            
+                if ("Recipes".equals(type)){
+                    Recipe recipe = RecipeUtility.getRecipe((Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceFirst("\\s+","").replaceAll("]", ""));
+                    ModifyRecipe mr = new ModifyRecipe(recipe, user);
+                    mr.setVisible(true);
+                    mr.setAutoRequestFocus(true);
+                    mr.setLocationRelativeTo(null);
+                    mr.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                } else if ("Grocery Lists".equals(type)){
+                    GroceryList list = GroceryListUtility.getGroceryListByTitle(((Arrays.toString(paths).split(",")[Arrays.toString(paths).split(",").length - 1]).replaceFirst("\\s+","").replaceAll("]", "")), user);
+                    ModifyGroceryList mgl = new ModifyGroceryList(list, user);
+                    mgl.setVisible(true);
+                    mgl.setAutoRequestFocus(true);
+                    mgl.setLocationRelativeTo(null);
+                    mgl.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                }
+            } catch(IndexOutOfBoundsException ex){
+                JOptionPane.showMessageDialog(null, "You must select an actual Recipe or Grocery List name", "Error: Nothing Selected", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "You must select an actual Recipe or Grocery List name", "Error: Nothing Selected", JOptionPane.ERROR_MESSAGE);
+        }
+        treeDisplay.clearSelection();
+
         //Recipe recipe = RecipeUtility.getRecipe(Arrays.toString(paths).split(",")[-1]);
         
     }//GEN-LAST:event_modifyBtnActionPerformed
@@ -511,15 +520,14 @@ public class GUI extends javax.swing.JFrame {
         //run the search
         displayPane.setWrapStyleWord(true);
         displayPane.setLineWrap(true);
+        displayPane.setText(null);
         if(dropdownList.getSelectedItem() == "Ingredient"){
-            displayPane.setText(null);
             List<Ingredients> ingredients = IngredientUtility.findIngredientsByName(searchTextArea.getText());
             for (Iterator iter = ingredients.iterator(); iter.hasNext();) {
                 Ingredients ingredient = (Ingredients) iter.next();
                 displayPane.append(ingredient.toString());
             }
         } else if (dropdownList.getSelectedItem() == "Recipe") {
-            displayPane.setText(null);
             List<Recipe> recipes = RecipeUtility.findRecipeByName(searchTextArea.getText());
             
             try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) { 
@@ -530,7 +538,15 @@ public class GUI extends javax.swing.JFrame {
                 }
             } 
         } else if (dropdownList.getSelectedItem() == "Grocery List") {
-
+            List<GroceryList> lists = GroceryListUtility.getListOfGroceryListsByTitle(searchTextArea.getText(), user);
+            
+            try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) { 
+                Transaction tx = session.beginTransaction();
+                for (Iterator iter = lists.iterator(); iter.hasNext();) {
+                    GroceryList list = (GroceryList) iter.next();
+                    displayPane.append(list.toString(tx, session));
+                }
+            } 
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 
