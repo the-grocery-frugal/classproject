@@ -6,6 +6,7 @@
 package com.thegrocery.thegroceryfrugal.Models;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * Represents GroceryList entity.
@@ -147,5 +150,33 @@ public class GroceryList {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    public String toString(Transaction tx, Session session){
+        String string = "";
+        
+        string = this.getTitle() + "\n";
+        string += "Creator: " + this.getUser_id().getUsername() + "\n\n";
+        
+        try{
+            Recipe recipe = (Recipe) session.createQuery("SELECT R FROM Recipe R JOIN FETCH R.recipeIngredientses RI WHERE RI.recipe = " + this.getRecipe_id().getId()).uniqueResult();
+            Set<RecipeIngredients> recipeIngredients = recipe.getRecipeIngredientses();
+            string += "Ingredients: \n";
+            string += "Ingredient\tQuantity\tUnit\tDescription\n";
+            for (Iterator iter = recipeIngredients.iterator(); iter.hasNext();){
+                RecipeIngredients RI = (RecipeIngredients)iter.next();
+                if (RI.getDescription() == null || RI.getDescription() == "null"){
+                    string += RI.getIngredients().getName() + "\t" + RI.getMeasurement().getName() + "\t" + RI.getQuantity() + "\n";
+                } else {
+                    string += RI.getIngredients().getName() + "\t" + RI.getMeasurement().getName() + "\t" + RI.getQuantity() + "\t" + RI.getDescription() + "\n";
+                }
+                
+            }
+        } catch (NullPointerException ex){
+            string += "Ingredients:\n   (No ingredients found. You can add ingredients with the 'Modify Existing' button.)\n";
+        }
+            
+        string += "\n-----------------------------------------------------------\n";
+        return string;
     }
 }
