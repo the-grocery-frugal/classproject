@@ -341,6 +341,7 @@ public class GUI extends javax.swing.JFrame {
         displayPane.setWrapStyleWord(true);
         displayPane.setLineWrap(true);
         displayPane.setText(null);
+        TreePath[] paths = treeDisplay.getSelectionPaths();
       
         if (paths != null) {
             try{
