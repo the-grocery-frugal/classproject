@@ -7,6 +7,9 @@ package com.thegrocery.thegroceryfrugal.Utility;
 
 import com.thegrocery.thegroceryfrugal.HibernateUtil;
 import com.thegrocery.thegroceryfrugal.Models.Users;
+
+import javax.persistence.Query;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -76,8 +79,10 @@ public class UserUtility {
         boolean authenticated = false;
         try {
             tx = session.beginTransaction();
-            String query = "FROM Users U WHERE U.username = '" + username + "'";
-            Users user = (Users)session.createQuery(query).uniqueResult();
+            String query = "FROM Users U WHERE U.username = :username";
+            Query q = session.createQuery(query);
+            q.setParameter("username", username);
+            Users user = (Users)q.getSingleResult();
             
             if (user != null) {
                 // compare password hashse

@@ -178,5 +178,6 @@ public class GroceryList {
             
         string += "\n-----------------------------------------------------------\n";
         return string;
+
     }
 }
