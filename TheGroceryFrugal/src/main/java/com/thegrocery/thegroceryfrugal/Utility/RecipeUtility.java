@@ -337,7 +337,7 @@ public class RecipeUtility {
      * @param ingredient an ingredients name
      * @return a list of all recipe found
      */
-    public static List<Recipe> findRecipeByIngredientName(String ingredient){
+    public static List<Recipe> findRecipeByIngredientName(String ingredient, Users user){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<Recipe> recipes = null;
@@ -346,7 +346,10 @@ public class RecipeUtility {
             String query = "SELECT R FROM Recipe R " + 
                             "LEFT JOIN R.recipeIngredientses RI " +
                             "LEFT JOIN RI.ingredients I " +
-                            "WHERE lower(I.name) like lower('%" + ingredient + "%')";
+                            "WHERE lower(I.name) like lower('%" + ingredient + "%') " +
+                            "AND user_id = " + user.getId() + 
+                            "OR user_id = 19";
+                            
             recipes = session.createQuery(query).list();
             
         } catch (HibernateException e) {
