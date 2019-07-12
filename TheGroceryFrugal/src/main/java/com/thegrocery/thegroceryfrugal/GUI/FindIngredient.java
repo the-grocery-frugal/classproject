@@ -118,7 +118,6 @@ public class FindIngredient extends javax.swing.JFrame {
         });
 
         addToRecipeBtn.setBackground(new java.awt.Color(186, 207, 242));
-        addToRecipeBtn.setBackground(new java.awt.Color(186, 207, 242));
         addToRecipeBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         addToRecipeBtn.setText("Add to Recipe");
         addToRecipeBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
