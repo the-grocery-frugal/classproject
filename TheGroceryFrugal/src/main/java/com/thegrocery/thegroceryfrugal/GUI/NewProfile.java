@@ -43,6 +43,7 @@ public class NewProfile extends javax.swing.JFrame {
         jLabel2.setText("New Password:");
 
         saveBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        setBackground(new java.awt.Color(186, 207, 242));
         saveBtn.setText("Save New Profile!");
         saveBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
