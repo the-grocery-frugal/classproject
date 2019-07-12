@@ -523,22 +523,11 @@ public class GUI extends javax.swing.JFrame {
         displayPane.setLineWrap(true);
         displayPane.setText(null);
         if(dropdownList.getSelectedItem() == "Ingredient"){
-//            List<Ingredients> ingredients = IngredientUtility.findIngredientsByName(searchTextArea.getText());
-//            for (Iterator iter = ingredients.iterator(); iter.hasNext();) {
-//                Ingredients ingredient = (Ingredients) iter.next();
-//                displayPane.append(ingredient.toString());
-//            }
             List<Recipe> recipes = RecipeUtility.findRecipeByIngredientName(searchTextArea.getText(), user);
-            
-//            try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
             try {
-//               for (Iterator iter = recipes.iterator(); iter.hasNext();) {
-////                   Transaction tx = session.beginTransaction();
-//                    Recipe recipe = (Recipe) iter.next();
-//                    displayPane.append(recipe.toString(tx, session));
-//                } 
                 for (Recipe recipe : recipes) {
                     displayPane.append(recipe.toString(tx, session));
                 }
