@@ -65,6 +65,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         });
 
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        searchBtn.setBackground(new java.awt.Color(186, 207, 242));
         searchBtn.setText("Search");
         searchBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -74,6 +75,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         });
 
         newItemBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        newItemBtn.setBackground(new java.awt.Color(186, 207, 242));
         newItemBtn.setText("Add New Item");
         newItemBtn.setToolTipText("");
         newItemBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -91,6 +93,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         deleteBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        deleteBtn.setBackground(new java.awt.Color(186, 207, 242));
         deleteBtn.setText("Delete Item From List");
         deleteBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -124,6 +127,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         });
 
         updateBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        updateBtn.setBackground(new java.awt.Color(186, 207, 242));
         updateBtn.setText("Update Current List");
         updateBtn.setToolTipText("");
         updateBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
