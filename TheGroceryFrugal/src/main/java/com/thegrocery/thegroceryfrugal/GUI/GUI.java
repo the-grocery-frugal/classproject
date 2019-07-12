@@ -427,7 +427,7 @@ public class GUI extends javax.swing.JFrame {
 					return;
 				}
 				int result = JOptionPane.showConfirmDialog(this,
-						String.format("Do you want to delete the receipt %s", recipe.getName()));
+						String.format("Do you want to delete the recipe %s", recipe.getName()));
 				if (result != JOptionPane.YES_OPTION) {
 					return;
 				}
@@ -645,9 +645,9 @@ public class GUI extends javax.swing.JFrame {
 
 	protected void loadRecipes() {
 		recipes.removeAllChildren();
-		List<Recipe> receiptElements = RecipeUtility.listAllUserAndDefaultRecipes(user);
-		for (Recipe rep : receiptElements) {
-			recipes.add(new DefaultMutableTreeNode(rep));
+		List<Recipe> recipeElements = RecipeUtility.listAllUserAndDefaultRecipes(user);
+		for (Recipe recipe : recipeElements) {
+			recipes.add(new DefaultMutableTreeNode(recipe));
 		}
 		DefaultTreeModel model = (DefaultTreeModel) treeDisplay.getModel();
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
@@ -655,16 +655,16 @@ public class GUI extends javax.swing.JFrame {
 		treeDisplay.setModel(model);
 	} 
 	private void loadGroceryList() {
-    	long userId = user.getId();
-    	groceryLists.removeAllChildren();
-        List<GroceryList> userLists = GroceryListUtility.gatherUserGroceryLists(userId);
-        for (GroceryList list : userLists) {
-            DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list);
-            groceryLists.add(listNode);
-        }
-        DefaultTreeModel model = (DefaultTreeModel) treeDisplay.getModel();
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-		model.reload(root);
-		treeDisplay.setModel(model);
+            long userId = user.getId();
+            groceryLists.removeAllChildren();
+            List<GroceryList> userLists = GroceryListUtility.gatherUserGroceryLists(userId);
+            for (GroceryList list : userLists) {
+                DefaultMutableTreeNode listNode = new DefaultMutableTreeNode(list.getTitle());
+                groceryLists.add(listNode);
+            }
+            DefaultTreeModel model = (DefaultTreeModel) treeDisplay.getModel();
+                    DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+                    model.reload(root);
+                    treeDisplay.setModel(model);
 	}
 }//end GUI class
