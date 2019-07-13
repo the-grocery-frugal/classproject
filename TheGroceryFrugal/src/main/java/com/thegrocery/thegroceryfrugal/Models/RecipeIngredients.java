@@ -36,21 +36,21 @@ public class RecipeIngredients implements java.io.Serializable {
     /**
      * Recipe ingredient.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "ingredients_id")
     private Ingredients ingredients;
 
     /**
      * Measurement.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "quantity_id")
     private Measurement measurement;
 
     /**
      * Recipe.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 

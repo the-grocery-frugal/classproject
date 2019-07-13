@@ -234,15 +234,13 @@ public class GroceryListUtility {
      return success;
     }
 
-	public static boolean deleteAssociation(Recipe recipe, boolean tranFlg) {
+	public static boolean deleteAssociation(Recipe recipe) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<GroceryList> groceyList;
         boolean success = false;
         try{
-        	if (tranFlg) {
-                tx = session.beginTransaction();
-        	}
+        	tx = session.beginTransaction();
             String query = "FROM GroceryList WHERE recipe_id = " + recipe.getId();
             groceyList = session.createQuery(query).list();
             if (!groceyList.isEmpty()){
@@ -252,16 +250,12 @@ public class GroceryListUtility {
                 }
             }
             success = true;
-            if (tranFlg) {
-            	tx.commit();
-            }
+            tx.commit();
         } catch (HibernateException e) {
-            if (tranFlg && tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-        	if (tranFlg) {
-                session.close();	
-        	}
+        	session.close();
         }
         
         return success;

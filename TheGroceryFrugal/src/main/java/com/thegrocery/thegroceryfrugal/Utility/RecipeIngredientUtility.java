@@ -252,15 +252,13 @@ public class RecipeIngredientUtility {
      * @param recipe a recipe
      * @return true of recipe exists or false otherwise
      */
-    public static boolean deleteAssociation(Recipe recipe, boolean tranFlg){
+    public static boolean deleteAssociation(Recipe recipe){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<RecipeIngredients> recipeIngredients;
         boolean success = false;
         try{
-        	if (tranFlg) {
-                tx = session.beginTransaction();
-        	}
+            tx = session.beginTransaction();
             String query = "FROM RecipeIngredients WHERE recipe_id = " + recipe.getId();
             recipeIngredients = session.createQuery(query).list();
             if (!recipeIngredients.isEmpty()){
@@ -270,16 +268,12 @@ public class RecipeIngredientUtility {
                 }
             }
             success = true;
-            if (tranFlg) {
-            	tx.commit();
-            }
+            tx.commit();
         } catch (HibernateException e) {
-            if (tranFlg && tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-        	if (tranFlg) {
-                session.close();	
-        	}
+        	session.close();
         }
         
         return success;

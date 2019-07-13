@@ -413,22 +413,23 @@ public class RecipeUtility {
      * @return true if recipe is found or false otherwise
      */
     public static boolean deleteRecipe(Recipe recipe, Users user){
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         boolean success = false;
         if (recipe.getUser() == null || !recipe.getUser().equals(user)) {
             return success;
         }
-        try {
-            tx = session.beginTransaction();
-            if (RecipeIngredientUtility.deleteAssociation(recipe, false)
-            		&& GroceryListUtility.deleteAssociation(recipe, false)){
-                session.delete(recipe);
-            }
-            tx.commit();
-            
+        if (!(RecipeIngredientUtility.deleteAssociation(recipe)
+        		&& GroceryListUtility.deleteAssociation(recipe))){
+        	return false;
+        }
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        try {                        
+	    	tx = session.beginTransaction();
+	        session.delete(recipe);
+	        tx.commit();
+                                      
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
             session.close();

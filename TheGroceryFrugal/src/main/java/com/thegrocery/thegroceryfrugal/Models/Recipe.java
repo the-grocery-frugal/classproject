@@ -29,21 +29,21 @@ public class Recipe implements java.io.Serializable {
      * An auto-generated recipe ID.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private int id;
 
     /**
      * Category.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "category_id")
     private Categories categories;
 
     /**
      * Nutrition.
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "nutrition_id", referencedColumnName = "id")
     private Nutrition nutrition;
 
@@ -68,7 +68,7 @@ public class Recipe implements java.io.Serializable {
     /**
      * A set of recipe ingredients.
      */
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.DETACH)
     private Set<RecipeIngredients> recipeIngredientses = new HashSet(0);
 
     /**
