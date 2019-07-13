@@ -68,6 +68,7 @@ public class NewRecipe extends javax.swing.JFrame {
         jScrollPane1.setViewportView(descriptionPne);
         
         addIngredientBtn.setFont(new java.awt.Font("Segoe UI", 0, 12));
+	addIngredientBtn.setBackground(new java.awt.Color(186, 207, 242));
         addIngredientBtn.setText("Add Ingredient to Recipe");
         addIngredientBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         addIngredientBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -77,6 +78,7 @@ public class NewRecipe extends javax.swing.JFrame {
         });
         
         createRecipeBtn.setFont(new java.awt.Font("Segoe UI", 0, 12));
+	createRecipeBtn.setBackground(new java.awt.Color(186, 207, 242));
         createRecipeBtn.setText("Create Recipe");
         createRecipeBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         createRecipeBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -86,6 +88,7 @@ public class NewRecipe extends javax.swing.JFrame {
         });
         
         doneBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+	dontBtn.setBackground(new java.awt.Color(186, 207, 242));
         doneBtn.setText("Done");
         doneBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         doneBtn.addActionListener(new java.awt.event.ActionListener() {

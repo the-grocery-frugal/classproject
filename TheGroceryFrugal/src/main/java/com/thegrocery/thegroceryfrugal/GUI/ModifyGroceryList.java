@@ -1,7 +1,12 @@
 package com.thegrocery.thegroceryfrugal.GUI;
 
-import com.thegrocery.thegroceryfrugal.Utility.RecipeUtility;
+import com.thegrocery.thegroceryfrugal.HibernateUtil;
+import com.thegrocery.thegroceryfrugal.Models.GroceryList;
+import com.thegrocery.thegroceryfrugal.Models.Users;
+import com.thegrocery.thegroceryfrugal.Utility.GroceryListUtility;
 import com.thegrocery.thegroceryfrugal.Utility.UserUtility;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -12,8 +17,13 @@ public class ModifyGroceryList extends javax.swing.JFrame {
     /**
      * Creates new form ModifyGroceryList
      */
-    public ModifyGroceryList() {
+    public ModifyGroceryList(GroceryList list, Users user) {
+        this.user = user;
+        this.list = list;
         initComponents();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        jTextArea1.setText(list.toString(tx, session));
     }
 
     /**
@@ -55,6 +65,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         });
 
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        searchBtn.setBackground(new java.awt.Color(186, 207, 242));
         searchBtn.setText("Search");
         searchBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -64,6 +75,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         });
 
         newItemBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        newItemBtn.setBackground(new java.awt.Color(186, 207, 242));
         newItemBtn.setText("Add New Item");
         newItemBtn.setToolTipText("");
         newItemBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -81,6 +93,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         deleteBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        deleteBtn.setBackground(new java.awt.Color(186, 207, 242));
         deleteBtn.setText("Delete Item From List");
         deleteBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +127,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         });
 
         updateBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        updateBtn.setBackground(new java.awt.Color(186, 207, 242));
         updateBtn.setText("Update Current List");
         updateBtn.setToolTipText("");
         updateBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -274,7 +288,7 @@ public class ModifyGroceryList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModifyRecipe(RecipeUtility.getRecipe("default"), UserUtility.getUser("system-user")).setVisible(true);
+                new ModifyGroceryList(GroceryListUtility.getGroceryListByTitle("default", UserUtility.getUser("system-user")), UserUtility.getUser("system-user")).setVisible(true);
             }
         });
     }
@@ -296,5 +310,8 @@ public class ModifyGroceryList extends javax.swing.JFrame {
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton updateBtn;
+    
+    private Users user;
+    private GroceryList list;
     // End of variables declaration                   
 }
