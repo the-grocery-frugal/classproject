@@ -88,7 +88,7 @@ public class NewRecipe extends javax.swing.JFrame {
         });
         
         doneBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-	dontBtn.setBackground(new java.awt.Color(186, 207, 242));
+	doneBtn.setBackground(new java.awt.Color(186, 207, 242));
         doneBtn.setText("Done");
         doneBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         doneBtn.addActionListener(new java.awt.event.ActionListener() {

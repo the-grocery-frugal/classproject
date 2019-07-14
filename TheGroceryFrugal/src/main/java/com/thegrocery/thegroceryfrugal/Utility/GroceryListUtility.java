@@ -202,10 +202,10 @@ public class GroceryListUtility {
     /**
      * Author: Amanda Kok
      * Deletes parameter list from database
-     * @param listID id of GroceryList object to be removed from database
+     * @param listName name of GroceryList object to be removed from database
      * @return Returns true if successfully deleted list, false if not
      */
-    public static boolean deleteGroceryList(long listID) {
+    public static boolean deleteGroceryList(String listName) {
         boolean success = false;
         GroceryList list = null;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -213,8 +213,8 @@ public class GroceryListUtility {
 
         try {
             tx = session.beginTransaction();
-
-           String query = "FROM GroceryList WHERE id = " + listID;
+            
+           String query = "FROM GroceryList WHERE title = '" + listName + "'";
            list = (GroceryList)session.createQuery(query).uniqueResult();
 
            list.setRecipe_id(null);
