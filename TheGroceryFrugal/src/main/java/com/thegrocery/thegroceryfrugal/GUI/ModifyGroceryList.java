@@ -1,3 +1,10 @@
+/**
+ * File: ModifyGroceryList.java 
+ * Author: Milagros Sasieta 
+ * Date: 6/16/2019 
+ * Purpose: Create the UI for modifying a grocery list
+ */
+
 package com.thegrocery.thegroceryfrugal.GUI;
 
 import com.thegrocery.thegroceryfrugal.HibernateUtil;

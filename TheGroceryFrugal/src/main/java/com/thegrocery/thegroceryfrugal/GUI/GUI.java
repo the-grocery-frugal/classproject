@@ -1,6 +1,8 @@
 /**
- * File: GUI.java Author: Milagros Sasieta Date: 6/16/2019 Purpose: Create the
- * UI for the main profile overview and methods that control functionality of
+ * File: GUI.java 
+ * Author: Milagros Sasieta 
+ * Date: 6/16/2019 
+ * Purpose: Create the UI for the main profile overview and methods that control functionality of
  * this window.
  */
 package com.thegrocery.thegroceryfrugal.GUI;
@@ -441,13 +443,6 @@ public class GUI extends javax.swing.JFrame {
 				}
 			}
 		} else if (GroceryListRadBtn.isSelected()) {
-//			String[] split = selectedNodeString.split(" ");
-//			String listID = split[split.length - 1];
-
-//			StringBuilder listTitle = new StringBuilder();
-//			for (int i = 0; i < split.length - 1; i++) {
-//				listTitle.append(split[i]);
-//			}
 
 			final JPanel panel = new JPanel(new BorderLayout());
 			JLabel warning = new JLabel("This will permanantly delete Grocery List " + selectedNodeString

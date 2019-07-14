@@ -1,3 +1,9 @@
+/**
+ * File: Recipe.java
+ * Author: hbm2java
+ * Date: 6/4/2019
+ */
+
 package com.thegrocery.thegroceryfrugal.Models;
 // Generated Jun 4, 2019 6:31:11 AM by Hibernate Tools 4.3.1
 
