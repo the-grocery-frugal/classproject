@@ -211,7 +211,7 @@ public class NewGroceryList extends javax.swing.JFrame {
            if (groceryListID != null) {
                String listName = listTitle.getText().isEmpty() ? "List" : listTitle.getText();
                
-               DefaultMutableTreeNode list = new DefaultMutableTreeNode(listName + " " + groceryListID);
+               DefaultMutableTreeNode list = new DefaultMutableTreeNode(listName);
                node.add(list);
                tree.updateUI();
                

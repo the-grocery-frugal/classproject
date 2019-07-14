@@ -441,16 +441,16 @@ public class GUI extends javax.swing.JFrame {
 				}
 			}
 		} else if (GroceryListRadBtn.isSelected()) {
-			String[] split = selectedNodeString.split(" ");
-			String listID = split[split.length - 1];
+//			String[] split = selectedNodeString.split(" ");
+//			String listID = split[split.length - 1];
 
-			StringBuilder listTitle = new StringBuilder();
-			for (int i = 0; i < split.length - 1; i++) {
-				listTitle.append(split[i]);
-			}
+//			StringBuilder listTitle = new StringBuilder();
+//			for (int i = 0; i < split.length - 1; i++) {
+//				listTitle.append(split[i]);
+//			}
 
 			final JPanel panel = new JPanel(new BorderLayout());
-			JLabel warning = new JLabel("This will permanantly delete Grocery List " + listTitle.toString()
+			JLabel warning = new JLabel("This will permanantly delete Grocery List " + selectedNodeString
 					+ ".  Do you wish to continue?");
 			JRadioButton yesRdBtn = new JRadioButton("Confirm Delete");
 			yesRdBtn.setActionCommand("Delete");
@@ -473,16 +473,16 @@ public class GUI extends javax.swing.JFrame {
 
 			switch (deleteResponse) {
 			case "Delete":
-				boolean success = GroceryListUtility.deleteGroceryList(Long.parseLong(listID));
+				boolean success = GroceryListUtility.deleteGroceryList(selectedNodeString);
 
 				if (success) {
-					JOptionPane.showMessageDialog(null, listTitle.toString() + " was deleted", "Confirm List Deleted",
+					JOptionPane.showMessageDialog(null, selectedNodeString + " was deleted", "Confirm List Deleted",
 							JOptionPane.INFORMATION_MESSAGE);
 
 					DefaultTreeModel treeModel = (DefaultTreeModel) treeDisplay.getModel();
 					treeModel.removeNodeFromParent(selectedNode);
 				} else {
-					JOptionPane.showMessageDialog(null, "Unknown error deleting " + listTitle.toString(), "Error",
+					JOptionPane.showMessageDialog(null, "Unknown error deleting " + selectedNodeString, "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 				break;
